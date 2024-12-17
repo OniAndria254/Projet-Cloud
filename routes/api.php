@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Models\Brouillon;
+use App\Models\Tentatives;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,11 +43,16 @@ Route::get('/validate', function (Request $request) {
         return response()->json(['message' => 'Lien de validation invalide ou expiré.'], 404);
     }
 
-    // Transférer les données vers la table Users
+    $tentative = Tentatives::create([
+        'tentatives' => 3  // Par exemple, vous définissez la valeur de tentatives à 3
+    ]);
+    
+    // 2. Insérer une ligne dans la table users avec id_tentatives
     $user = User::create([
         'email' => $brouillon->email,
         'username' => $brouillon->username,
         'password' => $brouillon->password, // Le mot de passe est déjà hashé
+        'id_tentatives' => 1  // Ajouter l'ID de la tentative
     ]);
 
     // Supprimer le brouillon

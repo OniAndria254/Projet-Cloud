@@ -9,15 +9,15 @@ class User extends Model
 {
     use HasFactory;
 
-    protected $table = 'Users';
+    protected $table = 'users';
 
-    protected $primaryKey = 'Id_Users';
+    protected $primaryKey = 'id_users';
 
     protected $fillable = [
         'email',
         'username',
         'password',
-        'Id_tentatives',
+        'id_tentatives',
     ];
 
     public $timestamps = false;
@@ -27,6 +27,6 @@ class User extends Model
      */
     public function tentatives()
     {
-        return $this->belongsTo(Tentatives::class, 'Id_tentatives', 'Id_tentatives');
+        return $this->belongsTo(Tentatives::class, 'id_tentatives', 'id_tentatives');
     }
 }

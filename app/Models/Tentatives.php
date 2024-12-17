@@ -11,7 +11,7 @@ class Tentatives extends Model
 
     protected $table = 'tentatives';
 
-    protected $primaryKey = 'Id_tentatives';
+    protected $primaryKey = 'id_tentatives';
 
     protected $fillable = [
         'tentatives',
@@ -24,6 +24,6 @@ class Tentatives extends Model
      */
     public function users()
     {
-        return $this->hasMany(User::class, 'Id_tentatives', 'Id_tentatives');
+        return $this->hasMany(User::class, 'id_tentatives', 'id_tentatives');
     }
 }
