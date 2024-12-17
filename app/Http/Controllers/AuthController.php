@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Models\MfaToken;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Config;
 
 class AuthController extends Controller
 {
@@ -83,5 +87,196 @@ class AuthController extends Controller
         return response()->json(['message' => 'Inscription validée avec succès.'], 200);
     }
 
+    // public function generateMfaToken(Request $request)
+    // {
+    //     $user = auth()->user();
 
+    //     // Générer un PIN aléatoire
+    //     $pin = Str::random(6);
+
+    //     // Stocker le PIN dans la base avec expiration de 90 secondes
+    //     MfaToken::updateOrCreate(
+    //         ['user_id' => $user->id],
+    //         ['token' => $pin, 'expires_at' => now()->addSeconds(90)]
+    //     );
+
+    //     // Envoyer le PIN par email
+    //     Mail::raw("Votre code MFA est : $pin", function ($message) use ($user) {
+    //         $message->to($user->email)
+    //                 ->subject('Votre code de confirmation MFA');
+    //     });
+
+    //     return response()->json(['message' => 'Le code PIN a été envoyé.']);
+    // }
+
+    // public function verifyMfaToken(Request $request)
+    // {
+    //     $request->validate([
+    //         'token' => 'required|string',
+    //     ]);
+
+    //     $user = auth()->user();
+
+    //     // Récupérer le PIN
+    //     $mfaToken = MfaToken::where('user_id', $user->id)->first();
+
+    //     // Vérifier si le PIN est valide
+    //     if ($mfaToken && $mfaToken->isValid() && $mfaToken->token === $request->token) {
+    //         // PIN valide, supprimer après validation
+    //         $mfaToken->delete();
+
+    //         return response()->json(['message' => 'Authentification réussie.']);
+    //     }
+
+    //     return response()->json(['message' => 'Code invalide ou expiré.'], 401);
+    // }
+
+    public function login(Request $request)
+    {
+        // Validation des inputs
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+    
+        // Récupération de l'utilisateur par email
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return $this->incrementAttempts($request->email, 'Email ou mot de passe incorrect.');
+        }
+    
+        // Succès : Réinitialiser les tentatives
+        $this->resetAttempts($user);
+    
+        // Générer le token MFA
+        $pin = Str::random(6);
+    
+        MfaToken::updateOrCreate(
+            ['user_id' => $user->id_users],
+            ['token' => $pin, 'expires_at' => now()->addSeconds(90)]
+        );
+    
+        // Envoyer le PIN par email
+        Mail::raw("Votre code MFA est : $pin", function ($message) use ($user) {
+            $message->to($user->email)
+                    ->subject('Votre code de confirmation MFA');
+        });
+    
+        return response()->json([
+            'message' => 'Connexion réussie. Code MFA envoyé.',
+            'user_id' => $user->id_users, // Tu peux ajouter un identifiant temporaire si nécessaire.
+        ]);
+    }
+
+    /**
+     * Incrémenter les tentatives de connexion pour un utilisateur.
+     */
+    private function incrementAttempts($email, $message)
+    {
+        // Étape 1 : Récupérer l'utilisateur par email
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => $message,
+                'tentatives' => 1
+            ], 401);
+        }
+
+        // Étape 2 : Récupérer la valeur du compteur dans la table 'config'
+        $config = Config::first(); // On suppose qu'il y a une seule ligne dans 'config'
+        if (!$config) {
+            return response()->json([
+                'message' => 'Configuration non trouvée.',
+            ], 500);
+        }
+
+        // Étape 3 : Récupérer et incrémenter les tentatives de l'utilisateur
+        $tentatives = Tentatives::find($user->id_tentatives);
+
+        if (!$tentatives) {
+            // Si aucune tentative n'existe encore pour l'utilisateur, on l'initialise à 1
+            $tentatives = Tentatives::create(['tentatives' => 1]);
+            $user->id_tentatives = $tentatives->id_tentatives;
+            $user->save();
+        } else {
+            // Vérifier si le nombre de tentatives dépasse le compteur
+            if ($tentatives->tentatives >= $config->dureePIN) {
+                return response()->json([
+                    'message' => 'Votre compte est temporairement bloqué en raison de trop nombreuses tentatives.',
+                    'tentatives' => $tentatives->tentatives,
+                ], 429);
+            }
+
+            // Incrémenter les tentatives
+            $tentatives->tentatives += 1;
+            $tentatives->save();
+        }
+
+        // Retourner le message d'erreur avec les tentatives actuelles
+        return response()->json([
+            'message' => $message,
+            'tentatives' => $tentatives->tentatives,
+        ], 401);
+    }
+
+    /**
+     * Réinitialiser les tentatives de connexion.
+     */
+    private function resetAttempts($user)
+    {
+        // Étape 1 : Récupérer l'enregistrement des tentatives associé à l'utilisateur
+        $tentatives = Tentatives::find($user->id_tentatives);
+
+        if ($tentatives) {
+            // Étape 2 : Réinitialiser le nombre de tentatives à 0
+            $tentatives->tentatives = 0;
+            $tentatives->save();
+        }
+
+        // Étape 3 : Assurer la liaison utilisateur avec des tentatives réinitialisées
+        $user->id_tentatives = $tentatives ? $tentatives->id_tentatives : null;
+        $user->save();
+    }
+
+    public function verifyMfaToken(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+            'PIN' => 'required|string',
+        ]);
+
+        // Récupérer l'utilisateur
+        $user = User::find($request->user_id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Utilisateur non trouvé.'], 404);
+        }
+
+        // Récupérer le PIN MFA
+        $mfaToken = MfaToken::where('user_id', $user->id_users)->first();
+
+        // Vérifier si le PIN est valide
+        if ($mfaToken && $mfaToken->isValid() && $mfaToken->token === $request->PIN) {
+            // Supprimer le token après validation
+            $mfaToken->delete();
+
+            // Authentifier l'utilisateur et créer un token d'accès
+            Auth::login($user); // Connecter l'utilisateur
+            // $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'message' => 'Authentification réussie.',
+                // 'access_token' => $token,
+                'token_type' => 'Bearer',
+            ]);
+        }
+
+        return response()->json(['message' => 'Code invalide ou expiré.'], 401);
+    }
 }

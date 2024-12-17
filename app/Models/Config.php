@@ -11,7 +11,7 @@ class Config extends Model
 
     protected $table = 'config';
 
-    protected $primaryKey = 'Id_config';
+    protected $primaryKey = 'id_config';
 
     protected $fillable = [
         'compteur',
