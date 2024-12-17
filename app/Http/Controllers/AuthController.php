@@ -207,8 +207,17 @@ class AuthController extends Controller
         } else {
             // Vérifier si le nombre de tentatives dépasse le compteur
             if ($tentatives->tentatives >= $config->dureePIN) {
+                // Générer un token de réinitialisation
+                $resetToken = base64_encode($user->email . '|' . now());
+
+                // Envoyer un email de réinitialisation
+                Mail::send('emails.reset_attempts', ['token' => $resetToken], function ($message) use ($user) {
+                    $message->to($user->email)
+                            ->subject('Réinitialisation des tentatives de connexion');
+                });
+
                 return response()->json([
-                    'message' => 'Votre compte est temporairement bloqué en raison de trop nombreuses tentatives.',
+                    'message' => 'Votre compte est temporairement bloqué. Un email de réinitialisation a été envoyé.',
                     'tentatives' => $tentatives->tentatives,
                 ], 429);
             }
@@ -242,6 +251,34 @@ class AuthController extends Controller
         // Étape 3 : Assurer la liaison utilisateur avec des tentatives réinitialisées
         $user->id_tentatives = $tentatives ? $tentatives->id_tentatives : null;
         $user->save();
+    }
+
+    public function resetAttemptsByEmail(Request $request)
+    {
+        $token = $request->query('token');
+
+        if (!$token) {
+            return response()->json(['message' => 'Token manquant.'], 400);
+        }
+
+        // Décoder le token
+        [$email, $timestamp] = explode('|', base64_decode($token));
+
+        // Vérifier si l'utilisateur existe
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Utilisateur non trouvé.'], 404);
+        }
+
+        // Réinitialiser les tentatives
+        $tentatives = Tentatives::find($user->id_tentatives);
+        if ($tentatives) {
+            $tentatives->tentatives = 0;
+            $tentatives->save();
+        }
+
+        return response()->json(['message' => 'Les tentatives de connexion ont été réinitialisées avec succès.'], 200);
     }
 
     public function verifyMfaToken(Request $request)

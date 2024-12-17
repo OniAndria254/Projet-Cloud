@@ -23,3 +23,5 @@ Route::get('/', function () {
 });
 
 Route::get('/validate', [AuthController::class, 'validateEmail']);
+
+Route::get('/reset-attempts', [AuthController::class, 'resetAttemptsByEmail'])->name('reset.attempts');
