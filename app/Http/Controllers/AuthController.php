@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brouillon;
+use App\Models\Tentatives;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -41,14 +43,44 @@ class AuthController extends Controller
     }
 
 
-    public function validateEmail($token)
+    public function validateEmail(Request $request)
     {
-        $email = base64_decode($token);
+        $token = $request->query('token');
 
-        // Validation fictive (vous pourriez ajouter d'autres vérifications ici)
-        return response()->json([
-            'message' => "L'email $email a été validé avec succès."
-        ], 200);
+        if (!$token) {
+            return response()->json(['message' => 'Token manquant.'], 400);
+        }
+
+        // Décoder le token
+        [$email, $timestamp] = explode('|', base64_decode($token));
+
+        // Vérifier si l'email existe dans la table brouillon
+        $brouillon = Brouillon::where('email', $email)->first();
+
+        if (!$brouillon) {
+            return response()->json(['message' => 'Lien de validation invalide ou expiré.'], 404);
+        }
+
+        // Créer une tentative dans la table Tentatives
+        $tentative = Tentatives::create([
+            'tentatives' => 3 // Valeur par défaut
+        ]);
+
+        // Insérer l'utilisateur dans la table Users
+        $user = User::create([
+            'email' => $brouillon->email,
+            'username' => $brouillon->username,
+            'password' => $brouillon->password, // Le mot de passe est déjà hashé
+            'id_tentatives' => $tentative->id_tentatives // Associer l'ID de la tentative
+        ]);
+
+        // Authentifier l'utilisateur
+        Auth::login($user);
+
+        // Supprimer le brouillon
+        $brouillon->delete();
+
+        return response()->json(['message' => 'Inscription validée avec succès.'], 200);
     }
 
 
