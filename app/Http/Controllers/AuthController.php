@@ -67,7 +67,7 @@ class AuthController extends Controller
 
         // Créer une tentative dans la table Tentatives
         $tentative = Tentatives::create([
-            'tentatives' => 3 // Valeur par défaut
+            'tentatives' => 0 // Valeur par défaut
         ]);
 
         // Insérer l'utilisateur dans la table Users
