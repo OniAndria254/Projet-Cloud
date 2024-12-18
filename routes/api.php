@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\firstController;
 use App\Models\Brouillon;
 use App\Models\Tentatives;
 use App\Models\User;
@@ -31,3 +32,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/verify-mfa', [AuthController::class, 'verifyMfaToken']);
 
 Route::get('/reset-attempts', [AuthController::class, 'resetAttemptsByEmail'])->name('reset.attempts');
+
+Route::put('/utilisateur/{id}', [firstController::class, 'updateUser']);
+
+
