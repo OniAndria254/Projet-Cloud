@@ -33,6 +33,6 @@ Route::post('/verify-mfa', [AuthController::class, 'verifyMfaToken']);
 
 Route::get('/reset-attempts', [AuthController::class, 'resetAttemptsByEmail'])->name('reset.attempts');
 
-Route::put('/utilisateur/{id}', [firstController::class, 'updateUser']);
+Route::put('/users/{id}', [firstController::class, 'updateUser']);
 
-
+Route::put('/config', [firstController::class, 'updateConfig']);

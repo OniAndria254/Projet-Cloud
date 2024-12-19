@@ -62,46 +62,9 @@ class firstController extends Controller
         return response()->json(['message' => 'Brouillon mis à jour avec succès', 'data' => $brouillon], 200);
     }
 
-    /**
-     * @OA\Put(
-     *     path="/api/configs/{id}",
-     *     summary="Mettre à jour la configuration",
-     *     description="Met à jour les paramètres de configuration.",
-     *     tags={"Config"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID de la configuration à mettre à jour",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"compteur", "dureePIN"},
-     *             @OA\Property(property="compteur", type="integer"),
-     *             @OA\Property(property="dureePIN", type="integer")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Configuration mise à jour avec succès",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="data", type="object")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Configuration non trouvée",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string")
-     *         )
-     *     )
-     * )
-     */
     public function updateConfig(Request $request, $id)
     {
+        $id = 1;
         $config = Config::findOrFail($id);
 
         $config->update([
