@@ -232,65 +232,51 @@
                 }
             }
         },
-        "/api/brouillons/{id}": {
-            "put": {
+        "/reset-attempts": {
+            "get": {
                 "tags": [
-                    "Brouillon"
+                    "Auth"
                 ],
-                "summary": "Mettre à jour un brouillon",
-                "description": "Met à jour les informations d'un brouillon dans la base de données.",
-                "operationId": "f3cdec3b8a0eec23439218b193bbb93b",
+                "summary": "Reset login attempts",
+                "description": "Resets the login attempts for a user",
+                "operationId": "resetAttemptsByEmail",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID du brouillon à mettre à jour",
+                        "name": "token",
+                        "in": "query",
+                        "description": "The reset token",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "username",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
-                                    "username": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
-                        "description": "Brouillon mis à jour avec succès",
+                        "description": "Login attempts reset successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                            "type": "string",
+                                            "example": "Les tentatives de connexion ont été réinitialisées avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Token manquant",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token manquant."
                                         }
                                     },
                                     "type": "object"
@@ -299,13 +285,14 @@
                         }
                     },
                     "404": {
-                        "description": "Brouillon non trouvé",
+                        "description": "User not found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Utilisateur non trouvé."
                                         }
                                     },
                                     "type": "object"
@@ -316,25 +303,131 @@
                 }
             }
         },
-        "/api/configs/{id}": {
+        "/api/verify-mfa": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Vérifie le code PIN MFA et connecte l'utilisateur.",
+                "description": "Cette route vérifie le code PIN MFA fourni par l'utilisateur. Si le code est valide, l'utilisateur est authentifié.",
+                "operationId": "verifyMfaToken",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "PIN"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "description": "L'ID de l'utilisateur.",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "PIN": {
+                                        "description": "Le code PIN MFA.",
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Authentification réussie.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Authentification réussie."
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Code invalide ou expiré.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Code invalide ou expiré."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utilisateur non trouvé."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Les données fournies sont invalides."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "user_id": [
+                                                    "Le champ user_id est obligatoire."
+                                                ],
+                                                "PIN": [
+                                                    "Le champ PIN est obligatoire."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/config": {
             "put": {
                 "tags": [
                     "Config"
                 ],
                 "summary": "Mettre à jour la configuration",
-                "description": "Met à jour les paramètres de configuration.",
-                "operationId": "58e523adec3823163b4f02ec9a8c1970",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID de la configuration à mettre à jour",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
+                "description": "Met à jour les paramètres de configuration. Cette méthode met à jour la configuration avec un ID fixe (1).",
+                "operationId": "e8e415a646a50a3d681b2026420a280b",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -346,9 +439,11 @@
                                 ],
                                 "properties": {
                                     "compteur": {
+                                        "description": "Nouvelle valeur du compteur",
                                         "type": "integer"
                                     },
                                     "dureePIN": {
+                                        "description": "Nouvelle durée PIN",
                                         "type": "integer"
                                     }
                                 },
@@ -365,9 +460,11 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Configuration mise à jour avec succès"
                                         },
                                         "data": {
+                                            "description": "Détails de la configuration mise à jour",
                                             "type": "object"
                                         }
                                     },
@@ -383,81 +480,8 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/tentatives/{id}": {
-            "put": {
-                "tags": [
-                    "Tentatives"
-                ],
-                "summary": "Mettre à jour les tentatives",
-                "description": "Met à jour le nombre de tentatives pour un utilisateur.",
-                "operationId": "afbc0924896019c5197e9da625e04677",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID de la tentative à mettre à jour",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "tentatives"
-                                ],
-                                "properties": {
-                                    "tentatives": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Tentatives mises à jour avec succès",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Tentatives non trouvées",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Configuration non trouvée"
                                         }
                                     },
                                     "type": "object"
@@ -573,16 +597,8 @@
             "description": "Auth"
         },
         {
-            "name": "Brouillon",
-            "description": "Brouillon"
-        },
-        {
             "name": "Config",
             "description": "Config"
-        },
-        {
-            "name": "Tentatives",
-            "description": "Tentatives"
         },
         {
             "name": "User",

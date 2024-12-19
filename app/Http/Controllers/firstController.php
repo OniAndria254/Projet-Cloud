@@ -10,45 +10,6 @@ use App\Models\User;
 
 class firstController extends Controller
 {
-    /**
-     * @OA\Put(
-     *     path="/api/brouillons/{id}",
-     *     summary="Mettre à jour un brouillon",
-     *     description="Met à jour les informations d'un brouillon dans la base de données.",
-     *     tags={"Brouillon"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID du brouillon à mettre à jour",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"email", "username", "password"},
-     *             @OA\Property(property="email", type="string", format="email"),
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string", format="password")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Brouillon mis à jour avec succès",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="data", type="object")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Brouillon non trouvé",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string")
-     *         )
-     *     )
-     * )
-     */
     public function updateBrouillon(Request $request, $id)
     {
         $brouillon = Brouillon::findOrFail($id);
@@ -62,10 +23,41 @@ class firstController extends Controller
         return response()->json(['message' => 'Brouillon mis à jour avec succès', 'data' => $brouillon], 200);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/config",
+     *     summary="Mettre à jour la configuration",
+     *     description="Met à jour les paramètres de configuration. Cette méthode met à jour la configuration avec un ID fixe (1).",
+     *     tags={"Config"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"compteur", "dureePIN"},
+     *             @OA\Property(property="compteur", type="integer", description="Nouvelle valeur du compteur"),
+     *             @OA\Property(property="dureePIN", type="integer", description="Nouvelle durée PIN")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Configuration mise à jour avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Configuration mise à jour avec succès"),
+     *             @OA\Property(property="data", type="object", description="Détails de la configuration mise à jour")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Configuration non trouvée",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Configuration non trouvée")
+     *         )
+     *     )
+     * )
+     */
     public function updateConfig(Request $request)
     {
         $id = 1;
-        $config = Config::findOrFail($id);
+        $config = Config::findOrFail(1);
 
         $config->update([
             'compteur' => $request->input('compteur'),
@@ -86,7 +78,52 @@ class firstController extends Controller
         return response()->json(['message' => 'Tentatives mises à jour avec succès', 'data' => $tentative], 200);
     }
 
-    
+    /**
+     * @OA\Put(
+     *     path="/api/users/{id_users}",
+     *     summary="Mettre à jour un utilisateur",
+     *     description="Met à jour les informations d'un utilisateur dans la base de données.",
+     *     tags={"User"},
+     *     @OA\Parameter(
+     *         name="id_users",
+     *         in="path",
+     *         description="ID de l'utilisateur à mettre à jour",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"username", "password"},
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="password", type="string", format="password"),
+     *             @OA\Property(property="id_tentatives", type="integer", nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Utilisateur mis à jour avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Utilisateur non trouvé",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Erreur de validation des données",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
     public function updateUser(Request $request, $id_users)
     {
         try {

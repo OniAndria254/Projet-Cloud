@@ -313,6 +313,44 @@ class AuthController extends Controller
         $user->save();
     }
 
+    /**
+     * @OA\Get(
+     *     path="/reset-attempts",
+     *     summary="Reset login attempts",
+     *     description="Resets the login attempts for a user",
+     *     operationId="resetAttemptsByEmail",
+     *     tags={"Auth"},
+     *     @OA\Parameter(
+     *         name="token",
+     *         in="query",
+     *         required=true,
+     *         description="The reset token",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login attempts reset successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Les tentatives de connexion ont été réinitialisées avec succès.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Token manquant",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Token manquant.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Utilisateur non trouvé.")
+     *         )
+     *     )
+     * )
+     */
+
     public function resetAttemptsByEmail(Request $request)
     {
         $token = $request->query('token');
@@ -340,6 +378,59 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Les tentatives de connexion ont été réinitialisées avec succès.'], 200);
     }
+
+
+    /**
+ * @OA\Post(
+ *     path="/api/verify-mfa",
+ *     operationId="verifyMfaToken",
+ *     tags={"Auth"},
+ *     summary="Vérifie le code PIN MFA et connecte l'utilisateur.",
+ *     description="Cette route vérifie le code PIN MFA fourni par l'utilisateur. Si le code est valide, l'utilisateur est authentifié.",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"user_id", "PIN"},
+ *             @OA\Property(property="user_id", type="integer", example=1, description="L'ID de l'utilisateur."),
+ *             @OA\Property(property="PIN", type="string", example="123456", description="Le code PIN MFA.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Authentification réussie.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Authentification réussie."),
+ *             @OA\Property(property="token_type", type="string", example="Bearer")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Code invalide ou expiré.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Code invalide ou expiré.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Utilisateur non trouvé.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Utilisateur non trouvé.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Erreur de validation.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Les données fournies sont invalides."),
+ *             @OA\Property(
+ *                 property="errors",
+ *                 type="object",
+ *                 example={"user_id": {"Le champ user_id est obligatoire."}, "PIN": {"Le champ PIN est obligatoire."}}
+ *             )
+ *         )
+ *     )
+ * )
+ */
 
     public function verifyMfaToken(Request $request)
     {
