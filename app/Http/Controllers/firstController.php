@@ -25,8 +25,9 @@ class firstController extends Controller
         return response()->json(['message' => 'Brouillon mis à jour avec succès', 'data' => $brouillon], 200);
     }
 
-    public function updateConfig(Request $request, $id)
+    public function updateConfig(Request $request)
     {
+        $id = 1;
         $config = Config::findOrFail($id);
 
         $config->update([
