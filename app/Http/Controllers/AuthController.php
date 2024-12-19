@@ -206,7 +206,7 @@ class AuthController extends Controller
             $user->save();
         } else {
             // Vérifier si le nombre de tentatives dépasse le compteur
-            if ($tentatives->tentatives >= $config->dureePIN) {
+            if ($tentatives->tentatives >= $config->compteur) {
                 // Générer un token de réinitialisation
                 $resetToken = base64_encode($user->email . '|' . now());
 
