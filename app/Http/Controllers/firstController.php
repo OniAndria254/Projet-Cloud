@@ -62,7 +62,7 @@ class firstController extends Controller
         return response()->json(['message' => 'Brouillon mis à jour avec succès', 'data' => $brouillon], 200);
     }
 
-    public function updateConfig(Request $request, $id)
+    public function updateConfig(Request $request)
     {
         $id = 1;
         $config = Config::findOrFail($id);
@@ -75,43 +75,6 @@ class firstController extends Controller
         return response()->json(['message' => 'Configuration mise à jour avec succès', 'data' => $config], 200);
     }
 
-    /**
-     * @OA\Put(
-     *     path="/api/tentatives/{id}",
-     *     summary="Mettre à jour les tentatives",
-     *     description="Met à jour le nombre de tentatives pour un utilisateur.",
-     *     tags={"Tentatives"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID de la tentative à mettre à jour",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"tentatives"},
-     *             @OA\Property(property="tentatives", type="integer")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Tentatives mises à jour avec succès",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="data", type="object")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Tentatives non trouvées",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string")
-     *         )
-     *     )
-     * )
-     */
     public function updateTentatives(Request $request, $id)
     {
         $tentative = Tentatives::findOrFail($id);
@@ -123,52 +86,7 @@ class firstController extends Controller
         return response()->json(['message' => 'Tentatives mises à jour avec succès', 'data' => $tentative], 200);
     }
 
-    /**
-     * @OA\Put(
-     *     path="/api/users/{id_users}",
-     *     summary="Mettre à jour un utilisateur",
-     *     description="Met à jour les informations d'un utilisateur dans la base de données.",
-     *     tags={"User"},
-     *     @OA\Parameter(
-     *         name="id_users",
-     *         in="path",
-     *         description="ID de l'utilisateur à mettre à jour",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"username", "password"},
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string", format="password"),
-     *             @OA\Property(property="id_tentatives", type="integer", nullable=true)
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Utilisateur mis à jour avec succès",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="data", type="object")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Utilisateur non trouvé",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Erreur de validation des données",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="errors", type="object")
-     *         )
-     *     )
-     * )
-     */
+    
     public function updateUser(Request $request, $id_users)
     {
         try {
