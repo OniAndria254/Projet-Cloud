@@ -213,7 +213,7 @@ class AuthController extends Controller
         $this->resetAttempts($user);
     
         // Générer le token MFA
-        $pin = Str::random(6);
+        $pin = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
     
         MfaToken::updateOrCreate(
             ['user_id' => $user->id_users],
@@ -449,6 +449,12 @@ class AuthController extends Controller
         // Récupérer le PIN MFA
         $mfaToken = MfaToken::where('user_id', $user->id_users)->first();
 
+        $config = Config::first(); // On suppose qu'il y a une seule ligne dans 'config'
+        if (!$config) {
+            return response()->json([
+                'message' => 'Configuration non trouvée.',
+            ], 500);
+        }
         // Vérifier si le PIN est valide
         if ($mfaToken && $mfaToken->isValid() && $mfaToken->token === $request->PIN) {
             // Supprimer le token après validation
@@ -465,6 +471,40 @@ class AuthController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Code invalide ou expiré.'], 401);
+        $tentatives = Tentatives::find($user->id_tentatives);
+
+        if (!$tentatives) {
+            // Si aucune tentative n'existe encore pour l'utilisateur, on l'initialise à 1
+            $tentatives = Tentatives::create(['tentatives' => 1]);
+            $user->id_tentatives = $tentatives->id_tentatives;
+            $user->save();
+        } else {
+            // Vérifier si le nombre de tentatives dépasse le compteur
+            if ($tentatives->tentatives >= $config->compteur) {
+                // Générer un token de réinitialisation
+                $resetToken = base64_encode($user->email . '|' . now());
+
+                // Envoyer un email de réinitialisation
+                Mail::send('emails.reset_attempts', ['token' => $resetToken], function ($message) use ($user) {
+                    $message->to($user->email)
+                            ->subject('Réinitialisation des tentatives de connexion');
+                });
+
+                return response()->json([
+                    'message' => 'Votre compte est temporairement bloqué. Un email de réinitialisation a été envoyé.',
+                    'tentatives' => $tentatives->tentatives,
+                ], 429);
+            }
+
+            // Incrémenter les tentatives
+            $tentatives->tentatives += 1;
+            $tentatives->save();
+        }
+
+        // Retourner le message d'erreur avec les tentatives actuelles
+        return response()->json([
+            'message' => "Code invalide ou expiré.",
+            'tentatives' => $tentatives->tentatives,
+        ], 401);
     }
 }
