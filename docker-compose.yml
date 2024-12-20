@@ -17,8 +17,7 @@ services:
       - DB_USERNAME=postgres
       - DB_PASSWORD=secret
     depends_on:
-      db:
-        condition: service_healthy
+      - db
 
   db:
     image: postgres:16
@@ -29,11 +28,6 @@ services:
       POSTGRES_PASSWORD: secret
     volumes:
       - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
 volumes:
   pgdata:

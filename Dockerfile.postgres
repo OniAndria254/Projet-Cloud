@@ -1,7 +1,0 @@
-FROM postgres:16
-
-# Copiez le script d'initialisation dans le répertoire approprié
-COPY init-db.sh /docker-entrypoint-initdb.d/
-
-# Rendre le script exécutable
-RUN chmod +x /docker-entrypoint-initdb.d/init-db.sh

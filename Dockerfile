@@ -31,15 +31,8 @@ RUN chown -R www-data:www-data /var/www/html \
 # Copier le fichier de configuration Apache
 COPY ./docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 
-# Copier les scripts d'initialisation
-COPY init-app.sh /usr/local/bin/
-COPY wait-for-it.sh /usr/local/bin/
-
-# Rendre les scripts exécutables
-RUN chmod +x /usr/local/bin/init-app.sh /usr/local/bin/wait-for-it.sh
-
 # Exposer le port 80
 EXPOSE 80
 
-# Commande pour démarrer Apache et exécuter le script d'initialisation
-CMD ["bash", "-c", "/usr/local/bin/init-app.sh && apache2-foreground"]
+# Commande pour démarrer Apache
+CMD ["apache2-foreground"]
