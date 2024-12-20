@@ -16,13 +16,9 @@ class ConfigSeeder extends Seeder
     {
         DB::table('config')->insert([
             [
-                'compteur' => 1,
-                'dureePIN' => 3,
-            ],
-            [
-                'compteur' => 90,
-                'dureePIN' => 45,
-            ],
+                'compteur' => 3,
+                'dureePIN' => 90,
+            ]
         ]);
     }
 }

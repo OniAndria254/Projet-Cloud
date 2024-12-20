@@ -5,12 +5,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel_app
-    ports:
-      - "8080:80"
     volumes:
       - .:/var/www/html
+    ports:
+      - "8000:80"
     environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_CONNECTION=pgsql
       - DB_HOST=db
       - DB_PORT=5432
       - DB_DATABASE=laravel
@@ -18,16 +20,19 @@ services:
       - DB_PASSWORD=secret
     depends_on:
       - db
+    command: >
+      sh -c "php artisan migrate --force &&
+             php artisan db:seed --force &&
+             apache2-foreground"
 
   db:
     image: postgres:16
-    container_name: postgres_db
-    environment:
-      POSTGRES_DB: laravel
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
     volumes:
       - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=laravel
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
 
 volumes:
   pgdata:
