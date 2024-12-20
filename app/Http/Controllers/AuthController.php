@@ -14,8 +14,43 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Config;
 
+/**
+ * @OA\Info(title="Auth API", version="1.0")
+ */
 class AuthController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/register",
+     *     summary="Register a new user",
+     *     description="Registers a new user and sends a validation email",
+     *     operationId="register",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "username", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="username", type="string", example="username123"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Registration successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Un email de validation a été envoyé.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Token manquant.")
+     *         )
+     *     )
+     * )
+     */
     public function register(Request $request)
     {
         // Valider les données entrantes
@@ -46,7 +81,43 @@ class AuthController extends Controller
         ], 201);
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/validate-email",
+     *     summary="Validate the user's email",
+     *     description="Validates the user's email and converts the brouillon entry to a user",
+     *     operationId="validateEmail",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"token"},
+     *             @OA\Property(property="token", type="string", example="sample_token")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Email successfully validated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Inscription validée avec succès.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Token manquant",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Token manquant.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Token invalid or expired",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lien de validation invalide ou expiré.")
+     *         )
+     *     )
+     * )
+     */
     public function validateEmail(Request $request)
     {
         $token = $request->query('token');
@@ -87,50 +158,38 @@ class AuthController extends Controller
         return response()->json(['message' => 'Inscription validée avec succès.'], 200);
     }
 
-    // public function generateMfaToken(Request $request)
-    // {
-    //     $user = auth()->user();
-
-    //     // Générer un PIN aléatoire
-    //     $pin = Str::random(6);
-
-    //     // Stocker le PIN dans la base avec expiration de 90 secondes
-    //     MfaToken::updateOrCreate(
-    //         ['user_id' => $user->id],
-    //         ['token' => $pin, 'expires_at' => now()->addSeconds(90)]
-    //     );
-
-    //     // Envoyer le PIN par email
-    //     Mail::raw("Votre code MFA est : $pin", function ($message) use ($user) {
-    //         $message->to($user->email)
-    //                 ->subject('Votre code de confirmation MFA');
-    //     });
-
-    //     return response()->json(['message' => 'Le code PIN a été envoyé.']);
-    // }
-
-    // public function verifyMfaToken(Request $request)
-    // {
-    //     $request->validate([
-    //         'token' => 'required|string',
-    //     ]);
-
-    //     $user = auth()->user();
-
-    //     // Récupérer le PIN
-    //     $mfaToken = MfaToken::where('user_id', $user->id)->first();
-
-    //     // Vérifier si le PIN est valide
-    //     if ($mfaToken && $mfaToken->isValid() && $mfaToken->token === $request->token) {
-    //         // PIN valide, supprimer après validation
-    //         $mfaToken->delete();
-
-    //         return response()->json(['message' => 'Authentification réussie.']);
-    //     }
-
-    //     return response()->json(['message' => 'Code invalide ou expiré.'], 401);
-    // }
-
+    /**
+     * @OA\Post(
+     *     path="/login",
+     *     summary="User login",
+     *     description="Logs in the user and generates an MFA token",
+     *     operationId="login",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful, MFA token sent",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Connexion réussie. Code MFA envoyé."),
+     *             @OA\Property(property="user_id", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation errors",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         // Validation des inputs
@@ -173,6 +232,7 @@ class AuthController extends Controller
         ]);
     }
 
+    // Les autres méthodes peuvent être annotées de la même manière
     /**
      * Incrémenter les tentatives de connexion pour un utilisateur.
      */
@@ -253,6 +313,44 @@ class AuthController extends Controller
         $user->save();
     }
 
+    /**
+     * @OA\Get(
+     *     path="/reset-attempts",
+     *     summary="Reset login attempts",
+     *     description="Resets the login attempts for a user",
+     *     operationId="resetAttemptsByEmail",
+     *     tags={"Auth"},
+     *     @OA\Parameter(
+     *         name="token",
+     *         in="query",
+     *         required=true,
+     *         description="The reset token",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login attempts reset successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Les tentatives de connexion ont été réinitialisées avec succès.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Token manquant",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Token manquant.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Utilisateur non trouvé.")
+     *         )
+     *     )
+     * )
+     */
+
     public function resetAttemptsByEmail(Request $request)
     {
         $token = $request->query('token');
@@ -280,6 +378,59 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Les tentatives de connexion ont été réinitialisées avec succès.'], 200);
     }
+
+
+    /**
+ * @OA\Post(
+ *     path="/api/verify-mfa",
+ *     operationId="verifyMfaToken",
+ *     tags={"Auth"},
+ *     summary="Vérifie le code PIN MFA et connecte l'utilisateur.",
+ *     description="Cette route vérifie le code PIN MFA fourni par l'utilisateur. Si le code est valide, l'utilisateur est authentifié.",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"user_id", "PIN"},
+ *             @OA\Property(property="user_id", type="integer", example=1, description="L'ID de l'utilisateur."),
+ *             @OA\Property(property="PIN", type="string", example="123456", description="Le code PIN MFA.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Authentification réussie.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Authentification réussie."),
+ *             @OA\Property(property="token_type", type="string", example="Bearer")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Code invalide ou expiré.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Code invalide ou expiré.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Utilisateur non trouvé.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Utilisateur non trouvé.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Erreur de validation.",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Les données fournies sont invalides."),
+ *             @OA\Property(
+ *                 property="errors",
+ *                 type="object",
+ *                 example={"user_id": {"Le champ user_id est obligatoire."}, "PIN": {"Le champ PIN est obligatoire."}}
+ *             )
+ *         )
+ *     )
+ * )
+ */
 
     public function verifyMfaToken(Request $request)
     {
