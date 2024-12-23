@@ -1,38 +1,40 @@
-version: '3.8'
 
 services:
   app:
+    container_name: laravel_app
     build:
-      context: .
+      context: ./Authentification
       dockerfile: Dockerfile
-    volumes:
-      - .:/var/www/html
     ports:
-      - "8000:80"
+      - "8080:80" 
+    volumes:
+      - ./Authentification:/var/www/html
     environment:
-      - APP_ENV=local
-      - APP_DEBUG=true
-      - DB_CONNECTION=pgsql
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_DATABASE=laravel
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=secret
+      APP_ENV: local
+      APP_DEBUG: true
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: cloud
+      DB_USERNAME: postgres
+      DB_PASSWORD: secret
     depends_on:
-      - db
+      - db 
     command: >
-      sh -c "php artisan migrate --force &&
-             php artisan db:seed --force &&
-             apache2-foreground"
+      bash -c "php artisan key:generate --force && php artisan migrate --force && php artisan db:seed --force && apache2-foreground"
+
 
   db:
     image: postgres:16
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+    container_name: laravel_db
     environment:
-      - POSTGRES_DB=laravel
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=secret
+      POSTGRES_DB: cloud
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data  
 
 volumes:
-  pgdata:
+  pgdata:  
