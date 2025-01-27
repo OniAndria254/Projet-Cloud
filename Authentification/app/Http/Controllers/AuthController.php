@@ -78,7 +78,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Un email de validation a été envoyé.',
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -468,7 +468,7 @@ class AuthController extends Controller
                 'message' => 'Authentification réussie.',
                 // 'access_token' => $token,
                 'token_type' => 'Bearer',
-            ]);
+            ], 200);
         }
 
         $tentatives = Tentatives::find($user->id_tentatives);
