@@ -104,7 +104,7 @@ public class AuthController {
         } catch (Exception e) {
             // En cas d'erreur réseau ou autre exception
             model.addAttribute("error", "An error occurred while validating the URL.");
-            return "auth/url-confirmation";
+            return "auth/urlpage";
         }
     }
 
