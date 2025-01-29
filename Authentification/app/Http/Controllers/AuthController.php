@@ -13,6 +13,7 @@ use App\Models\MfaToken;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Config;
+use Firebase\JWT\JWT;
 
 /**
  * @OA\Info(title="Auth API", version="1.0")
@@ -155,7 +156,18 @@ class AuthController extends Controller
         // Supprimer le brouillon
         $brouillon->delete();
 
-        return response()->json(['message' => 'Inscription validée avec succès.'], 200);
+        $payload = [
+            'sub' => $user->id,
+            'email' => $user->email,
+            'exp' => now()->addHours(2)->timestamp, // Expiration après 2 heures
+        ];
+        
+        $jwt = JWT::encode($payload, env('JWT_SECRET'), 'HS256');
+        
+        return response()->json([
+            'message' => 'Inscription validée avec succès.',
+            'token' => $jwt
+        ], 200);
     }
 
     /**
