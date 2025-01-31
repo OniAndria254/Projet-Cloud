@@ -1,11 +1,13 @@
 package itu.p16.crypto.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
 public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @JsonProperty("id_users")
     @Column(name = "id_users", nullable = false)
     private Long idUsers;
     @Basic
@@ -52,6 +54,7 @@ public class Users {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public Tentatives getTentativesByIdTentatives() {
         return tentativesByIdTentatives;
     }

@@ -1,0 +1,101 @@
+package itu.p16.crypto.entity;
+
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
+@Entity
+@Table(name = "transaction_crypto", schema = "public", catalog = "cloud")
+public class TransactionCrypto {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id_transaction_crypto", nullable = false)
+    private Integer idTransactionCrypto;
+    @Basic
+    @Column(name = "id_utilisateur", nullable = false)
+    private Integer idUtilisateur;
+    @Basic
+    @Column(name = "quantite", nullable = false, precision = 2)
+    private BigDecimal quantite;
+    @Basic
+    @Column(name = "prix_unitaire", nullable = false, precision = 2)
+    private BigDecimal prixUnitaire;
+    @Basic
+    @Column(name = "montant_total", nullable = false, precision = 2)
+    private BigDecimal montantTotal;
+    @Basic
+    @Column(name = "date_transaction", nullable = false)
+    private Date dateTransaction;
+    @ManyToOne
+    @JoinColumn(name = "id_type_transaction", referencedColumnName = "id_type_transaction", nullable = false)
+    private TypeTransaction typeTransactionByIdTypeTransaction;
+    @ManyToOne
+    @JoinColumn(name = "id_cryptomonnaie", referencedColumnName = "id_cryptomonnaie", nullable = false)
+    private Cryptomonnaie cryptomonnaieByIdCryptomonnaie;
+
+    public Integer getIdTransactionCrypto() {
+        return idTransactionCrypto;
+    }
+
+    public void setIdTransactionCrypto(Integer idTransactionCrypto) {
+        this.idTransactionCrypto = idTransactionCrypto;
+    }
+
+    public Integer getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public void setIdUtilisateur(Integer idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
+    }
+
+    public BigDecimal getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(BigDecimal quantite) {
+        this.quantite = quantite;
+    }
+
+    public BigDecimal getPrixUnitaire() {
+        return prixUnitaire;
+    }
+
+    public void setPrixUnitaire(BigDecimal prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
+    }
+
+    public BigDecimal getMontantTotal() {
+        return montantTotal;
+    }
+
+    public void setMontantTotal(BigDecimal montantTotal) {
+        this.montantTotal = montantTotal;
+    }
+
+    public Date getDateTransaction() {
+        return dateTransaction;
+    }
+
+    public void setDateTransaction(Date dateTransaction) {
+        this.dateTransaction = dateTransaction;
+    }
+
+
+    public TypeTransaction getTypeTransactionByIdTypeTransaction() {
+        return typeTransactionByIdTypeTransaction;
+    }
+
+    public void setTypeTransactionByIdTypeTransaction(TypeTransaction typeTransactionByIdTypeTransaction) {
+        this.typeTransactionByIdTypeTransaction = typeTransactionByIdTypeTransaction;
+    }
+
+    public Cryptomonnaie getCryptomonnaieByIdCryptomonnaie() {
+        return cryptomonnaieByIdCryptomonnaie;
+    }
+
+    public void setCryptomonnaieByIdCryptomonnaie(Cryptomonnaie cryptomonnaieByIdCryptomonnaie) {
+        this.cryptomonnaieByIdCryptomonnaie = cryptomonnaieByIdCryptomonnaie;
+    }
+}
