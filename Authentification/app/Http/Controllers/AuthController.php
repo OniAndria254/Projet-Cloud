@@ -13,7 +13,6 @@ use App\Models\MfaToken;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Config;
-use Firebase\JWT\JWT;
 
 /**
  * @OA\Info(title="Auth API", version="1.0")
@@ -156,19 +155,13 @@ class AuthController extends Controller
         // Supprimer le brouillon
         $brouillon->delete();
 
-        $payload = [
-            'sub' => $user->id,
-            'email' => $user->email,
-            'exp' => now()->addHours(2)->timestamp, // Expiration après 2 heures
-        ];
-        
-        $jwt = JWT::encode($payload, env('JWT_SECRET'), 'HS256');
         
         return response()->json([
             'message' => 'Inscription validée avec succès.',
-            'token' => $jwt
+            'user' => $user // Ajout de l'utilisateur dans la réponse
         ], 200);
     }
+
 
     /**
      * @OA\Post(
@@ -450,73 +443,69 @@ class AuthController extends Controller
             'user_id' => 'required|integer',
             'PIN' => 'required|string',
         ]);
-
+    
         // Récupérer l'utilisateur
         $user = User::find($request->user_id);
-
+    
         if (!$user) {
             return response()->json(['message' => 'Utilisateur non trouvé.'], 404);
         }
-
+    
         // Récupérer le PIN MFA
         $mfaToken = MfaToken::where('user_id', $user->id_users)->first();
-
+    
         $config = Config::first(); // On suppose qu'il y a une seule ligne dans 'config'
         if (!$config) {
             return response()->json([
                 'message' => 'Configuration non trouvée.',
             ], 500);
         }
+    
         // Vérifier si le PIN est valide
         if ($mfaToken && $mfaToken->isValid() && $mfaToken->token === $request->PIN) {
             // Supprimer le token après validation
             $mfaToken->delete();
-
+    
             // Authentifier l'utilisateur et créer un token d'accès
             Auth::login($user); // Connecter l'utilisateur
-            // $token = $user->createToken('auth_token')->plainTextToken;
-
+    
             return response()->json([
                 'message' => 'Authentification réussie.',
-                // 'access_token' => $token,
                 'token_type' => 'Bearer',
+                'user' => $user, // Retourne l'utilisateur
             ], 200);
         }
-
+    
+        // Gestion des tentatives échouées
         $tentatives = Tentatives::find($user->id_tentatives);
-
+        
         if (!$tentatives) {
-            // Si aucune tentative n'existe encore pour l'utilisateur, on l'initialise à 1
             $tentatives = Tentatives::create(['tentatives' => 1]);
             $user->id_tentatives = $tentatives->id_tentatives;
             $user->save();
         } else {
-            // Vérifier si le nombre de tentatives dépasse le compteur
             if ($tentatives->tentatives >= $config->compteur) {
-                // Générer un token de réinitialisation
                 $resetToken = base64_encode($user->email . '|' . now());
-
-                // Envoyer un email de réinitialisation
+    
                 Mail::send('emails.reset_attempts', ['token' => $resetToken], function ($message) use ($user) {
                     $message->to($user->email)
                             ->subject('Réinitialisation des tentatives de connexion');
                 });
-
+    
                 return response()->json([
                     'message' => 'Votre compte est temporairement bloqué. Un email de réinitialisation a été envoyé.',
                     'tentatives' => $tentatives->tentatives,
                 ], 429);
             }
-
-            // Incrémenter les tentatives
+    
             $tentatives->tentatives += 1;
             $tentatives->save();
         }
-
-        // Retourner le message d'erreur avec les tentatives actuelles
+    
         return response()->json([
             'message' => "Code invalide ou expiré.",
             'tentatives' => $tentatives->tentatives,
         ], 401);
     }
+ 
 }
