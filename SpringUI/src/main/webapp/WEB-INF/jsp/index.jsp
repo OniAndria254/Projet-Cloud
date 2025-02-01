@@ -34,15 +34,17 @@
         </a>
     </div>
 </header>
-<c:if test="${not empty param.msg}">
-    <div id="alert-box" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3 transition duration-500 ease-in-out">
-        <i class="fas fa-times-circle"></i>
-        <span>${param.msg}</span>
-        <button onclick="closeAlert()" class="ml-auto text-lg">
-            &times;
-        </button>
-    </div>
-</c:if>
+
+<% if (request.getParameter("msg") != null && !request.getParameter("msg").isEmpty()) { %>
+<div id="alert-box" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3 transition duration-500 ease-in-out">
+    <i class="fas fa-times-circle"></i>
+    <span><%= request.getParameter("msg") %></span>
+    <button onclick="closeAlert()" class="ml-auto text-lg">
+        &times;
+    </button>
+</div>
+<% } %>
+
 
 
 <main class="flex flex-col md:flex-row items-center justify-between p-8 md:p-16">
