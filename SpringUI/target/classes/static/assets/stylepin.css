@@ -1,0 +1,178 @@
+/* Corps de la page */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1a1a1a; /* Fond sombre */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Section de texte en haut */
+.background-description {
+  position: absolute;
+  top: 5%; /* Texte plus haut */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #e0e0e0; /* Texte plus clair */
+  font-size: 32px;
+  font-weight: bold;
+  opacity: 1;
+  max-width: 80%;
+  z-index: 1;
+}
+
+/* Conteneur du formulaire */
+.login-container {
+  background: rgba(255, 255, 255, 0.95); /* Fond plus clair */
+  padding: 20px 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  z-index: 2;
+}
+
+/* Logo et titre */
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo {
+  max-height: 60px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  color: #4CAF50;
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Styles du formulaire */
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.pin-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.pin-inputs {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px; /* Espace entre les cases */
+}
+
+.pin-inputs input {
+  width: 50px; /* Taille des cases */
+  height: 60px; /* Hauteur des cases */
+  text-align: center;
+  font-size: 28px; /* Taille des caractères */
+  font-weight: bold;
+  border: 2px solid #ddd; /* Bordure plus fine et grise */
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pin-inputs input:focus {
+  border-color: #4CAF50; /* Bordure verte au focus */
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); /* Ombre verte */
+}
+
+.pin-inputs input:valid {
+  border-color: #4CAF50; /* Bordure verte quand l'input est valide */
+}
+
+/* Bouton avec effet scintillant */
+.login-button {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  margin-top: 20px;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    height: 100vh;
+    background-image: url('img/CRYPTO.jpeg');
+    
+    background-size: cover; /* Couvre tout l'écran */
+    background-position: center; /* Centre l'image */
+    background-repeat: no-repeat; /* Ne répète pas l'image */
+}
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: skewX(-30deg);
+  transition: all 0.5s ease;
+  z-index: 0;
+}
+
+.login-button:hover::before {
+  left: 100%;
+}
+
+.login-button:hover {
+  background: linear-gradient(90deg, #8BC34A, #4CAF50);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.login-button span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Lien */
+.login-container p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.login-container a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.login-container a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}

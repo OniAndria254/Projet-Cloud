@@ -1,0 +1,57 @@
+services:
+  laravel_app:
+    container_name: laravel_app
+    build:
+      context: ./Authentification
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80" 
+    volumes:
+      - ./Authentification:/var/www/html
+    environment:
+      APP_ENV: local
+      APP_DEBUG: true
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: crypto
+      DB_USERNAME: postgres
+      DB_PASSWORD: itu16
+    depends_on:
+      - db 
+    command: >
+      bash -c "php artisan key:generate --force &&
+              php artisan migrate --force && 
+              php artisan db:seed --force && 
+              apache2-foreground"
+
+  spring_app:
+    container_name: spring_app
+    build:
+      context: ./SpringUI
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/crypto
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: itu16
+      LARAVEL_API_URL: http://laravel_app:80
+    depends_on:
+      - db
+      - laravel_app
+
+  db:
+    image: postgres:16
+    container_name: laravel_db
+    environment:
+      POSTGRES_DB: crypto
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: itu16
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data  
+
+volumes:
+  pgdata:

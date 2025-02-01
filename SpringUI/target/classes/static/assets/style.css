@@ -1,0 +1,376 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .login-container {
+    background: #fff;
+    padding: 20px 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .login-button {
+    width: 100%;
+    background: #FFD700;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+  }
+ 
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    height: 100vh;
+    background-image: url('img/CRYPTO.jpeg');
+    
+    background-size: cover; /* Couvre tout l'écran */
+    background-position: center; /* Centre l'image */
+    background-repeat: no-repeat; /* Ne répète pas l'image */
+}
+
+
+
+.form {
+    position: absolute; /* Positioning the form over the image */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the form */
+    background: rgba(255, 255, 255, 0.9); /* White background with some transparency */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.8); /* Ajout d'une opacité pour le fond du formulaire */
+    padding: 20px 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Autres styles... */
+  /* Centrer le lien */
+.login-container p {
+    text-align: center; /* Centre horizontalement le texte */
+    margin-top: 10px;
+  }
+  
+  /* Supprimer le soulignement et définir un style personnalisé pour le lien */
+  .login-container a {
+    text-decoration: none; /* Supprime la ligne sous le lien */
+    color: #007bff;        /* Couleur du texte */
+    font-weight: bold;     /* Rend le lien plus visible */
+  }
+  
+  /* Ajouter un effet au survol */
+  .login-container a:hover {
+    color: #0056b3;        /* Change la couleur au survol */
+    text-decoration: underline; /* Ajoute un soulignement au survol */
+  }
+  /* Corps de la page */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  height: 100vh;
+  background-color: #1a1a1a; /* Fond sombre */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Conteneur du formulaire */
+.login-container {
+  background: rgba(255, 255, 255, 0.95); /* Fond plus clair */
+  padding: 20px 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Logo et titre */
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo {
+  max-height: 60px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  color: #4CAF50; /* Texte vert */
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Styles du formulaire */
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd; /* Bordure fine par défaut */
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none; /* Supprime les styles par défaut du focus */
+  border: 1px solid #4CAF50; /* Bordure lumineuse verte */
+  box-shadow: 0 0 5px #4CAF50; /* Lumière verte autour */
+}
+
+/* Bouton avec effet scintillant */
+.login-button {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A); /* Dégradé vert métallique */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: skewX(-30deg);
+  transition: all 0.5s ease;
+  z-index: 0;
+}
+
+.login-button:hover::before {
+  left: 100%;
+}
+
+.login-button:hover {
+  background: linear-gradient(90deg, #8BC34A, #4CAF50);
+  box-shadow: 0 0 10px rgba(128, 241, 132, 0.5);
+}
+
+.login-button span {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* Corps de la page */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  height: 100vh;
+  background-color: #1a1a1a; /* Fond sombre */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative; /* Pour positionner le texte d'arrière-plan par rapport au corps */
+}
+
+/* Section de texte en haut */
+.background-description {
+  position: absolute;
+  top: 5%; /* Texte encore plus haut */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #e0e0e0; /* Texte plus clair */
+  font-size: 32px;
+  font-weight: bold;
+  opacity: 1; /* Augmenter l'opacité pour plus de visibilité */
+  max-width: 80%;
+  z-index: 1; /* Placer cette section au-dessus de l'arrière-plan */
+}
+
+/* Conteneur du formulaire */
+.login-container {
+  background: rgba(255, 255, 255, 0.95); /* Fond plus clair */
+  padding: 20px 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  z-index: 2; /* Placer le formulaire au-dessus du texte */
+}
+
+/* Logo et titre */
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo {
+  max-height: 60px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  color: #4CAF50; /* Texte vert */
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Styles du formulaire */
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd; /* Bordure fine par défaut */
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none; /* Supprime les styles par défaut du focus */
+  border: 1px solid #4CAF50; /* Bordure lumineuse verte */
+  box-shadow: 0 0 5px #4CAF50; /* Lumière verte autour */
+}
+
+/* Bouton avec effet scintillant */
+.login-button {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A); /* Dégradé vert métallique */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: skewX(-30deg);
+  transition: all 0.5s ease;
+  z-index: 0;
+}
+
+.login-button:hover::before {
+  left: 100%;
+}
+
+.login-button:hover {
+  background: linear-gradient(90deg, #8BC34A, #4CAF50);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.login-button span {
+  position: relative;
+  z-index: 10;
+}
+
+/* Lien */
+.login-container p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.login-container a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.login-container a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
