@@ -92,9 +92,10 @@ public class AuthController {
                 System.out.println(responseBody.toString());
 
                 if (responseBody.containsKey("user")) {
-                    // Stocker l'utilisateur en session
-                    session.setAttribute("user", responseBody.get("user"));
-                    System.out.println("Utilisateur stocké en session : " + responseBody.get("user"));
+                    Map<String, Object> userMap = (Map<String, Object>) responseBody.get("user");
+                    Users user = Users.fromMap(userMap);
+                    session.setAttribute("user", user);
+                    System.out.println("Utilisateur stocké en session : " + user);
                 }
 
                 return "redirect:/auth/dashboard"; // Redirection après validation réussie
@@ -213,8 +214,10 @@ public class AuthController {
                 Map<String, Object> responseBody = response.getBody();
 
                 if (responseBody.containsKey("user")) {
-                    session.setAttribute("user", responseBody.get("user"));
-                    System.out.println("Utilisateur stocké en session : " + responseBody.get("user"));
+                    Map<String, Object> userMap = (Map<String, Object>) responseBody.get("user");
+                    Users user = Users.fromMap(userMap);
+                    session.setAttribute("user", user);
+                    System.out.println("Utilisateur stocké en session : " + user);
                 }
 
                 return "redirect:/auth/dashboard";

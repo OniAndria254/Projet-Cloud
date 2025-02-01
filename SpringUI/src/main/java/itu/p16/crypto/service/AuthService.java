@@ -65,7 +65,7 @@ public class AuthService {
         }
     }
     public Users requireUser() throws NoUserLoggedException {
-        Object obj = httpSession.getAttribute("u");
+        Object obj = httpSession.getAttribute("user");
         if(obj instanceof Users u) {
             return u;
         }
