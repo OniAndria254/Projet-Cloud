@@ -1,62 +1,165 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URL Confirmation</title>
-  <link rel="stylesheet" href="assets/stylepin.css">
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+    Crypto Planet - Receive URL
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js">
+  </script>
   <style>
-    /* Ajout de styles spécifiques pour cette page */
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
     .url-container {
-      margin-top: 20px;
-    }
-
-    .url-input {
+      background-color: #161b22;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       width: 100%;
-      padding: 10px;
-      border: 2px solid #ddd;
-      border-radius: 5px;
-      font-size: 16px;
-      outline: none;
-      transition: border-color 0.3s ease;
+      max-width: 400px;
+      position: relative;
     }
-
-    .url-input:focus {
-      border-color: #4CAF50; /* Bordure verte au focus */
-      box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); /* Ombre verte */
+    .url-container h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
     }
-
-    .submit-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: linear-gradient(90deg, #4CAF50, #8BC34A);
-      color: white;
+    .url-container .form-group {
+      margin-bottom: 1rem;
+    }
+    .url-container .form-control {
+      background-color: #21262d;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s ease;
+      color: #c9d1d9;
+      text-align: center;
+      font-size: 1.5rem;
     }
-
-  
+    .url-container .form-control:focus {
+      background-color: #21262d;
+      color: #c9d1d9;
+      border-color: #58a6ff;
+      box-shadow: none;
+    }
+    .url-container .btn-primary {
+      background-color: #58a6ff;
+      border: none;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    .url-container .btn-primary:hover {
+      background-color: #007bff;
+    }
+    .url-container .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+      width: 100%;
+    }
+    .url-container .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+    .url-container .resend-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: #58a6ff;
+      text-decoration: none;
+    }
+    .url-container .resend-link:hover {
+      color: #007bff;
+    }
+    .error-message {
+      display: none;
+      background-color: #ff4d4d;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .light-theme {
+      background-color: #f0f0f0;
+      color: #000000;
+    }
+    .light-theme .url-container {
+      background-color: #e0e0e0;
+    }
+    .light-theme .form-control {
+      background-color: #d0d0d0;
+      color: #000000;
+    }
+    .light-theme .form-control:focus {
+      background-color: #d0d0d0;
+      color: #000000;
+      border-color: #007bff;
+    }
+    .light-theme .btn-primary {
+      background-color: #007bff;
+    }
+    .light-theme .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    .light-theme .btn-secondary {
+      background-color: #6c757d;
+    }
+    .light-theme .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+    .light-theme .resend-link {
+      color: #007bff;
+    }
+    .light-theme .resend-link:hover {
+      color: #0056b3;
+    }
+    .light-theme .error-message {
+      background-color: #ff4d4d;
+      color: white;
+    }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <div class="logo-container">
-      <img src="assets/img/cryptoz-favicon.png" alt="Logo" class="logo">
-      <h1>CRYPTO</h1>
-    </div>
-    <h2>Enter Your URL</h2>
-    <form action="/confirm-url" method="post" id="urlForm">
-      <div class="url-container">
-        <input type="url" id="urlInput" name="url" class="url-input" placeholder="https://example.com" required>
-      </div>
-      <button type="submit" class="login-button">
-        <span>Submit</span>
-      </button>
-    </form>
-    <p>Don't have an account? <a href="/register">Sign Up</a></p>
+<div class="url-container">
+  <h2>
+    URL mail validation
+  </h2>
+  <div class="error-message" id="error-message" style="display: ${empty error ? 'none' : 'block'};">
+    <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
   </div>
+  <form method="post" action="/auth/confirm-url">
+    <div class="form-group">
+      <center>
+      <label for="url">
+        Enter the URL you received in your inbox
+      </label>
+      </center>
+      <br>
+      <input class="form-control" id="url" name="url" placeholder="Enter URL" type="url"/>
+    </div>
+    <button class="btn btn-primary" type="submit">
+      Confirm
+    </button>
+    <a class="btn btn-secondary" href="#">
+      Annuler
+    </a>
+  </form>
+</div>
+<script>
+
+  function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+  }
+</script>
 </body>
 </html>
