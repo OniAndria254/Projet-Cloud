@@ -1,6 +1,9 @@
 package itu.p16.crypto.controller;
 
 import java.util.List;
+
+import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,13 +28,16 @@ public class AdminTransactionController {
     
     @Autowired
     private PortefeuilleRepository portefeuilleRepo;
-    
+
+    @Autowired
+    private AuthService authService;
     /**
      * Affiche la liste des demandes (dépôt et retrait) en attente.
      * On suppose que le statut "en attente" est défini avec l'ID 1.
      */
     @GetMapping("/transactions")
-    public String showPendingTransactions(Model model) {
+    public String showPendingTransactions(Model model) throws NoUserLoggedException {
+        authService.requireUser();
         List<TransactionFonds> demandes = transactionFondsRepository.findByStatutId(1);
         model.addAttribute("demandes", demandes);
         return "page/adminTransactions"; // JSP pour l'administration
@@ -44,7 +50,8 @@ public class AdminTransactionController {
     @PostMapping("/validateTransaction")
     public String validateTransaction(@RequestParam("transactionId") Integer transactionId,
                                       @RequestParam("action") String action,
-                                      Model model) {
+                                      Model model) throws NoUserLoggedException {
+        authService.requireUser();
         try {
             TransactionFonds tf = transactionFondsRepository.findById(transactionId)
                     .orElseThrow(() -> new RuntimeException("Transaction non trouvée"));
@@ -78,13 +85,5 @@ public class AdminTransactionController {
         List<TransactionFonds> demandes = transactionFondsRepository.findByStatutId(1);
         model.addAttribute("demandes", demandes);
         return "page/adminTransactions";
-    }
-    
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleException(Exception ex) {
-        ModelAndView mav = new ModelAndView("page/error");
-        mav.addObject("errorMessage", "Une erreur s'est produite lors du traitement de votre requête.");
-        mav.addObject("errorDetails", ex.getMessage());
-        return mav;
     }
 }

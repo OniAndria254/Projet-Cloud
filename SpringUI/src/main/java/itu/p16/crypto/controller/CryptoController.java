@@ -2,6 +2,8 @@ package itu.p16.crypto.controller;
 
 import itu.p16.crypto.entity.Cryptomonnaie;
 import itu.p16.crypto.entity.HistoriqueCours;
+import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.service.AuthService;
 import itu.p16.crypto.service.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,13 +20,17 @@ public class CryptoController {
     private final CryptoService cryptoService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     public CryptoController(CryptoService cryptoService) {
         this.cryptoService = cryptoService;
     }
 
     // Endpoint pour insérer des historiques de prix toutes les 10 secondes
     @GetMapping("/update-prices")
-    public String updatePrices() {
+    public String updatePrices() throws NoUserLoggedException {
+        authService.requireUser();
         try {
             cryptoService.insert10secondes();
             return "Les prix des cryptomonnaies ont été mis à jour avec succès.";
@@ -35,13 +41,15 @@ public class CryptoController {
 
     // Endpoint pour récupérer les derniers historiques de prix
     @GetMapping("/historique")
-    public List<HistoriqueCours> getDerniersHistoriques() {
+    public List<HistoriqueCours> getDerniersHistoriques() throws NoUserLoggedException{
+        authService.requireUser();
         return cryptoService.getDerniersHistoriques();
     }
 
     // Endpoint pour récupérer les derniers historiques et mettre à jour les prix
     @GetMapping("/graph")
-    public List<HistoriqueCours> getGraph() {
+    public List<HistoriqueCours> getGraph() throws NoUserLoggedException{
+        authService.requireUser();
         try {
             return cryptoService.graph();
         } catch (Exception e) {
@@ -51,7 +59,8 @@ public class CryptoController {
     }
 
     @GetMapping("/getcrypto")
-    public List<Cryptomonnaie> getCrypto() {
+    public List<Cryptomonnaie> getCrypto() throws NoUserLoggedException {
+        authService.requireUser();
         try {
             return cryptoService.getAllCrypto();
         } catch (Exception e) {

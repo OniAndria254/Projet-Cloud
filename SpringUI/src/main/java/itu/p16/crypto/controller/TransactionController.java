@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
+import itu.p16.crypto.entity.*;
+import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import itu.p16.crypto.entity.Cryptomonnaie;
-import itu.p16.crypto.entity.Portefeuille;
-import itu.p16.crypto.entity.Statut;
-import itu.p16.crypto.entity.TransactionFonds;
-import itu.p16.crypto.entity.TypeTransaction;
 import itu.p16.crypto.repository.CryptomonnaieRepository;
 import itu.p16.crypto.repository.HistoriqueCoursRepository;
 import itu.p16.crypto.repository.PortefeuilleCryptoRepository;
@@ -47,22 +45,16 @@ public class TransactionController {
     
     @Autowired
     private HistoriqueCoursRepository historiqueCoursRepo;
-
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleException(Exception ex) {
-        ModelAndView modelAndView = new ModelAndView("page/error"); // Vue d'erreur
-        // (ex: error.jsp)
-        modelAndView.addObject("errorMessage", "Une erreur s'est produite lors dutraitement de votre requête.");
-        modelAndView.addObject("errorDetails", ex.getMessage());
-        return modelAndView;
-    }
+    @Autowired
+    private AuthService authService;
 
     // page de depot et retrait
     @GetMapping("/depositWithdraw")
-    public String showDepositWithdrawPage(Model model) {
-        Integer id_user = 1;
-        BigDecimal balance = portefeuilleRepo.findSoldeByUtilisateur(id_user); // Exemple avec l'utilisateur 1
-        List<TransactionFonds> demandes = transactionFondsRepository.findByUserId(id_user);
+    public String showDepositWithdrawPage(Model model) throws NoUserLoggedException {
+        Users u = authService.requireUser();
+//        System.out.println(u.getIdUsers());
+        BigDecimal balance = portefeuilleRepo.findSoldeByUtilisateur(Math.toIntExact(u.getIdUsers())); // Exemple avec l'utilisateur 1
+        List<TransactionFonds> demandes = transactionFondsRepository.findByUserId(Math.toIntExact(u.getIdUsers()));
         model.addAttribute("demandes", demandes);
         model.addAttribute("balance", balance);
         return "page/transactionFond";
@@ -71,8 +63,8 @@ public class TransactionController {
 
     // achat et vente de crypto
     @GetMapping("/buy-sell")
-    public String showBuySellPage(Model model) {
-
+    public String showBuySellPage(Model model) throws NoUserLoggedException {
+         authService.requireUser();
          List<Cryptomonnaie> cryptos = cryptoRepo.findAll();
             if (cryptos.isEmpty()) {
                 throw new RuntimeException("Aucune cryptomonnaie trouvée dans la base de données.");
@@ -89,11 +81,13 @@ public class TransactionController {
     public String processBuy(@RequestParam("cryptoId") Integer cryptoId,
             @RequestParam("quantity") BigDecimal quantity,
             @RequestParam("price") BigDecimal price,
-            Model model) {
+            Model model) throws NoUserLoggedException{
+        authService.requireUser();
         try {
             // Calcul du montant total
             BigDecimal total = quantity.multiply(price);
-            Integer idUtilisateur = 1;
+            Users u = authService.requireUser();
+            Integer idUtilisateur = Math.toIntExact(u.getIdUsers());
             Integer typeTransaction = 3;
             Date dateTransaction = new Date(System.currentTimeMillis());
 
@@ -124,10 +118,12 @@ public class TransactionController {
     public String processSell(@RequestParam("cryptoId") Integer cryptoId,
             @RequestParam("quantity") BigDecimal quantity,
             @RequestParam("price") BigDecimal price,
-            Model model) {
+            Model model) throws NoUserLoggedException {
+        authService.requireUser();
         try {
             BigDecimal total = quantity.multiply(price);
-            Integer idUtilisateur = 1;
+            Users u = authService.requireUser();
+            Integer idUtilisateur = Math.toIntExact(u.getIdUsers());
             Integer typeTransaction = 4; // Vente
             Date dateTransaction = new Date(System.currentTimeMillis());
 
@@ -155,9 +151,11 @@ public class TransactionController {
     }
 
     @PostMapping("/deposit")
-    public String processDeposit(@RequestParam("amount") BigDecimal amount, Model model) {
+    public String processDeposit(@RequestParam("amount") BigDecimal amount, Model model) throws NoUserLoggedException {
+        authService.requireUser();
         try {
-            Integer idUtilisateur = 1;
+            Users u = authService.requireUser();
+            Integer idUtilisateur = Math.toIntExact(u.getIdUsers());
             BigDecimal balance = portefeuilleRepo.findSoldeByUtilisateur(idUtilisateur); // Exemple avec l'utilisateur 1
             model.addAttribute("balance", balance);
 
@@ -208,9 +206,11 @@ public class TransactionController {
     }
 
     @PostMapping("/withdraw")
-    public String processWithdraw(@RequestParam("amount") BigDecimal amount, Model model) {
+    public String processWithdraw(@RequestParam("amount") BigDecimal amount, Model model) throws NoUserLoggedException {
+        authService.requireUser();
         try {
-            Integer idUtilisateur = 1;
+            Users u = authService.requireUser();
+            Integer idUtilisateur = Math.toIntExact(u.getIdUsers());
             BigDecimal balance = portefeuilleRepo.findSoldeByUtilisateur(idUtilisateur); // Exemple avec l'utilisateur 1
             model.addAttribute("balance", balance);
 

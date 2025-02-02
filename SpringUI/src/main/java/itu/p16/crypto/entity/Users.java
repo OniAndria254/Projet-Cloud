@@ -70,7 +70,14 @@ public class Users {
         user.setEmail((String) map.get("email"));
         user.setUsername((String) map.get("username"));
         user.setPassword((String) map.get("password"));
-        // Set other fields as needed
+
+        // Vérifier si l'ID est présent et l'assigner
+        Object id = map.get("id_users");
+        if (id instanceof Number) {
+            user.setIdUsers(((Number) id).longValue());
+        }
+
         return user;
     }
+
 }

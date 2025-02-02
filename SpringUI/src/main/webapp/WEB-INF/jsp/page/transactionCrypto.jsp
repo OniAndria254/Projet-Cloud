@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="itu.p16.crypto.entity.Cryptomonnaie" %>
+<%@ page import="itu.p16.crypto.entity.Users" %>
 <%
     // Récupération de la liste des cryptomonnaies depuis l'attribut "cryptos"
     List<Cryptomonnaie> cryptos = (List<Cryptomonnaie>) request.getAttribute("cryptos");
@@ -377,11 +378,17 @@
              <i class="fas fa-wallet"></i> Wallet
            </button>
          </a>
+         <%
+           Object userObj = session.getAttribute("user");
+           String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
+         %>
+
+
          <div class="profile-dropdown" id="profileDropdown">
-           <img alt="User Profile Picture" id="profileImage" src="https://placehold.co/40x40" />
-           <span id="profileName">Allie Grater</span>
+           <img alt="User Profile Picture" id="profileImage" src="/assets/img/profil.png" />
+           <span id="profileName"><%= userName %></span>
            <div class="dropdown-menu" id="dropdownMenu">
-             <a href="#">Deconnection</a>
+             <a href="/auth/logout">Disconnect</a>
            </div>
          </div>
        </div>
@@ -417,7 +424,7 @@
        <!-- Section Market Coins -->
        <div class="market-coins">
          <h2>Market Coins</h2>
-         <p>Lorem Ipsum is simply dummy text of the printing.</p>
+<%--         <p>Lorem Ipsum is simply dummy text of the printing.</p>--%>
          <div class="row">
            <!-- Trois blocs d'affichage -->
            <div class="col-md-4">
@@ -491,7 +498,7 @@
              <input type="hidden" id="price-buy-hidden" name="price" value="0.00" />   
              <div class="form-group">
                <label for="quantity-buy">Quantity (Crypto)</label>
-               <input class="form-control" id="quantity-buy" name="quantity" step="0.001" placeholder="0" type="number" />
+               <input class="form-control" id="quantity-buy" name="quantity" step="0.001" placeholder="0" type="number" required/>
              </div>
              <h2 id="dynamic-price">$0.00</h2>
              <div class="form-group">
@@ -522,7 +529,7 @@
              <input type="hidden" id="price-sell-hidden" name="price" value="0.00" />
              <div class="form-group">
                <label for="quantity-sell">Quantity (Crypto)</label>
-               <input class="form-control" id="quantity-sell" name="quantity" step="0.001" placeholder="0" type="number" />
+               <input class="form-control" id="quantity-sell" name="quantity" step="0.001" placeholder="0" type="number" required />
              </div>
              <h2 id="dynamic-price-sell">$0.00</h2>
              <div class="form-group">
@@ -589,7 +596,11 @@
          document.getElementById("coin-change-" + blockIndex).innerText = changeText;
          // Utilisation du chemin vers l'icône depuis le contexte de l'application
          document.getElementById("coin-img-" + blockIndex).src = "assets/img/" + crypto.icon;
-         
+
+         // Définition du chemin de l'image
+         var imgElement = document.getElementById("coin-img-" + blockIndex);
+         imgElement.src = "/assets/img/" + crypto.icon;
+
          setTimeout(function(){
            coinItem.classList.remove("refresh-animation");
          }, 500);

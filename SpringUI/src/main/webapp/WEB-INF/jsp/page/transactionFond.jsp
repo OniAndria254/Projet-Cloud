@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="itu.p16.crypto.entity.TransactionFonds" %>
+<%@ page import="itu.p16.crypto.entity.Users" %>
 <%
     // Récupération de la liste des transactions (demandes) depuis l'attribut "demandes"
     List<TransactionFonds> tfs = (List<TransactionFonds>) request.getAttribute("demandes");
@@ -254,11 +255,17 @@
             <i class="fas fa-wallet"></i> Wallet
           </button>
         </a>
+        <%
+          Object userObj = session.getAttribute("user");
+          String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
+        %>
+
+
         <div class="profile-dropdown" id="profileDropdown">
-          <img alt="User Profile Picture" id="profileImage" src="https://placehold.co/40x40" />
-          <span id="profileName">Allie Grater</span>
+          <img alt="User Profile Picture" id="profileImage" src="/assets/img/profil.png" />
+          <span id="profileName"><%= userName %></span>
           <div class="dropdown-menu" id="dropdownMenu">
-            <a href="#">Deconnection</a>
+            <a href="/auth/logout">Disconnect</a>
           </div>
         </div>
       </div>
@@ -295,7 +302,7 @@
           <form action="<%= request.getContextPath() %>/transaction/deposit" method="post">
             <div class="form-group">
               <label for="amount-deposit">Amount (USD)</label>
-              <input class="form-control" id="amount-deposit" name="amount" placeholder="Enter amount" type="text" />
+              <input class="form-control" id="amount-deposit" name="amount" placeholder="Enter amount" type="number" step="0.01" required/>
             </div>
             <div class="form-group">
               <!-- Bouton de confirmation pour dépôt en bleu-roi (ici, vous pouvez choisir btn-primary) -->
@@ -308,7 +315,7 @@
           <form action="<%= request.getContextPath() %>/transaction/withdraw" method="post">
             <div class="form-group">
               <label for="amount-withdraw">Amount (USD)</label>
-              <input class="form-control" id="amount-withdraw" name="amount" placeholder="Enter amount" type="text" />
+              <input class="form-control" id="amount-withdraw" name="amount" placeholder="Enter amount" type="number" step="0.01" required/>
             </div>
             <div class="form-group">
               <!-- Bouton de confirmation pour retrait en rouge -->

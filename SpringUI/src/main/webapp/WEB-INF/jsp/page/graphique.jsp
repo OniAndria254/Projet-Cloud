@@ -1,3 +1,4 @@
+<%@ page import="itu.p16.crypto.entity.Users" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -259,13 +260,20 @@
              <i class="fas fa-wallet"></i> Wallet
            </button>
          </a>
-         <div class="profile-dropdown" id="profileDropdown">
-           <img alt="User Profile Picture" id="profileImage" src="https://placehold.co/40x40" />
-           <span id="profileName">Allie Grater</span>
-           <div class="dropdown-menu" id="dropdownMenu">
-             <a href="#">Deconnection</a>
+
+           <%
+               Object userObj = session.getAttribute("user");
+               String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
+           %>
+
+
+           <div class="profile-dropdown" id="profileDropdown">
+               <img alt="User Profile Picture" id="profileImage" src="/assets/img/profil.png" />
+               <span id="profileName"><%= userName %></span>
+               <div class="dropdown-menu" id="dropdownMenu">
+                   <a href="/auth/logout">Disconnect</a>
+               </div>
            </div>
-         </div>
        </div>
      </nav>
     <div class="container">
@@ -335,9 +343,11 @@
                     min: 0,
                     max: totalLines - 1,
                     ticks: {
+                        display: false,
                         stepSize: 1,
                     },
                     grid: {
+                        display: false,
                         color: '#21262d'
                     }
                 },
@@ -348,7 +358,7 @@
                     },
                     beginAtZero: true,
                     min: 0,
-                    max: 200, // Plafond à 200
+                    max: 20000, // Plafond à 200
                     ticks: {
                         stepSize: 50, // Espacement de 50
                     },
@@ -479,14 +489,28 @@
         }
     }
     function updateCryptoDetails(cryptoId) {
-        fetch('/api/crypto/getcrypto') // Ou une API pour une seule cryptomonnaie
+        fetch('/api/crypto/getcrypto') // Récupère les données des cryptomonnaies
             .then(response => response.json())
             .then(cryptos => {
+                // Trouve la cryptomonnaie correspondante
                 const selectedCrypto = cryptos.find(crypto => crypto.idCryptomonnaie === parseInt(cryptoId, 10));
                 if (selectedCrypto) {
-                    document.getElementById('cryptoLogo').src = `https://placehold.co/30x30?text=${selectedCrypto.nom[0]}`;
+                    // Met à jour le nom et le symbole
                     document.getElementById('cryptoName').textContent = selectedCrypto.nom;
                     document.getElementById('cryptoSymbol').textContent = selectedCrypto.symbole || "N/A";
+
+                    // Construit le chemin de l'image
+                    const imagePath = '/assets/img/' + selectedCrypto.icon;
+
+                    console.log(selectedCrypto.symbole);
+                    // Met à jour l'image de la cryptomonnaie
+                    const cryptoLogo = document.getElementById('cryptoLogo');
+                    cryptoLogo.src = imagePath;
+
+                    // Gestion des erreurs si l'image n'existe pas
+                    cryptoLogo.onerror = () => {
+                        cryptoLogo.src = '/assets/img/default.png'; // Image par défaut
+                    };
                 } else {
                     console.error('Crypto not found for ID:', cryptoId);
                 }
@@ -498,7 +522,33 @@
         if (priceElement) {
             priceElement.textContent = '$' + price.toFixed(2);
         }
+
+        // Définir dynamiquement la valeur max de l'axe Y
+        const newMax = Math.ceil(price * 1.5);
+
+        // Générer dynamiquement des lignes horizontales
+        const step = Math.ceil(newMax / 5); // Espacement entre les lignes (5 lignes)
+        const dynamicAnnotations = [];
+
+        for (let i = step; i <= newMax; i += step) {
+            dynamicAnnotations.push({
+                type: 'line',
+                mode: 'horizontal',
+                scaleID: 'y',
+                value: i,
+                borderColor: '#ff5733',
+                borderWidth: 1
+            });
+        }
+
+        // Mettre à jour l'échelle Y et les annotations
+        cryptoChart.options.scales.y.max = newMax;
+        cryptoChart.options.plugins.annotation.annotations = dynamicAnnotations;
+
+        // Appliquer les modifications et mettre à jour le graphique
+        cryptoChart.update();
     }
-</script>
+
+    </script>
 </body>
 </html>

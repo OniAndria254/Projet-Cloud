@@ -98,7 +98,7 @@ public class AuthController {
                     System.out.println("Utilisateur stocké en session : " + user);
                 }
 
-                return "redirect:/auth/dashboard"; // Redirection après validation réussie
+                return "redirect:/transaction/buy-sell"; // Redirection après validation réussie
             } else {
                 // Si la validation échoue, afficher un message d'erreur
                 model.addAttribute("error", "URL validation failed. Please try again.");
@@ -220,7 +220,7 @@ public class AuthController {
                     System.out.println("Utilisateur stocké en session : " + user);
                 }
 
-                return "redirect:/auth/dashboard";
+                return "redirect:/transaction/buy-sell";
             } else {
                 System.out.println("Erreur de confirmation du PIN : " + response.getBody());
                 return "auth/confirm-pin";
@@ -229,6 +229,12 @@ public class AuthController {
             System.out.println("Erreur lors de la confirmation du PIN : " + e.getMessage());
             return "auth/confirm-pin";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Supprime toutes les données de session
+        return "redirect:/auth/login"; // Redirige vers la page de connexion
     }
 
 
