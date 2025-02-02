@@ -71,3 +71,12 @@ CREATE TABLE transaction_fonds(
    FOREIGN KEY(Id_statut) REFERENCES statut(Id_statut),
    FOREIGN KEY(Id_type_transaction) REFERENCES type_transaction(Id_type_transaction)
 );
+CREATE TABLE commission (
+    Id_commission SERIAL,
+    Id_cryptomonnaie INTEGER NOT NULL,
+    commission_achat NUMERIC(5,2) NOT NULL,
+    commission_vente NUMERIC(5,2) NOT NULL,
+    date_modification TIMESTAMP NOT NULL,
+    PRIMARY KEY(Id_commission),
+    FOREIGN KEY(Id_cryptomonnaie) REFERENCES cryptomonnaie(Id_cryptomonnaie)
+); 
