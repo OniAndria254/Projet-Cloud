@@ -16,4 +16,15 @@ class DatabaseSeeder extends Seeder
         
         $this->call(ConfigSeeder::class);
     }
+
+   
+   public function run()
+   {
+       $this->call([
+           CryptomonnaieSeeder::class,
+       ]);
+   }
+
+
+
 }
