@@ -11,6 +11,7 @@ CREATE TABLE cryptomonnaie(
    nom VARCHAR(50)  NOT NULL,
    symbole VARCHAR(50) ,
    date_creation DATE NOT NULL,
+   icon VARCHAR(255) ,
    PRIMARY KEY(Id_cryptomonnaie)
 );
 
