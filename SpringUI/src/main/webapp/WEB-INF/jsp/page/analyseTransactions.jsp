@@ -1,3 +1,5 @@
+<%@ page import="itu.p16.crypto.entity.Cryptomonnaie" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +20,11 @@
         <label for="crypto">Crypto:</label>
         <select id="crypto" name="idCrypto">
             <option value="0">Tous</option>
-            <%= 
-                List<Crypto> cryptos = (List<Crypto>) request.getAttribute("cryptos");
-                for (Crypto crypto : cryptos) { 
+            <%
+                List <Cryptomonnaie> cryptos = (List<Cryptomonnaie>) request.getAttribute("cryptos");
+                for (Cryptomonnaie crypto : cryptos) {
             %>
-                <option value="<%= crypto.getId() %>"><%= crypto.getNom() %></option>
+                <option value="<%= crypto.getIdCryptomonnaie() %>"><%= crypto.getNom() %></option>
             <%
                 }
             %>

@@ -1,3 +1,4 @@
+<%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <html>
 <head>
