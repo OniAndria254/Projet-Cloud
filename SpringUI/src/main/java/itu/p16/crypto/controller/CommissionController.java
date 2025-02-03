@@ -1,7 +1,7 @@
 package itu.p16.crypto.controller;
 
-import com.example.demo.entity.Commission;
-import com.example.demo.repository.CommissionRepository;
+import itu.p16.crypto.entity.Commission;
+import itu.p16.crypto.repository.CommissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

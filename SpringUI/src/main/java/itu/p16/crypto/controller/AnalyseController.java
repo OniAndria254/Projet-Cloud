@@ -1,5 +1,7 @@
 package itu.p16.crypto.controller;
 
+import itu.p16.crypto.entity.Cryptomonnaie;
+import itu.p16.crypto.repository.CryptomonnaieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -7,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import itu.p16.crypto.service.AnalyseService;
-import itu.p16.crypto.repository.CryptoRepository;
-import itu.p16.crypto.model.Crypto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,14 +22,14 @@ public class AnalyseController {
     private AnalyseService analyseService;
 
     @Autowired
-    private CryptoRepository cryptoRepository; // Ajout du repository pour récupérer les cryptos
+    private CryptomonnaieRepository cryptoRepository; // Ajout du repository pour récupérer les cryptos
 
     /**
      * Affiche la page de sélection pour l'analyse des transactions
      */
     @GetMapping("/transactions")
     public String showAnalyseTransactionsForm(Model model) {
-        List<Crypto> cryptos = cryptoRepository.findAll(); // Récupération de toutes les cryptos
+        List<Cryptomonnaie> cryptos = cryptoRepository.findAll(); // Récupération de toutes les cryptos
         model.addAttribute("cryptos", cryptos);
         return "page/analyseTransactions"; // Page JSP pour afficher le formulaire
     }
@@ -53,7 +53,7 @@ public class AnalyseController {
      */
     @GetMapping("/commissions")
     public String showAnalyseCommissionsForm(Model model) {
-        List<Crypto> cryptos = cryptoRepository.findAll();
+        List<Cryptomonnaie> cryptos = cryptoRepository.findAll();
         model.addAttribute("cryptos", cryptos);
         return "page/analyseCommissions"; // Page JSP pour afficher le formulaire
     }
