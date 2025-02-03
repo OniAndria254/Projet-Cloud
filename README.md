@@ -50,7 +50,7 @@ Lors de l'inscription, le mot de passe doit contenir **au moins 6 caractères**.
 ## Commandes utiles
 - **Arrêter les conteneurs** :
   ```sh
-  docker-compose down
+  docker-compose down -v
   ```
 - **Vérifier les logs d'un service** :
   ```sh
