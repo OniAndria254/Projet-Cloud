@@ -132,7 +132,7 @@ public class TransactionController {
     public String processSell(@RequestParam("cryptoId") Integer cryptoId,
             @RequestParam("quantity") BigDecimal quantity,
             @RequestParam("price") BigDecimal price,
-            Model model) throws NoUserLoggedException {
+            Model model, HttpSession session) throws NoUserLoggedException {
         authService.requireUser();
         try {
             BigDecimal total = quantity.multiply(price);
@@ -157,9 +157,11 @@ public class TransactionController {
 
             portefeuilleRepo.updateSoldeForSell(idUtilisateur, total);
 
-            model.addAttribute("success", "Votre vente a ete fait.");
+//            model.addAttribute("success", "Votre vente a ete fait.");
+            session.setAttribute("successMessage", "Votre vente a ete faite.");
         } catch (Exception ex) {
-            model.addAttribute("error", "Erreur lors de la vente: " + ex.getMessage());
+            session.setAttribute("errorMessage", "Erreur lors de la vente: " + ex.getMessage());
+//            model.addAttribute("error", "Erreur lors de la vente: " + ex.getMessage());
         }
         return "redirect:/transaction/buy-sell";
     }
