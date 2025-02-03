@@ -85,10 +85,12 @@ public class TransactionController {
         authService.requireUser();
         try {
             // Calcul du montant total
+              // Calcul du montant total
             BigDecimal total = quantity.multiply(price);
             Users u = authService.requireUser();
             Integer idUtilisateur = Math.toIntExact(u.getIdUsers());
             Integer typeTransaction = 3;
+            BigDecimal balance = portefeuilleRepo.findSoldeByUtilisateur(idUtilisateur);
             Date dateTransaction = new Date(System.currentTimeMillis());
 
             // Gestion du portefeuille_crypto : s'il existe, on met à jour, sinon on insère
@@ -98,6 +100,10 @@ public class TransactionController {
                 portefeuilleCryptoRepository.updateQuantiteForBuy(idUtilisateur, cryptoId, quantity);
             } else {
                 portefeuilleCryptoRepository.insertIntoPortefeuilleCrypto(idUtilisateur, quantity, cryptoId);
+            }
+            if(total.compareTo(balance)>0){
+                model.addAttribute("error", "Erreur lors de l'achat: solde insuffisant");
+                return "redirect:/transaction/buy-sell";
             }
 
             // Insertion de la transaction dans transaction_crypto
