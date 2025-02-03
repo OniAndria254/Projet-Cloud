@@ -96,16 +96,18 @@ public class TransactionController {
             // Gestion du portefeuille_crypto : s'il existe, on met à jour, sinon on insère
             BigDecimal quantiteExistante = portefeuilleCryptoRepository
                     .findQuantiteByUtilisateurAndCryptomonnaie(idUtilisateur, cryptoId);
+
+            if(total.compareTo(balance)>0){
+                        model.addAttribute("error", "Erreur lors de l'achat: solde insuffisant");
+                        return "redirect:/transaction/buy-sell";
+            }
+        
             if (quantiteExistante != null) {
                 portefeuilleCryptoRepository.updateQuantiteForBuy(idUtilisateur, cryptoId, quantity);
             } else {
                 portefeuilleCryptoRepository.insertIntoPortefeuilleCrypto(idUtilisateur, quantity, cryptoId);
             }
-            if(total.compareTo(balance)>0){
-                model.addAttribute("error", "Erreur lors de l'achat: solde insuffisant");
-                return "redirect:/transaction/buy-sell";
-            }
-
+         
             // Insertion de la transaction dans transaction_crypto
             transactionRepo.insertTransactionCrypto(idUtilisateur, quantity, price, total, dateTransaction,
                     typeTransaction, cryptoId);
