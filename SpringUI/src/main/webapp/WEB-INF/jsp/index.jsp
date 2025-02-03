@@ -9,6 +9,18 @@
     </title>
     <script src="https://cdn.tailwindcss.com">
     </script>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+            rel="stylesheet"
+    />
+    <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
     <style>
@@ -34,17 +46,13 @@
         </a>
     </div>
 </header>
-
+<center>
 <% if (request.getParameter("msg") != null && !request.getParameter("msg").isEmpty()) { %>
-<div id="alert-box" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3 transition duration-500 ease-in-out">
-    <i class="fas fa-times-circle"></i>
-    <span><%= request.getParameter("msg") %></span>
-    <button onclick="closeAlert()" class="ml-auto text-lg">
-        &times;
-    </button>
+<div class="alert alert-danger" role="alert">
+    <%= request.getParameter("msg") %>
 </div>
 <% } %>
-
+</center>
 
 
 <main class="flex flex-col md:flex-row items-center justify-between p-8 md:p-16">
@@ -75,20 +83,3 @@
 </main>
 </body>
 </html>
-
-<script>
-    function closeAlert() {
-        let alertBox = document.getElementById("alert-box");
-        if (alertBox) {
-            alertBox.style.opacity = "0";
-            setTimeout(() => {
-                alertBox.style.display = "none";
-            }, 500);
-        }
-    }
-
-    // Disparition automatique après 5 secondes
-    setTimeout(() => {
-        closeAlert();
-    }, 5000);
-</script>
