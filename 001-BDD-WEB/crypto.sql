@@ -80,3 +80,37 @@ CREATE TABLE commission (
     PRIMARY KEY(Id_commission),
     FOREIGN KEY(Id_cryptomonnaie) REFERENCES cryptomonnaie(Id_cryptomonnaie)
 ); 
+
+SELECT
+    MIN(quantite) AS min_quantite,
+    MAX(quantite) AS max_quantite,
+    AVG(quantite) AS moyenne_quantite,
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY quantite) AS premier_quartile,
+    STDDEV(quantite) AS ecart_type
+FROM
+    transaction_crypto
+WHERE
+    Id_cryptomonnaie = 1
+    AND date_transaction BETWEEN '2024-01-01' AND '2024-01-30';
+
+SELECT
+    MIN(quantite) AS min_quantite,
+    MAX(quantite) AS max_quantite,
+    AVG(quantite) AS moyenne_quantite,
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY quantite) AS premier_quartile,
+    STDDEV(quantite) AS ecart_type
+FROM
+    transaction_crypto;
+
+SELECT
+    MIN(quantite) AS min_quantite,
+    MAX(quantite) AS max_quantite,
+    AVG(quantite) AS moyenne_quantite,
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY quantite) AS premier_quartile,
+    STDDEV(quantite) AS ecart_type
+FROM
+    transaction_crypto
+WHERE
+    Id_cryptomonnaie = 1;
+
+
