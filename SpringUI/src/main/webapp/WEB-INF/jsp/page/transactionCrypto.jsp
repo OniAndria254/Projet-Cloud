@@ -397,23 +397,27 @@
      <div class="container">
        <!-- Affichage des messages de succès/erreur -->
        <%
-         Object successMessage = request.getAttribute("successMessage");
+         Object successMessage = session.getAttribute("successMessage");
          if (successMessage != null) {
        %>
-         <div class="alert alert-success" role="alert">
-           <%= successMessage %>
-         </div>
+       <div class="alert alert-success" role="alert">
+         <%= successMessage %>
+       </div>
        <%
+           session.removeAttribute("successMessage"); // Supprime après affichage
          }
-         Object errorMessage = request.getAttribute("errorMessage");
+
+         Object errorMessage = session.getAttribute("errorMessage");
          if (errorMessage != null) {
        %>
-         <div class="alert alert-danger" role="alert">
-           <%= errorMessage %>
-         </div>
+       <div class="alert alert-danger" role="alert">
+         <%= errorMessage %>
+       </div>
        <%
+           session.removeAttribute("errorMessage"); // Supprime après affichage
          }
        %>
+
        
        <!-- Bloc affichant le solde actuel -->
        <div class="balance-card">

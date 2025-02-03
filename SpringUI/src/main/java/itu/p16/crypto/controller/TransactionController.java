@@ -7,6 +7,7 @@ import java.util.List;
 import itu.p16.crypto.entity.*;
 import itu.p16.crypto.exception.NoUserLoggedException;
 import itu.p16.crypto.service.AuthService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,7 +65,7 @@ public class TransactionController {
     // achat et vente de crypto
     @GetMapping("/buy-sell")
     public String showBuySellPage(Model model) throws NoUserLoggedException {
-         authService.requireUser();
+         Users u = authService.requireUser();
          List<Cryptomonnaie> cryptos = cryptoRepo.findAll();
             if (cryptos.isEmpty()) {
                 throw new RuntimeException("Aucune cryptomonnaie trouvée dans la base de données.");
@@ -73,41 +74,54 @@ public class TransactionController {
                 BigDecimal latestPrice = historiqueCoursRepo.findLatestPriceByCryptoId(c.getIdCryptomonnaie());
                 c.setCurrentPrice(latestPrice);
             }
+            BigDecimal balance = portefeuilleRepo.findSoldeByUtilisateur(Math.toIntExact(u.getIdUsers())); // Exemple avec l'utilisateur 1
+            model.addAttribute("balance", balance);
             model.addAttribute("cryptos", cryptos);
             return "page/transactionCrypto";
     }
 
     @PostMapping("/buy")
     public String processBuy(@RequestParam("cryptoId") Integer cryptoId,
-            @RequestParam("quantity") BigDecimal quantity,
-            @RequestParam("price") BigDecimal price,
-            Model model) throws NoUserLoggedException{
+                             @RequestParam("quantity") BigDecimal quantity,
+                             @RequestParam("price") BigDecimal price,
+                             Model model, HttpSession session) throws NoUserLoggedException{
         authService.requireUser();
         try {
             // Calcul du montant total
+              // Calcul du montant total
             BigDecimal total = quantity.multiply(price);
             Users u = authService.requireUser();
             Integer idUtilisateur = Math.toIntExact(u.getIdUsers());
             Integer typeTransaction = 3;
+            BigDecimal balance = portefeuilleRepo.findSoldeByUtilisateur(idUtilisateur);
             Date dateTransaction = new Date(System.currentTimeMillis());
 
             // Gestion du portefeuille_crypto : s'il existe, on met à jour, sinon on insère
             BigDecimal quantiteExistante = portefeuilleCryptoRepository
                     .findQuantiteByUtilisateurAndCryptomonnaie(idUtilisateur, cryptoId);
+
+            if(total.compareTo(balance)>0){
+                session.setAttribute("errorMessage", "Erreur lors de l'achat: solde insuffisant");
+//                        model.addAttribute("errorMessage", "Erreur lors de l'achat: solde insuffisant");
+                return "redirect:/transaction/buy-sell";
+            }
+        
             if (quantiteExistante != null) {
                 portefeuilleCryptoRepository.updateQuantiteForBuy(idUtilisateur, cryptoId, quantity);
             } else {
                 portefeuilleCryptoRepository.insertIntoPortefeuilleCrypto(idUtilisateur, quantity, cryptoId);
             }
-
+         
             // Insertion de la transaction dans transaction_crypto
             transactionRepo.insertTransactionCrypto(idUtilisateur, quantity, price, total, dateTransaction,
                     typeTransaction, cryptoId);
 
             // Mise à jour du solde du portefeuille (solde = solde - total)
             portefeuilleRepo.updateSoldeForBuy(idUtilisateur, total);
+            session.setAttribute("successMessage", "Votre vente a ete fait.");
 
-            model.addAttribute("success", "Votre vente a ete fait.");
+
+//            model.addAttribute("success", "Votre vente a ete fait.");
         } catch (Exception ex) {
             model.addAttribute("error", "Erreur lors de la vente: " + ex.getMessage());
         }
