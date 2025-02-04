@@ -7,6 +7,7 @@ import itu.p16.crypto.exception.NoUserLoggedException;
 import itu.p16.crypto.service.AuthService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,8 @@ public class AuthController {
     private RestTemplate restTemplate;
     @Autowired
     private final AuthService authService;
+    @Value("${laravel.api.url}")
+    private String laravelApiUrl;
     private final ObjectMapper objectMapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -132,7 +135,10 @@ public class AuthController {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            ResponseEntity<Map> response = restTemplate.postForEntity("http://localhost:8000/api/login", requestEntity, Map.class);
+            ResponseEntity<Map> response = restTemplate.postForEntity(laravelApiUrl + "/api/login", requestEntity, Map.class);
+
+//            ResponseEntity<Map> response = restTemplate.postForEntity("http://localhost:8000/api/login", requestEntity, Map.class);
+//            ResponseEntity<Map> response = restTemplate.postForEntity("http://host.docker.internal:8000/api/login", requestEntity, Map.class);
 
             if (response.getStatusCode().is2xxSuccessful()) {
                 Map<String, Object> responseBody = response.getBody();
@@ -208,7 +214,9 @@ public class AuthController {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            ResponseEntity<Map> response = restTemplate.postForEntity("http://localhost:8000/api/verify-mfa", requestEntity, Map.class);
+            ResponseEntity<Map> response = restTemplate.postForEntity(laravelApiUrl + "/api/verify-mfa", requestEntity, Map.class);
+
+//            ResponseEntity<Map> response = restTemplate.postForEntity("http://localhost:8000/api/verify-mfa", requestEntity, Map.class);
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 Map<String, Object> responseBody = response.getBody();

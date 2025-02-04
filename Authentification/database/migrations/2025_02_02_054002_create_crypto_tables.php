@@ -80,10 +80,20 @@ return new class extends Migration {
             $table->foreign('id_type_transaction')->references('id_type_transaction')->on('type_transaction');
             $table->timestamps();
         });
+
+        Schema::create('commission', function (Blueprint $table) {
+            $table->id('id_commission');
+            $table->unsignedBigInteger('id_cryptomonnaie');
+            $table->decimal('commission_achat', 5, 2);
+            $table->decimal('commission_vente', 5, 2);
+            $table->timestamp('date_modification');
+            $table->foreign('id_cryptomonnaie')->references('id_cryptomonnaie')->on('cryptomonnaie');
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('commission');
         Schema::dropIfExists('transaction_fonds');
         Schema::dropIfExists('historique_cours');
         Schema::dropIfExists('transaction_crypto');

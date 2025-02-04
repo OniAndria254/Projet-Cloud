@@ -18,7 +18,7 @@ class Brouillon extends Model
         'email',
         'username',
         'password',
-    ];
+    ];    
 
     public $timestamps = false;
 
