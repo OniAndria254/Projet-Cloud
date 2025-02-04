@@ -26,7 +26,7 @@ Le projet comprend les services suivants :
 ### 1. Construire et démarrer les conteneurs
 Dans le terminal, exécutez la commande suivante :
 ```sh
-docker-compose up --build -d
+docker-compose up --build
 ```
 Cela va :
 - Construire les images Docker si nécessaire.
