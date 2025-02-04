@@ -3,6 +3,8 @@ package itu.p16.crypto.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.Map;
+
 @Entity
 public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,4 +64,20 @@ public class Users {
     public void setTentativesByIdTentatives(Tentatives tentativesByIdTentatives) {
         this.tentativesByIdTentatives = tentativesByIdTentatives;
     }
+
+    public static Users fromMap(Map<String, Object> map) {
+        Users user = new Users();
+        user.setEmail((String) map.get("email"));
+        user.setUsername((String) map.get("username"));
+        user.setPassword((String) map.get("password"));
+
+        // Vérifier si l'ID est présent et l'assigner
+        Object id = map.get("id_users");
+        if (id instanceof Number) {
+            user.setIdUsers(((Number) id).longValue());
+        }
+
+        return user;
+    }
+
 }

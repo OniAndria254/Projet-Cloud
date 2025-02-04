@@ -20,14 +20,15 @@ import java.util.Map;
 
 @Service
 public class AuthService {
-    private HttpSession httpSession;
+    private final HttpSession httpSession;
     private final RestTemplate restTemplate;
 
     @Value("${laravel.api.url}")
     private String laravelApiUrl;
 
-    public AuthService(RestTemplate restTemplate) {
+    public AuthService(RestTemplate restTemplate, HttpSession httpSession) {
         this.restTemplate = restTemplate;
+        this.httpSession = httpSession;
     }
 
 
@@ -64,7 +65,7 @@ public class AuthService {
         }
     }
     public Users requireUser() throws NoUserLoggedException {
-        Object obj = httpSession.getAttribute("u");
+        Object obj = httpSession.getAttribute("user");
         if(obj instanceof Users u) {
             return u;
         }

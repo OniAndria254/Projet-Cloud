@@ -11,9 +11,16 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        
-        $this->call(ConfigSeeder::class);
+        $this->call([
+            ConfigSeeder::class,
+            CryptoSeeder::class, 
+        ]);
     }
+
+   
+
+
+
 }
