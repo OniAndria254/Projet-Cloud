@@ -20,10 +20,15 @@ services:
     depends_on:
       - db 
     command: >
-      bash -c "php artisan key:generate --force &&
-              php artisan migrate --force && 
-              php artisan db:seed --force && 
-              apache2-foreground"
+      bash -c "
+        until pg_isready -h db -p 5432 -U postgres; do
+          echo 'Waiting for database...';
+          sleep 2;
+        done &&
+        php artisan key:generate --force &&
+        php artisan migrate --force &&
+        php artisan db:seed --force &&
+        apache2-foreground"
 
   spring_app:
     container_name: spring_app
