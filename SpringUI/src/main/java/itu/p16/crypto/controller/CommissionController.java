@@ -1,7 +1,9 @@
 package itu.p16.crypto.controller;
 
 import itu.p16.crypto.entity.Commission;
+import itu.p16.crypto.entity.Cryptomonnaie;
 import itu.p16.crypto.repository.CommissionRepository;
+import itu.p16.crypto.repository.CryptomonnaieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +20,16 @@ public class CommissionController {
     @Autowired
     private CommissionRepository commissionRepository;
 
+    @Autowired
+    private CryptomonnaieRepository cryptomonnaieRepository;
+
     @GetMapping("/modifier")
     public String afficherPageModification(Model model) {
         List<Commission> commissions = commissionRepository.findAll();
+        List<Cryptomonnaie> crypto=cryptomonnaieRepository.findAll();
+        model.addAttribute("crypto",crypto);
         model.addAttribute("commissions", commissions);
-        return "page/modifierCommission"; 
+        return "admin/commission";
     }
 
     @PostMapping("/modifier")
@@ -37,8 +44,12 @@ public class CommissionController {
         commission.setCommissionVente(commissionVente);
         commission.setDateModification(LocalDateTime.now());
         commissionRepository.save(commission);
+        List<Commission> commissions = commissionRepository.findAll();
+        List<Cryptomonnaie> crypto=cryptomonnaieRepository.findAll();
+        model.addAttribute("crypto",crypto);
+        model.addAttribute("commissions", commissions);
 
         model.addAttribute("message", "Commission modifiée avec succès !");
-        return "page/modifierCommission"; 
+        return "admin/commission";
     }
 }
