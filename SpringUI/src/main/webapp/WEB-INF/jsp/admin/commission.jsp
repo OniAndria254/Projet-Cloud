@@ -68,7 +68,7 @@
                     <%
                        if (crytos != null) {
                            for (Cryptomonnaie crypto : crytos) { %>
-                        <option value="<%= crypto.getIdCryptomonnaie() %>">Cryptomonnaie <%= crypto.getIdCryptomonnaie() %></option>
+                        <option value="<%= crypto.getIdCryptomonnaie() %>"><%= crypto.getNom() %> ( <%= crypto.getSymbole() %> )</option>
                     <% } } %>
                 </select>
             </div>
