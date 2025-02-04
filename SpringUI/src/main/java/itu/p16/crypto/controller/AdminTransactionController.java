@@ -3,6 +3,7 @@ package itu.p16.crypto.controller;
 import java.util.List;
 
 import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.exception.UnallowedRoleException;
 import itu.p16.crypto.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,14 @@ public class AdminTransactionController {
 
     @Autowired
     private AuthService authService;
+
+    @GetMapping("/dashboard")
+    public String showDashboard() throws NoUserLoggedException, UnallowedRoleException {
+        authService.requireUser();
+        authService.allowAdminRoles();
+        return "page/welcome";
+    }
+
     /**
      * Affiche la liste des demandes (dépôt et retrait) en attente.
      * On suppose que le statut "en attente" est défini avec l'ID 1.

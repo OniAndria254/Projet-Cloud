@@ -29,6 +29,8 @@ Route::get('/validate', [AuthController::class, 'validateEmail']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/loginAdmin', [AuthController::class, 'loginAdmin']);
+
 Route::post('/verify-mfa', [AuthController::class, 'verifyMfaToken']);
 
 Route::get('/reset-attempts', [AuthController::class, 'resetAttemptsByEmail'])->name('reset.attempts');
