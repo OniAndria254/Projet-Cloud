@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import itu.p16.crypto.service.AnalyseService;
 
 import java.time.LocalDateTime;
@@ -22,53 +21,41 @@ public class AnalyseController {
     private AnalyseService analyseService;
 
     @Autowired
-    private CryptomonnaieRepository cryptoRepository; // Ajout du repository pour récupérer les cryptos
+    private CryptomonnaieRepository cryptoRepository;
 
-    /**
-     * Affiche la page de sélection pour l'analyse des transactions
-     */
     @GetMapping("/transactions")
-    public String showAnalyseTransactionsForm(Model model) {
-        List<Cryptomonnaie> cryptos = cryptoRepository.findAll(); // Récupération de toutes les cryptos
-        model.addAttribute("cryptos", cryptos);
-        return "page/analyseTransactions"; // Page JSP pour afficher le formulaire
-    }
-
-    /**
-     * Traite l'analyse des transactions et affiche les résultats
-     */
-    @GetMapping("/transactions/result")
-    public String analyseTransactions(
-            @RequestParam Long idCrypto,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMin,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMax,
-            Model model) {
-        Map<String, Object> result = analyseService.getAnalyseTransactions(idCrypto, dateMin, dateMax);
-        model.addAttribute("transactions", result);
-        return "page/analyseTransactionsResult"; // Page JSP pour afficher les résultats
-    }
-
-    /**
-     * Affiche la page de sélection pour l'analyse des commissions
-     */
-    @GetMapping("/commissions")
-    public String showAnalyseCommissionsForm(Model model) {
+    public String showTransactionsPage(Model model) {
         List<Cryptomonnaie> cryptos = cryptoRepository.findAll();
         model.addAttribute("cryptos", cryptos);
-        return "page/analyseCommissions"; // Page JSP pour afficher le formulaire
+        return "admin/analyse"; 
     }
 
-    /**
-     * Traite l'analyse des commissions et affiche les résultats
-     */
-    @GetMapping("/commissions/result")
-    public String analyseCommissions(
+    @GetMapping("/transactions/analyse")
+    @ResponseBody
+    public Map<String, Object> analyseTransactions(
+            @RequestParam(required = false) Long idCrypto,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMin,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMax) {
+        if (idCrypto != null) {
+            return analyseService.getAnalyseTransactions(idCrypto, dateMin, dateMax);
+        } else {
+            return analyseService.getAnalyseAllTransactions(dateMin, dateMax);
+        }
+    }
+
+    @GetMapping("/commissions")
+    public String showCommissionsPage(Model model) {
+        List<Cryptomonnaie> cryptos = cryptoRepository.findAll();
+        model.addAttribute("cryptos", cryptos);
+        return "admin/analysecomission"; 
+    }
+
+    @GetMapping("/commissions/analyse")
+    @ResponseBody
+    public Map<String, Object> analyseCommissions(
             @RequestParam Long idCrypto,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMin,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMax,
-            Model model) {
-        Map<String, Object> result = analyseService.getAnalyseCommissions(idCrypto, dateMin, dateMax);
-        model.addAttribute("commissions", result);
-        return "page/analyseCommissionsResult"; // Page JSP pour afficher les résultats
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMax) {
+        return analyseService.getAnalyseCommissions(idCrypto, dateMin, dateMax);
     }
 }

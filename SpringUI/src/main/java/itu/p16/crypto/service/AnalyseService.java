@@ -20,4 +20,8 @@ public class AnalyseService {
     public Map<String, Object> getAnalyseCommissions(Long idCrypto, LocalDateTime dateMin, LocalDateTime dateMax) {
         return transactionCryptoRepository.analyseCommissions(idCrypto, dateMin, dateMax);
     }
+
+    public Map<String, Object> getAnalyseAllTransactions(LocalDateTime dateMin, LocalDateTime dateMax) {
+        return transactionCryptoRepository.analyseAllTransactions(dateMin, dateMax);
+    }
 }

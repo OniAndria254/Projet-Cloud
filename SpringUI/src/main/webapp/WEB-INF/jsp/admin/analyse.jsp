@@ -1,3 +1,8 @@
+<%@ page import="itu.p16.crypto.entity.Cryptomonnaie" %>
+<%@ page import="java.util.List" %>
+<% List<Cryptomonnaie> cryptos = (List<Cryptomonnaie>) request.getAttribute("cryptos"); %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -294,24 +299,21 @@ input[type="checkbox"]:checked::after {
               <input type="checkbox" name="cryptos" value="all" > Tous
             </label>
           </div>
-          <!-- Première rangée de 6 cryptos -->
-          <div class="checkbox-row" style="justify-content: center;">
-            <label><input type="checkbox" name="cryptos" value="crypto1"> Crypto1</label>
-            <label><input type="checkbox" name="cryptos" value="crypto2"> Crypto2</label>
-            <label><input type="checkbox" name="cryptos" value="crypto3"> Crypto3</label>
-            <label><input type="checkbox" name="cryptos" value="crypto4"> Crypto4</label>
-            <label><input type="checkbox" name="cryptos" value="crypto5"> Crypto5</label>
-            <label><input type="checkbox" name="cryptos" value="crypto6"> Crypto6</label>
-          </div>
-          <!-- Deuxième rangée de 6 cryptos -->
-          <div class="checkbox-row" style="justify-content: center;">
-            <label><input type="checkbox" name="cryptos" value="crypto7"> Crypto7</label>
-            <label><input type="checkbox" name="cryptos" value="crypto8"> Crypto8</label>
-            <label><input type="checkbox" name="cryptos" value="crypto9"> Crypto9</label>
-            <label><input type="checkbox" name="cryptos" value="crypto10"> Crypto10</label>
-            <label><input type="checkbox" name="cryptos" value="crypto11"> Crypto11</label>
-            <label><input type="checkbox" name="cryptos" value="crypto12"> Crypto12</label>
-          </div>
+          <div class="checkbox-group">
+            <!-- <div class="checkbox-row" style="justify-content: center;">
+                <label>
+                    <input type="checkbox" name="cryptos" value="all"> Tous
+                </label>
+            </div> -->
+            <div class="checkbox-row" style="justify-content: center;">
+                <% for(Cryptomonnaie crypto : cryptos) { %>
+                    <label>
+                        <input type="checkbox" name="cryptos" value="<%= crypto.getIdCryptomonnaie() %>"> 
+                        <%= crypto.getNom() %>
+                    </label>
+                <% } %>
+            </div>
+        </div>        
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Valider</button>
@@ -322,7 +324,6 @@ input[type="checkbox"]:checked::after {
       <table class="table analysis-table">
         <thead>
           <tr>
-            <th>Crypto</th>
             <th>1er Quartile</th>
             <th>Max</th>
             <th>Min</th>
@@ -331,102 +332,13 @@ input[type="checkbox"]:checked::after {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Crypto1</td>
-            <td>$10,000</td>
-            <td>$65,000</td>
-            <td>$8,000</td>
+          <!-- <tr>
+            <td>$0,000</td>
+            <td>$0,000</td>
+            <td>$,000</td>
             <td>$35,000</td>
             <td>$15,000</td>
-          </tr>
-          <tr>
-            <td>Crypto2</td>
-            <td>$12,000</td>
-            <td>$70,000</td>
-            <td>$9,000</td>
-            <td>$40,000</td>
-            <td>$16,000</td>
-          </tr>
-          <tr>
-            <td>Crypto3</td>
-            <td>$8,000</td>
-            <td>$60,000</td>
-            <td>$7,000</td>
-            <td>$32,000</td>
-            <td>$14,000</td>
-          </tr>
-          <tr>
-            <td>Crypto4</td>
-            <td>$11,000</td>
-            <td>$68,000</td>
-            <td>$8,500</td>
-            <td>$37,000</td>
-            <td>$15,500</td>
-          </tr>
-          <tr>
-            <td>Crypto5</td>
-            <td>$9,000</td>
-            <td>$66,000</td>
-            <td>$7,500</td>
-            <td>$34,000</td>
-            <td>$14,500</td>
-          </tr>
-          <tr>
-            <td>Crypto6</td>
-            <td>$13,000</td>
-            <td>$72,000</td>
-            <td>$10,000</td>
-            <td>$42,000</td>
-            <td>$17,000</td>
-          </tr>
-          <tr>
-            <td>Crypto7</td>
-            <td>$10,500</td>
-            <td>$67,000</td>
-            <td>$8,200</td>
-            <td>$36,000</td>
-            <td>$15,200</td>
-          </tr>
-          <tr>
-            <td>Crypto8</td>
-            <td>$9,500</td>
-            <td>$64,000</td>
-            <td>$7,800</td>
-            <td>$33,000</td>
-            <td>$14,800</td>
-          </tr>
-          <tr>
-            <td>Crypto9</td>
-            <td>$11,500</td>
-            <td>$69,000</td>
-            <td>$8,900</td>
-            <td>$38,000</td>
-            <td>$15,700</td>
-          </tr>
-          <tr>
-            <td>Crypto10</td>
-            <td>$12,500</td>
-            <td>$71,000</td>
-            <td>$9,500</td>
-            <td>$39,000</td>
-            <td>$16,200</td>
-          </tr>
-          <tr>
-            <td>Crypto11</td>
-            <td>$8,500</td>
-            <td>$63,000</td>
-            <td>$7,200</td>
-            <td>$31,000</td>
-            <td>$13,900</td>
-          </tr>
-          <tr>
-            <td>Crypto12</td>
-            <td>$10,200</td>
-            <td>$66,500</td>
-            <td>$8,300</td>
-            <td>$35,500</td>
-            <td>$15,100</td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>
@@ -473,7 +385,29 @@ input[type="checkbox"]:checked::after {
         }
     });
 });
+
+document.querySelector("form").addEventListener("submit", function(e) {
+    e.preventDefault();
     
+    const dateMin = document.getElementById("dateMin").value;
+    const dateMax = document.getElementById("dateMax").value;
+    const selectedCryptos = document.querySelectorAll("input[name='cryptos']:checked");
+    const idCrypto = selectedCryptos[0]?.value === "all" ? null : selectedCryptos[0]?.value;
+
+    fetch("<%= request.getContextPath() %>/analyse/transactions/analyse?dateMin=" + dateMin + "&dateMax=" + dateMax + (idCrypto ? "&idCrypto=" + idCrypto : ""))
+        .then(response => response.json())
+        .then(data => {
+            const resultRow = "<tr>" +
+                "<td>" + (data.premier_quartile || "N/A") + "</td>" +
+                "<td>" + (data.max_quantite || "N/A") + "</td>" +
+                "<td>" + (data.min_quantite || "N/A") + "</td>" +
+                "<td>" + (data.moyenne_quantite || "N/A") + "</td>" +
+                "<td>" + (data.ecart_type || "N/A") + "</td>" +
+                "</tr>";
+            document.querySelector(".analysis-table tbody").innerHTML = resultRow;
+        })
+        .catch(error => console.error("Error:", error));
+}); 
     
   </script>
 </body>

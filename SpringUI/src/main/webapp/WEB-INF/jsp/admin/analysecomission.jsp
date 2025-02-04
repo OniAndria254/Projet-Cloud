@@ -1,3 +1,7 @@
+<%@ page import="itu.p16.crypto.entity.Cryptomonnaie" %>
+<%@ page import="java.util.List" %>
+<% List<Cryptomonnaie> cryptos = (List<Cryptomonnaie>) request.getAttribute("cryptos"); %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -287,50 +291,50 @@
   <div class="container">
     <h1>Analyses</h1>
 
-    <form action="/analysis/results" method="post">
-      <div class="row">
-        <div class="col-md-3">
+    <!-- Update the form -->
+<form id="analysisForm" action="javascript:void(0);">
+  <div class="row">
+      <div class="col-md-3">
           <div class="form-group">
-            <label for="typeAnalyse">Type d'analyse:</label>
-            <select id="typeAnalyse" name="typeAnalyse" class="form-control">
-              <option value="quartile">1er Quartile</option>
-              <option value="max">somme</option>
-              <option value="moyenne">Moyenne</option>
-            </select>
+              <label for="typeAnalyse">Type d'analyse:</label>
+              <select id="typeAnalyse" name="typeAnalyse" class="form-control">
+                  <option value="somme">Somme</option>
+                  <option value="moyenne">Moyenne</option>
+              </select>
           </div>
-        </div>
-        <div class="col-md-3">
+      </div>
+      <div class="col-md-3">
           <div class="form-group">
-            <label for="typeAnalyse">Cryptos:</label>
-            <select id="typeAnalyse" name="typeAnalyse" class="form-control">
-              <option value="quartile">tous</option>
-              <option value="max">Bitcoin(BTC)</option>
-              <option value="moyenne">Litecoin(LTC)</option>
-              <option value="moyenne">Tron(TRX)</option>
-            </select>
+              <label for="cryptoSelect">Cryptos:</label>
+              <select id="cryptoSelect" name="idCrypto" class="form-control">
+                  <option value="all">Tous</option>
+                  <% for(Cryptomonnaie crypto : cryptos) { %>
+                      <option value="<%= crypto.getIdCryptomonnaie() %>"><%= crypto.getNom() %></option>
+                  <% } %>
+              </select>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="dateMin">Date et heure min:</label>
-            <input type="datetime-local" id="dateMin" name="dateMin" class="form-control" />
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="dateMax">Date et heure max:</label>
-            <input type="datetime-local" id="dateMax" name="dateMax" class="form-control" />
-          </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="dateMin">Date et heure min:</label>
+          <input type="datetime-local" id="dateMin" name="dateMin" class="form-control" />
         </div>
       </div>
-
-      <!-- Bouton Valider -->
-      <div class="row mt-3">
-        <div class="col-md-12 text-right">
-          <button type="submit" class="btn btn-primary">Valider</button>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="dateMax">Date et heure max:</label>
+          <input type="datetime-local" id="dateMax" name="dateMax" class="form-control" />
         </div>
       </div>
-    </form>
+    </div>
+  
+    <!-- Bouton Valider -->
+    <div class="row mt-3">
+      <div class="col-md-12 text-right">
+        <button type="submit" class="btn btn-primary">Valider</button>
+      </div>
+  </div>
+</form>
 
     <!-- Tableau scrollable -->
     <div class="analysis-table-wrapper">
@@ -345,12 +349,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <!-- <tr>
             <td>Crypto1</td>
             <td>$65,000</td>
             <td>$35,000</td>
             <td>$15,000</td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>
@@ -360,6 +364,30 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+    document.querySelector("#analysisForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const dateMin = document.getElementById("dateMin").value;
+      const dateMax = document.getElementById("dateMax").value;
+      const idCrypto = document.getElementById("cryptoSelect").value;
+      
+      fetch("<%= request.getContextPath() %>/analyse/commissions/analyse?dateMin=" + dateMin + 
+            "&dateMax=" + dateMax + 
+            (idCrypto !== "all" ? "&idCrypto=" + idCrypto : ""))
+          .then(response => response.json())
+          .then(data => {
+              const resultRow = "<tr>" +
+                  "<td>" + (idCrypto === "all" ? "Toutes" : document.getElementById("cryptoSelect").selectedOptions[0].text) + "</td>" +
+                  "<td>" + (data.somme_commission_achat || "N/A") + "</td>" +
+                  "<td>" + (data.somme_commission_vente || "N/A") + "</td>" +
+                  "<td>" + (data.moyenne_commission_achat || "N/A") + "</td>" +
+                  "</tr>";
+              document.querySelector(".analysis-table tbody").innerHTML = resultRow;
+          })
+          .catch(error => console.error("Error:", error));
+  });
+
+
     function toggleTheme() {
       document.body.classList.toggle("light-theme");
       var themeIcon = document.getElementById("themeIcon");
