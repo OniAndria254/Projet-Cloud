@@ -74,7 +74,7 @@ class CryptoSeeder extends Seeder
             DB::table('users')->insert([
                 'username' => $user['username'],
                 'email' => $user['email'],
-                'password' => bcrypt($user['password']),
+                'password' => $user['password'],
                 'id_tentatives' => $idTentative,
                 'id_role' => $user['id_role'],
             ]);

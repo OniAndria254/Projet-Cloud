@@ -1,11 +1,13 @@
 package itu.p16.crypto.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+//import itu.p16.crypto.firestore.FirestoreEntityListener;
 import jakarta.persistence.*;
 
 import java.util.Map;
 
 @Entity
+//@EntityListeners(FirestoreEntityListener.class)
 public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
