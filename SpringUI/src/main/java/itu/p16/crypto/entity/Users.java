@@ -3,6 +3,8 @@ package itu.p16.crypto.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.Map;
+
 @Entity
 public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,8 +76,6 @@ public class Users {
     public void setTentativesByIdTentatives(Tentatives tentativesByIdTentatives) {
         this.tentativesByIdTentatives = tentativesByIdTentatives;
     }
-<<<<<<< Updated upstream
-=======
 
     public static Users fromMap(Map<String, Object> userMap) {
         Users user = new Users();
@@ -89,5 +89,4 @@ public class Users {
     }
 
 
->>>>>>> Stashed changes
 }

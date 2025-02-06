@@ -1,8 +1,3 @@
-\c postgres;
-drop database crypto;
-create database crypto;
-\c crypto;
-
 CREATE TABLE portefeuille(
    Id_portefeuille SERIAL,
    solde NUMERIC(15,2)   NOT NULL,
@@ -16,6 +11,7 @@ CREATE TABLE cryptomonnaie(
    nom VARCHAR(50)  NOT NULL,
    symbole VARCHAR(50) ,
    date_creation DATE NOT NULL,
+   icon VARCHAR(255) ,
    PRIMARY KEY(Id_cryptomonnaie)
 );
 
@@ -75,3 +71,46 @@ CREATE TABLE transaction_fonds(
    FOREIGN KEY(Id_statut) REFERENCES statut(Id_statut),
    FOREIGN KEY(Id_type_transaction) REFERENCES type_transaction(Id_type_transaction)
 );
+CREATE TABLE commission (
+    Id_commission SERIAL,
+    Id_cryptomonnaie INTEGER NOT NULL,
+    commission_achat NUMERIC(5,2) NOT NULL,
+    commission_vente NUMERIC(5,2) NOT NULL,
+    date_modification TIMESTAMP NOT NULL,
+    PRIMARY KEY(Id_commission),
+    FOREIGN KEY(Id_cryptomonnaie) REFERENCES cryptomonnaie(Id_cryptomonnaie)
+); 
+
+SELECT
+    MIN(quantite) AS min_quantite,
+    MAX(quantite) AS max_quantite,
+    AVG(quantite) AS moyenne_quantite,
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY quantite) AS premier_quartile,
+    STDDEV(quantite) AS ecart_type
+FROM
+    transaction_crypto
+WHERE
+    Id_cryptomonnaie = 1
+    AND date_transaction BETWEEN '2024-01-01' AND '2024-01-30';
+
+SELECT
+    MIN(quantite) AS min_quantite,
+    MAX(quantite) AS max_quantite,
+    AVG(quantite) AS moyenne_quantite,
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY quantite) AS premier_quartile,
+    STDDEV(quantite) AS ecart_type
+FROM
+    transaction_crypto;
+
+SELECT
+    MIN(quantite) AS min_quantite,
+    MAX(quantite) AS max_quantite,
+    AVG(quantite) AS moyenne_quantite,
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY quantite) AS premier_quartile,
+    STDDEV(quantite) AS ecart_type
+FROM
+    transaction_crypto
+WHERE
+    Id_cryptomonnaie = 1;
+
+

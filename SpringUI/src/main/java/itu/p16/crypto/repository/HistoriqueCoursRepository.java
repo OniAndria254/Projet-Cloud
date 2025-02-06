@@ -18,7 +18,8 @@ public interface HistoriqueCoursRepository extends JpaRepository<HistoriqueCours
     List<HistoriqueCours> getDerniersHistoriques(@Param("nombreCrypto") int nombreCrypto);
     
 
-
+     @Query(value = "SELECT prix FROM historique_cours WHERE id_cryptomonnaie = :cryptoId ORDER BY date_enregistrement DESC LIMIT 1", nativeQuery = true)
+    BigDecimal findLatestPriceByCryptoId(@Param("cryptoId") Integer cryptoId);
 
     
     // @Query("SELECT prix FROM historique_cours WHERE id_cryptomonnaie = :idCrypto ORDER BY id_historique_cours DESC LIMIT 1")

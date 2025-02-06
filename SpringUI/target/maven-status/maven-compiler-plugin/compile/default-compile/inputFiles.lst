@@ -1,26 +1,22 @@
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\controller\CryptoController.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\Tentatives.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\Portefeuille.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\service\ApiProxyService.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\Config.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\repository\CryptomonnaieRepository.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\Brouillon.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\CryptoApplication.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\PortefeuilleCrypto.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\Users.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\controller\HomeController.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\Statut.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\service\AuthService.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\Cryptomonnaie.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\TransactionCrypto.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\exception\NoUserLoggedException.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\repository\HistoriqueCoursRepository.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\TypeTransaction.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\service\CryptoService.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\exception\LogginErrorException.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\Sessions.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\config\AppConfig.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\ServletInitializer.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\HistoriqueCours.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\entity\TransactionFonds.java
-E:\ituS5\Mr Rojo\Projet-Cloud-dev\SpringUI\src\main\java\itu\p16\crypto\controller\AuthController.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\CryptoApplication.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Cryptomonnaie.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Users.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\PortefeuilleCrypto.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TransactionCrypto.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\AuthService.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\AuthController.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Portefeuille.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Sessions.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\ApiProxyService.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\HomeController.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Tentatives.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TypeTransaction.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\LogginErrorException.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\HistoriqueCours.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Config.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Brouillon.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\config\AppConfig.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Statut.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TransactionFonds.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\NoUserLoggedException.java
+F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\ServletInitializer.java

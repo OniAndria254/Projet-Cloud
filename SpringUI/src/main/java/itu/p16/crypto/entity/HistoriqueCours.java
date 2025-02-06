@@ -1,8 +1,14 @@
 package itu.p16.crypto.entity;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "historique_cours")
@@ -20,10 +26,9 @@ public class HistoriqueCours {
     private LocalDate dateEnregistrement;
 
     @Column(name = "id_cryptomonnaie", nullable = false)
-    private Integer idCryptomonnaie; // ID de la cryptomonnaie comme une simple colonne
+    private Integer idCryptomonnaie;
 
-    // Getters and Setters
-
+ 
     public Integer getIdHistoriqueCours() {
         return idHistoriqueCours;
     }
