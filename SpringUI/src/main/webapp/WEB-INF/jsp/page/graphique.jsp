@@ -149,6 +149,12 @@
             padding: 1rem;
             border-radius: 10px;
             transition: background-color 0.3s;
+            height: 750px; /* hauteur doublée */
+        }
+
+        /* Si besoin de forcer la hauteur du canvas lui-même */
+        #cryptoChart {
+            height: 100%;
         }
         .chart-section .chart canvas {
             width: 100%;
@@ -234,6 +240,7 @@
 </head>
 <body>
     <nav class="navbar">
+<<<<<<< Updated upstream
         <div class="nav-links">
             <a href="#">
                 <i class="fas fa-dollar-sign"></i>
@@ -268,11 +275,66 @@
         </div>
     </nav>
 
+=======
+       <div class="nav-links">
+         <a href="<%= request.getContextPath() %>/transaction/buy-sell">
+           <i class="fas fa-dollar-sign"></i> Transaction
+         </a>
+         <a href="<%= request.getContextPath() %>/graphic/graphe">
+           <i class="fas fa-chart-line"></i> Market
+         </a>
+         <%
+            Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+            if(isAdmin != null && isAdmin) {
+          %>
+              <a href="<%= request.getContextPath() %>/admin/transactions">
+                  <i class="fas fa-check-circle"></i> Validation
+              </a>
+              <a href="<%= request.getContextPath() %>/analyse/commissions">
+                <i class="fas fa-chart-percentages"></i> commissions
+              </a>
+              <a href="<%= request.getContextPath() %>/commission/modifier">
+                <i class="fas fa-chart-percentages"></i> modifications commissions
+              </a>
+              <a href="<%= request.getContextPath() %>/analyse/transactions">
+                <i class="fas fa-chart-line"></i> analyse transaction
+              </a>
+          <%
+              }
+          %>
+         <a href="#">
+           <i class="fas fa-history"></i> Trade History
+         </a>
+       </div>
+       <div class="right-section">
+         <label class="theme-toggle">
+           <input id="themeToggle" onclick="toggleTheme()" type="checkbox" />
+           <span class="slider"></span>
+           <i class="fas fa-moon icon" id="themeIcon"></i>
+         </label>
+         <a href="<%= request.getContextPath() %>/transaction/depositWithdraw">
+           <button class="btn btn-outline-light">
+             <i class="fas fa-wallet"></i> Wallet
+           </button>
+         </a>
+         <%
+             Object userObj = session.getAttribute("user");
+             String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
+         %>
+         <div class="profile-dropdown" id="profileDropdown">
+               <span id="profileName"><%= userName %></span>
+               <div class="dropdown-menu" id="dropdownMenu">
+                   <a href="/auth/logout">Disconnect</a>
+               </div>
+         </div>
+       </div>
+     </nav>
+>>>>>>> Stashed changes
     <div class="container">
         <div class="market-stats">
             <div class="header">
                 <div class="title">
-                    <img alt="Crypto Logo" id="cryptoLogo" src="" />
+                    <img alt="Crypto Logo" id="cryptoLogo" src=""/>
                     <span id="cryptoName"></span>
                     <span class="badge" id="cryptoSymbol"></span>
                     <i class="fas fa-star star"></i>
@@ -307,27 +369,31 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
     const ctx = document.getElementById('cryptoChart').getContext('2d');
-    const totalLines = 10; // 10 lignes verticales
-    const centerLineIndex = Math.floor(totalLines / 2); // 5ème ligne (milieu)
-    const initialData = Array(totalLines).fill(null); // Données initiales vides
+    const totalLines = 15;
+    const initialData = [];
+    const initialLabels = [];
+    let currentCryptoId = getCryptoIdFromURL();
+    let lastTimestamp = null;
 
     let cryptoChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: Array.from({ length: totalLines }, (_, i) => `Line ${i + 1}`), // 10 labels statiques
+            labels: [],
             datasets: [{
                 label: 'Price',
-                data: initialData,
+                data: [],
                 borderColor: '#58a6ff',
-                backgroundColor: 'rgba(88, 166, 255, 0.2)',
-                fill: true,
-                tension: 0.1
+                borderWidth: 2,
+                tension: 0, // Pour une courbe fluide
+                fill: false,
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
+<<<<<<< Updated upstream
                     title: {
                         display: true,
                         text: 'Instances',
@@ -349,23 +415,28 @@
                     beginAtZero: true,
                     min: 0,
                     max: 200, // Plafond à 200
+=======
+                    title: { display: true, text: "Date & Heure d'insertion" },
+                    grid: { display: false },
+                    offset: true,
+                    bounds: 'data',
+                },
+                y: {
+                    title: { display: true, text: 'Price (USD)' },
+                    beginAtZero: false,
+                    grace: '15%',
+>>>>>>> Stashed changes
                     ticks: {
-                        stepSize: 50, // Espacement de 50
+                        callback: function(value) {
+                            return '$' + value.toFixed(2);
+                        }
                     },
-                    grid: {
-                        color: '#21262d'
-                    }
+                    grid: { color: '#21262d' }
                 }
             },
             plugins: {
                 annotation: {
-                    annotations: [
-                        // Lignes horizontales fixes (50, 100, 150, 200)
-                        { type: 'line', mode: 'horizontal', scaleID: 'y', value: 50, borderColor: '#ff5733', borderWidth: 1 },
-                        { type: 'line', mode: 'horizontal', scaleID: 'y', value: 100, borderColor: '#ff5733', borderWidth: 1 },
-                        { type: 'line', mode: 'horizontal', scaleID: 'y', value: 150, borderColor: '#ff5733', borderWidth: 1 },
-                        { type: 'line', mode: 'horizontal', scaleID: 'y', value: 200, borderColor: '#ff5733', borderWidth: 1 },
-                    ],
+                    annotations: []
                 },
                 tooltip: {
                     callbacks: {
@@ -375,56 +446,93 @@
                     }
                 }
             },
-            animation: {
-                duration: 0, // Désactive l'animation pour un défilement fluide
-            },
+            animation: { duration: 0 }
         }
     });
 
-    let lastTimestamp = null; // Stocke le dernier timestamp pour ne récupérer que les nouvelles données
-
-    // Fonction pour récupérer l'ID de la cryptomonnaie depuis l'URL
     function getCryptoIdFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
         const cryptoId = urlParams.get('cryptoId');
-        return cryptoId ? parseInt(cryptoId, 10) : 1; // Retourne 1 si l'ID n'est pas présent dans l'URL
+        return cryptoId ? parseInt(cryptoId, 10) : 1;
     }
+
+    function updateChartWithCrypto(selectedCryptoId) {
+        currentCryptoId = parseInt(selectedCryptoId, 10);
+        cryptoChart.data.datasets[0].data = [];
+        cryptoChart.data.labels = [];
+        lastTimestamp = null;
+        updateCryptoDetails(currentCryptoId);
+        cryptoChart.update();
+    }
+
+    document.getElementById('cryptoSelect').addEventListener('change', function(event) {
+        const selectedCryptoId = event.target.value;
+        updateChartWithCrypto(selectedCryptoId);
+    });
 
     async function fetchCryptoData() {
         try {
-            const cryptoId = getCryptoIdFromURL(); // Récupère l'ID de la cryptomonnaie depuis l'URL
+            // Utilisation de currentCryptoId, qui a été mis à jour lors du changement
+            const cryptoId = currentCryptoId;
             updateCryptoDetails(cryptoId);
+
             let url = '/api/crypto/graph';
-            if (lastTimestamp) {
-                url += `?since=${lastTimestamp}`;
+            if (lastTimestamp) { 
+                url += `?since=${lastTimestamp}`; 
             }
+
             const response = await fetch(url);
             const data = await response.json();
-            const filteredData = data.filter(item => item.idCryptomonnaie === cryptoId); // Filtre les données pour la cryptomonnaie spécifique
+            // On filtre les données pour n'avoir que celles correspondant à la crypto affichée
+            const filteredData = data.filter(item => item.idCryptomonnaie === cryptoId);
 
             if (filteredData.length > 0) {
-                lastTimestamp = filteredData[filteredData.length - 1].timestamp; // Met à jour le dernier timestamp
-
+                // Mettre à jour lastTimestamp pour la prochaine requête
+                lastTimestamp = filteredData[filteredData.length - 1].timestamp;
                 filteredData.forEach((item) => {
-                    // Ajoute les nouvelles données au milieu du tableau
-                    cryptoChart.data.datasets[0].data.splice(centerLineIndex, 0, item.prix);
-                    // Supprime la première valeur pour décaler vers la gauche
-                    cryptoChart.data.datasets[0].data.shift();
+                    // Conversion de la date en label lisible (heure d'arrivée)
+                    const dateObj = new Date(item.dateEnregistrement);
+                    const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+                    const labelDateTime = dateObj.toLocaleString('fr-FR', options);
+
+                    // Si le nombre maximum de points est atteint, supprimer le premier point
+                    if (cryptoChart.data.datasets[0].data.length >= totalLines) {
+                        cryptoChart.data.datasets[0].data.shift();
+                        cryptoChart.data.labels.shift();
+                    }
+
+                    // Ajout de la nouvelle donnée et de son label
+                    cryptoChart.data.datasets[0].data.push(item.prix);
+                    cryptoChart.data.labels.push(item.prix);
                     updateCryptoPrice(item.prix);
                 });
 
-                cryptoChart.update(); // Met à jour le graphique
-            }
+                // Ajustement automatique des axes
+                cryptoChart.options.scales.x.min = cryptoChart.data.labels[0];
+                cryptoChart.options.scales.x.max = cryptoChart.data.labels[cryptoChart.data.labels.length - 1];
 
+<<<<<<< Updated upstream
             setTimeout(fetchCryptoData, 500); // Récupère les données toutes les 500 ms
         } catch (error) {
             console.error('Error fetching data:', error);
             setTimeout(fetchCryptoData, 500); // Réessaye en cas d'erreur
+=======
+                // Mise à jour silencieuse puis classique du graphique
+                cryptoChart.update('quiet');
+                cryptoChart.update();
+            }
+            // Replanification de l'appel
+            setTimeout(fetchCryptoData, 500); // ou 10000ms si c'est toutes les 10 secondes
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setTimeout(fetchCryptoData, 500);
+>>>>>>> Stashed changes
         }
     }
 
-    // Démarrage du graphique et de la récupération des données
+    // Démarrage de la récupération périodique des données
     fetchCryptoData();
+
 
     function toggleTheme() {
         document.body.classList.toggle('light-theme');
@@ -438,18 +546,6 @@
         }
     }
 
-    document.getElementById('cryptoSelect').addEventListener('change', function(event) {
-        const selectedCryptoId = event.target.value;
-        updateChartWithCrypto(selectedCryptoId);
-    });
-
-    async function updateChartWithCrypto(cryptoId) {
-        // Redirige vers la même page avec l'ID de la cryptomonnaie dans l'URL
-        const url = new URL(window.location.href); // Crée un objet URL basé sur l'URL actuelle
-        url.searchParams.set('cryptoId', cryptoId); // Met à jour ou ajoute le paramètre `cryptoId`
-        window.history.pushState({}, '', url); // Modifie l'URL dans la barre d'adresse sans recharger la page
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
         fetchCryptoOptions();
     });
@@ -458,47 +554,68 @@
         try {
             const response = await fetch('/api/crypto/getcrypto');
             const cryptos = await response.json();
-
             const cryptoSelect = document.getElementById('cryptoSelect');
-            cryptoSelect.innerHTML = ''; // Clear existing options
-
+            cryptoSelect.innerHTML = '';
             cryptos.forEach(crypto => {
                 const option = document.createElement('option');
                 option.value = crypto.idCryptomonnaie;
                 option.textContent = crypto.nom;
                 cryptoSelect.appendChild(option);
             });
-
-            // Sélectionne l'option correspondant à l'ID dans l'URL
             const cryptoId = getCryptoIdFromURL();
-            if (cryptoId) {
-                cryptoSelect.value = cryptoId;
-            }
+            if (cryptoId) { cryptoSelect.value = cryptoId; }
         } catch (error) {
             console.error('Error fetching crypto options:', error);
         }
     }
+
     function updateCryptoDetails(cryptoId) {
+<<<<<<< Updated upstream
         fetch('/api/crypto/getcrypto') // Ou une API pour une seule cryptomonnaie
+=======
+        fetch('/api/crypto/getcrypto')
+>>>>>>> Stashed changes
             .then(response => response.json())
             .then(cryptos => {
                 const selectedCrypto = cryptos.find(crypto => crypto.idCryptomonnaie === parseInt(cryptoId, 10));
                 if (selectedCrypto) {
+<<<<<<< Updated upstream
                     document.getElementById('cryptoLogo').src = `https://placehold.co/30x30?text=${selectedCrypto.nom[0]}`;
                     document.getElementById('cryptoName').textContent = selectedCrypto.nom;
                     document.getElementById('cryptoSymbol').textContent = selectedCrypto.symbole || "N/A";
+=======
+                    document.getElementById('cryptoName').textContent = selectedCrypto.nom;
+>>>>>>> Stashed changes
                 } else {
                     console.error('Crypto not found for ID:', cryptoId);
                 }
             })
             .catch(error => console.error('Error fetching crypto details:', error));
     }
+
     function updateCryptoPrice(price) {
         const priceElement = document.getElementById('cryptoPrice');
         if (priceElement) {
             priceElement.textContent = '$' + price.toFixed(2);
         }
+<<<<<<< Updated upstream
     }
 </script>
+=======
+
+        // Mise à jour dynamique de l'échelle Y
+        const currentData = cryptoChart.data.datasets[0].data;
+        const minPrice = Math.min(...currentData);
+        const maxPrice = Math.max(...currentData);
+
+        // Ajustement des limites de l'axe Y avec une marge de 15%
+        cryptoChart.options.scales.y.min = minPrice * 0.85;
+        cryptoChart.options.scales.y.max = maxPrice * 1.15;
+
+        // Mise à jour silencieuse du graphique
+        cryptoChart.update('quiet');
+    }
+    </script>
+>>>>>>> Stashed changes
 </body>
 </html>

@@ -23,6 +23,18 @@ public class Users {
     @JoinColumn(name = "id_tentatives", referencedColumnName = "id_tentatives", nullable = false)
     private Tentatives tentativesByIdTentatives;
 
+    @Column(name = "id_role")
+    @JsonProperty("id_role")
+    private Integer idRole;
+
+    public Integer getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Integer idRole) {
+        this.idRole = idRole;
+    }
+
     public Long getIdUsers() {
         return idUsers;
     }
@@ -62,4 +74,20 @@ public class Users {
     public void setTentativesByIdTentatives(Tentatives tentativesByIdTentatives) {
         this.tentativesByIdTentatives = tentativesByIdTentatives;
     }
+<<<<<<< Updated upstream
+=======
+
+    public static Users fromMap(Map<String, Object> userMap) {
+        Users user = new Users();
+        user.setIdUsers(Long.valueOf((Integer) userMap.get("id_users")));
+        user.setEmail((String) userMap.get("email"));
+        user.setUsername((String) userMap.get("username"));
+        user.setPassword((String) userMap.get("password"));
+//        user.setIdTentatives((userMap.get("id_tentatives") != null) ? (Integer) userMap.get("id_tentatives") : null);
+        user.setIdRole((userMap.get("id_role") != null) ? (Integer) userMap.get("id_role") : null);
+        return user;
+    }
+
+
+>>>>>>> Stashed changes
 }

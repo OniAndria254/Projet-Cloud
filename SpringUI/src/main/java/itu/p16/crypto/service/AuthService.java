@@ -2,6 +2,7 @@ package itu.p16.crypto.service;
 
 import itu.p16.crypto.entity.Users;
 import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.exception.UnallowedRoleException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -69,6 +70,20 @@ public class AuthService {
             return u;
         }
         throw new NoUserLoggedException();
+    }
+
+    public void allowAdminRoles() throws UnallowedRoleException, NoUserLoggedException {
+        Object obj = httpSession.getAttribute("user");
+        if(obj == null) {
+            throw new NoUserLoggedException();
+        }
+
+        if(obj instanceof Users u) {
+            if (u.getIdRole() == 1) {
+                return;
+            }
+        }
+        throw new UnallowedRoleException();
     }
 
 
