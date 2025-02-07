@@ -19,11 +19,7 @@ class User extends Authenticatable
         'username',
         'password',
         'id_tentatives',
-<<<<<<< Updated upstream
         'id_role'
-=======
-        'id_role',
->>>>>>> Stashed changes
     ];
 
     public $timestamps = false;
@@ -35,4 +31,4 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Tentatives::class, 'id_tentatives', 'id_tentatives');
     }
-}
+}   

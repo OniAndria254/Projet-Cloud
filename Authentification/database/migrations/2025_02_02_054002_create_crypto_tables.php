@@ -10,12 +10,8 @@ return new class extends Migration {
         Schema::create('portefeuille', function (Blueprint $table) {
             $table->id('id_portefeuille');
             $table->decimal('solde', 15, 2);
-<<<<<<< Updated upstream
-            $table->date('date_creation');
-            $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
-=======
             $table->dateTime('date_creation');
->>>>>>> Stashed changes
+            $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
             $table->unsignedBigInteger('id_utilisateur');
             $table->foreign('id_utilisateur')->references('id_users')->on('users');
         });
@@ -26,11 +22,7 @@ return new class extends Migration {
             $table->string('symbole', 50)->nullable();
             $table->dateTime('date_creation');
             $table->string('icon', 255)->nullable();
-<<<<<<< Updated upstream
             $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
-            $table->timestamps();
-=======
->>>>>>> Stashed changes
         });
 
         Schema::create('portefeuille_crypto', function (Blueprint $table) {
@@ -59,12 +51,8 @@ return new class extends Migration {
             $table->decimal('quantite', 15, 2);
             $table->decimal('prix_unitaire', 15, 2);
             $table->decimal('montant_total', 15, 2);
-<<<<<<< Updated upstream
-            $table->date('date_transaction');
-            $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
-=======
             $table->dateTime('date_transaction');
->>>>>>> Stashed changes
+            $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
             $table->unsignedBigInteger('id_type_transaction');
             $table->unsignedBigInteger('id_cryptomonnaie');
             $table->foreign('id_utilisateur')->references('id_users')->on('users');
@@ -75,12 +63,8 @@ return new class extends Migration {
         Schema::create('historique_cours', function (Blueprint $table) {
             $table->id('id_historique_cours');
             $table->decimal('prix', 15, 2);
-<<<<<<< Updated upstream
-            $table->date('date_enregistrement');
-            $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
-=======
             $table->dateTime('date_enregistrement');
->>>>>>> Stashed changes
+            $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
             $table->unsignedBigInteger('id_cryptomonnaie');
             $table->foreign('id_cryptomonnaie')->references('id_cryptomonnaie')->on('cryptomonnaie');
         });
