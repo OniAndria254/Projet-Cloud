@@ -39,6 +39,18 @@ public class Users {
         isSyncFromFirestore = syncFromFirestore;
     }
 
+    @Column(name = "id_role")
+    @JsonProperty("id_role")
+    private Integer idRole;
+
+    public Integer getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Integer idRole) {
+        this.idRole = idRole;
+    }
+
     public Long getIdUsers() {
         return idUsers;
     }
@@ -79,19 +91,16 @@ public class Users {
         this.idTentatives = idTentatives;
     }
 
-    public static Users fromMap(Map<String, Object> map) {
+    public static Users fromMap(Map<String, Object> userMap) {
         Users user = new Users();
-        user.setEmail((String) map.get("email"));
-        user.setUsername((String) map.get("username"));
-        user.setPassword((String) map.get("password"));
-
-        // Vérifier si l'ID est présent et l'assigner
-        Object id = map.get("id_users");
-        if (id instanceof Number) {
-            user.setIdUsers(((Number) id).longValue());
-        }
-
+        user.setIdUsers(Long.valueOf((Integer) userMap.get("id_users")));
+        user.setEmail((String) userMap.get("email"));
+        user.setUsername((String) userMap.get("username"));
+        user.setPassword((String) userMap.get("password"));
+//        user.setIdTentatives((userMap.get("id_tentatives") != null) ? (Integer) userMap.get("id_tentatives") : null);
+        user.setIdRole((userMap.get("id_role") != null) ? (Integer) userMap.get("id_role") : null);
         return user;
     }
+
 
 }

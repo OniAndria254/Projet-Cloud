@@ -148,7 +148,7 @@
 </div>
 <div class="login-container">
   <h2>
-    Login
+    Login user
   </h2>
 
   <div class="error-message" id="error-message" style="display: ${empty error ? 'none' : 'block'};">
@@ -173,6 +173,32 @@
     <a class="signup-link" href="/auth/register">
       S'inscrire?
     </a>
+  </form>
+</div>
+
+<hr>
+
+<div class="login-container">
+  <h2>
+    Login admin
+  </h2>
+
+  <form action="/auth/loginAdmin" method="post">
+    <div class="form-group">
+      <label for="email2">
+        Email
+      </label>
+      <input class="form-control" id="email2" name="email" placeholder="Enter your email" type="email" value="admin@gmail.com" required/>
+    </div>
+    <div class="form-group">
+      <label for="password2">
+        Password
+      </label>
+      <input class="form-control" id="password2" name="password" placeholder="Enter your password" type="password" value="admin123" required/>
+    </div>
+    <button class="btn btn-primary" type="submit">
+      Login
+    </button>
   </form>
 </div>
 <script>

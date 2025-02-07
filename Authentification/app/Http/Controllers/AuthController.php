@@ -147,7 +147,8 @@ class AuthController extends Controller
             'username' => $brouillon->username,
             'password' => $brouillon->password, // Le mot de passe est déjà hashé
             'id_tentatives' => $tentative->id_tentatives, // Associer l'ID de la tentative
-            'id_role' => 2 // Associer l'ID du rôle
+            'id_role' => 2 // Rôle par défaut pour les utilisateurs normaux
+
         ]);
 
         // Authentifier l'utilisateur
@@ -237,6 +238,40 @@ class AuthController extends Controller
             'user_id' => $user->id_users, // Tu peux ajouter un identifiant temporaire si nécessaire.
         ]);
     }
+
+    public function loginAdmin(Request $request)
+    {
+        // Validation des inputs
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Récupération de l'utilisateur par email
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return $this->incrementAttempts($request->email, 'Email ou mot de passe incorrect.');
+        }
+
+        // Vérification du rôle de l'utilisateur
+        if ($user->id_role != 1) {
+            return response()->json(['message' => 'Accès refusé. Vous n\'avez pas les droits nécessaires.'], 403);
+        }
+
+        // Succès : Réinitialiser les tentatives
+        $this->resetAttempts($user);
+
+        return response()->json([
+            'message' => 'Connexion réussie. Code MFA envoyé.',
+            'user' => $user, // Tu peux ajouter un identifiant temporaire si nécessaire.
+        ]);
+    }
+
 
     // Les autres méthodes peuvent être annotées de la même manière
     /**
