@@ -148,6 +148,7 @@ class AuthController extends Controller
             'password' => $brouillon->password, // Le mot de passe est déjà hashé
             'id_tentatives' => $tentative->id_tentatives, // Associer l'ID de la tentative
             'id_role' => 2 // Rôle par défaut pour les utilisateurs normaux
+
         ]);
 
         // Authentifier l'utilisateur

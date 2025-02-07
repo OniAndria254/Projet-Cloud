@@ -18,7 +18,8 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: secret
     depends_on:
-      - db 
+      db:
+        condition: service_healthy
     command: >
       bash -c "
         until pg_isready -h db -p 5432 -U postgres; do
@@ -28,7 +29,13 @@ services:
         php artisan key:generate --force &&
         php artisan migrate --force &&
         php artisan db:seed --force &&
+        touch /var/www/html/storage/ready &&
         apache2-foreground"
+    healthcheck:
+      test: ["CMD", "test", "-f", "/var/www/html/storage/ready"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
 
   spring_app:
     container_name: spring_app
@@ -43,8 +50,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: secret
       LARAVEL_API_URL: http://laravel_app:80
     depends_on:
-      - db
-      - laravel_app
+      laravel_app:
+        condition: service_healthy
 
   db:
     image: postgres:16
@@ -57,6 +64,11 @@ services:
       - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data  
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cloud"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
 
 volumes:
   pgdata:
