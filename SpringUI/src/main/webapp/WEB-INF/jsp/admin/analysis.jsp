@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crypto Planet - Analyses</title>
-  <!-- Bibliothèques et polices communes -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
@@ -263,7 +262,6 @@
   </style>
 </head>
 <body>
-  <!-- Barre de navigation -->
   <nav class="navbar">
     <div class="nav-links">
       <a href="/admin/transactions">
@@ -289,21 +287,13 @@
 
     <form action="/analysis/results" method="post">
       <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="dateMin">Date et heure min:</label>
-            <input type="datetime-local" id="dateMin" name="dateMin" class="form-control" />
-          </div>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
           <div class="form-group">
             <label for="dateMax">Date et heure max:</label>
             <input type="datetime-local" id="dateMax" name="dateMax" class="form-control" />
           </div>
         </div>
       </div>
-
-      <!-- Bouton Valider -->
       <div class="row mt-3">
         <div class="col-md-12 text-right">
           <button type="submit" class="btn btn-primary">Valider</button>
@@ -311,7 +301,6 @@
       </div>
     </form>
 
-    <!-- Tableau scrollable -->
     <div class="analysis-table-wrapper">
       <table class="table analysis-table">
         <thead>
@@ -320,16 +309,21 @@
             <th>Total Achat</th>
             <th>Total Vente</th>
             <th>Valeur portefeuille</th>
-        
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>uer 1</td>
-            <td>$65,000</td>
-            <td>$85,000</td>
-            <td>$15,000</td>
-          </tr>
+          <!-- Utilisation des balises <%= %> pour afficher les données -->
+          <% 
+            List<TransactionSummaryDTO> summaries = (List<TransactionSummaryDTO>) request.getAttribute("summaries");
+            for (TransactionSummaryDTO summary : summaries) {
+          %>
+            <tr>
+              <td><%= summary.getUser() %></td>
+              <td><%= summary.getTotalAchat() %></td>
+              <td><%= summary.getTotalVente() %></td>
+              <td><%= summary.getValeurPortefeuille() %></td>
+            </tr>
+          <% } %>
         </tbody>
       </table>
     </div>

@@ -19,7 +19,11 @@ class User extends Authenticatable
         'username',
         'password',
         'id_tentatives',
+<<<<<<< Updated upstream
         'id_role'
+=======
+        'id_role',
+>>>>>>> Stashed changes
     ];
 
     public $timestamps = false;

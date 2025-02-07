@@ -21,8 +21,12 @@ class CreateUsersTable extends Migration
             $table->string('email', 50)->unique();
             $table->string('username', 50);
             $table->string('password', 255);
+<<<<<<< Updated upstream
             $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
 
+=======
+            $table->string('avatar', 255);
+>>>>>>> Stashed changes
 
             // Clé étrangère pour tentatives
             $table->unsignedBigInteger('id_tentatives');
