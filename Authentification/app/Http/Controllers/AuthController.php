@@ -64,7 +64,7 @@ class AuthController extends Controller
         $brouillon = Brouillon::create([
             'email' => $validatedData['email'],
             'username' => $validatedData['username'],
-            'password' => $validatedData['password'], // Toujours hasher le mot de passe
+            'password' => bcrypt($validatedData['password']), // Toujours hasher le mot de passe
         ]);
 
         // Générer un token unique pour le lien de validation
@@ -211,7 +211,7 @@ class AuthController extends Controller
         // Récupération de l'utilisateur par email
         $user = User::where('email', $request->email)->first();
     
-        if (!$user || $request->password !== $user->password) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return $this->incrementAttempts($request->email, 'Email ou mot de passe incorrect.');
         }
     

@@ -64,6 +64,30 @@ class CryptoSeeder extends Seeder
             ['username' => 'user8', 'email' => 'user8@gmail.com', 'password' => 'user123', 'id_role' => 2],
         ];
 
+        // Insérer l'historique des cours
+        $cours = [
+            [1, 50000.00, '2023-10-01'], [1, 51000.00, '2023-10-02'], [1, 52000.00, '2023-10-03'], // BTC
+            [2, 3000.00, '2023-10-01'], [2, 3100.00, '2023-10-02'], [2, 3200.00, '2023-10-03'], // ETH
+            [3, 1.00, '2023-10-01'], [3, 1.10, '2023-10-02'], [3, 1.20, '2023-10-03'], // XRP
+            [4, 150.00, '2023-10-01'], [4, 155.00, '2023-10-02'], [4, 160.00, '2023-10-03'], // LTC
+            [5, 2.50, '2023-10-01'], [5, 2.60, '2023-10-02'], [5, 2.70, '2023-10-03'], // ADA
+            [6, 25.00, '2023-10-01'], [6, 26.00, '2023-10-02'], [6, 27.00, '2023-10-03'], // DOT
+            [7, 20.00, '2023-10-01'], [7, 21.00, '2023-10-02'], [7, 22.00, '2023-10-03'], // LINK
+            [8, 0.30, '2023-10-01'], [8, 0.31, '2023-10-02'], [8, 0.32, '2023-10-03'], // XLM
+            [9, 0.20, '2023-10-01'], [9, 0.21, '2023-10-02'], [9, 0.22, '2023-10-03'], // DOGE
+            [10, 400.00, '2023-10-01'], [10, 410.00, '2023-10-02'], [10, 420.00, '2023-10-03'], // BNB
+            [11, 0.10, '2023-10-01'], [11, 0.11, '2023-10-02'], [11, 0.12, '2023-10-03'], // TRX
+            [12, 2.00, '2023-10-01'], [12, 2.10, '2023-10-02'], [12, 2.20, '2023-10-03'], // ENJ
+        ];
+
+        foreach ($cours as $data) {
+            DB::table('historique_cours')->insert([
+                'id_cryptomonnaie' => $data[0],
+                'prix' => $data[1],
+                'date_enregistrement' => $data[2],
+            ]);
+        }
+
         foreach ($users as $user) {
             // Insérer une tentative pour chaque utilisateur et récupérer son ID unique
             $idTentative = DB::table('tentatives')->insertGetId([
@@ -74,7 +98,7 @@ class CryptoSeeder extends Seeder
             DB::table('users')->insert([
                 'username' => $user['username'],
                 'email' => $user['email'],
-                'password' => $user['password'],
+                'password' => bcrypt($user['password']),
                 'id_tentatives' => $idTentative,
                 'id_role' => $user['id_role'],
             ]);

@@ -2,12 +2,13 @@ package itu.p16.crypto.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 //import itu.p16.crypto.firestore.FirestoreEntityListener;
+import itu.p16.crypto.firebase.listener.UserListener;
 import jakarta.persistence.*;
 
 import java.util.Map;
 
 @Entity
-//@EntityListeners(FirestoreEntityListener.class)
+//@EntityListeners(UserListener.class)
 public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -23,9 +24,20 @@ public class Users {
     @Basic
     @Column(name = "password", nullable = false, length = 255)
     private String password;
-    @ManyToOne
-    @JoinColumn(name = "id_tentatives", referencedColumnName = "id_tentatives", nullable = false)
-    private Tentatives tentativesByIdTentatives;
+    @Basic
+    @Column(name = "id_tentatives", nullable = false)
+    private Integer idTentatives;
+
+    @Column(name = "is_sync_from_firestore", nullable = false)
+    private boolean isSyncFromFirestore = false;
+
+    public boolean isSyncFromFirestore() {
+        return isSyncFromFirestore;
+    }
+
+    public void setSyncFromFirestore(boolean syncFromFirestore) {
+        isSyncFromFirestore = syncFromFirestore;
+    }
 
     public Long getIdUsers() {
         return idUsers;
@@ -59,12 +71,12 @@ public class Users {
         this.password = password;
     }
 
-    public Tentatives getTentativesByIdTentatives() {
-        return tentativesByIdTentatives;
+    public Integer getIdTentatives() {
+        return idTentatives;
     }
 
-    public void setTentativesByIdTentatives(Tentatives tentativesByIdTentatives) {
-        this.tentativesByIdTentatives = tentativesByIdTentatives;
+    public void setIdTentatives(Integer idTentatives) {
+        this.idTentatives = idTentatives;
     }
 
     public static Users fromMap(Map<String, Object> map) {

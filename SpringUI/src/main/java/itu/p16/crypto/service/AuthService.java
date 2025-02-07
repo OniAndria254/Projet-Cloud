@@ -2,6 +2,7 @@ package itu.p16.crypto.service;
 
 import itu.p16.crypto.entity.Users;
 import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.firebase.firestore.users.UsersSyncService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -25,6 +26,7 @@ public class AuthService {
 
     @Value("${laravel.api.url}")
     private String laravelApiUrl;
+
 
     public AuthService(RestTemplate restTemplate, HttpSession httpSession) {
         this.restTemplate = restTemplate;
@@ -57,7 +59,6 @@ public class AuthService {
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(laravelApiUrl + "/api/register", requestEntity, String.class);
-
             return response.getStatusCode().is2xxSuccessful(); // Retourne true si l'inscription est réussie
         } catch (Exception e) {
             System.out.println("Erreur lors de l'appel à l'API Laravel : " + e.getMessage());

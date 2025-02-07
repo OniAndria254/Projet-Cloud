@@ -1,11 +1,13 @@
 package itu.p16.crypto.entity;
 
+import itu.p16.crypto.firebase.listener.PortefeuilleListener;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
+@EntityListeners(PortefeuilleListener.class)
 public class Portefeuille {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -20,6 +22,17 @@ public class Portefeuille {
     @Basic
     @Column(name = "id_utilisateur", nullable = false)
     private Integer idUtilisateur;
+
+    @Column(name = "is_sync_from_firestore", nullable = false)
+    private boolean isSyncFromFirestore = false;
+
+    public boolean isSyncFromFirestore() {
+        return isSyncFromFirestore;
+    }
+
+    public void setSyncFromFirestore(boolean syncFromFirestore) {
+        isSyncFromFirestore = syncFromFirestore;
+    }
 
     public Integer getIdPortefeuille() {
         return idPortefeuille;

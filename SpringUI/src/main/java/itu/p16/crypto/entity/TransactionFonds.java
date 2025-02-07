@@ -1,11 +1,13 @@
 package itu.p16.crypto.entity;
 
+import itu.p16.crypto.firebase.listener.TransactionFondsListener;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
+@EntityListeners(TransactionFondsListener.class)
 @Table(name = "transaction_fonds", schema = "public", catalog = "cloud")
 public class TransactionFonds {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,17 @@ public class TransactionFonds {
     @ManyToOne
     @JoinColumn(name = "id_type_transaction", referencedColumnName = "id_type_transaction", nullable = false)
     private TypeTransaction typeTransactionByIdTypeTransaction;
+
+    @Column(name = "is_sync_from_firestore", nullable = false)
+    private boolean isSyncFromFirestore = false;
+
+    public boolean isSyncFromFirestore() {
+        return isSyncFromFirestore;
+    }
+
+    public void setSyncFromFirestore(boolean syncFromFirestore) {
+        isSyncFromFirestore = syncFromFirestore;
+    }
 
     public Integer getIdTransactionFonds() {
         return idTransactionFonds;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import itu.p16.crypto.entity.Users;
 import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.firebase.firestore.users.UsersSyncService;
 import itu.p16.crypto.service.AuthService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
+    private final UsersSyncService usersSyncService;
+
     @Autowired
     private HttpSession session;
     @Autowired
@@ -35,7 +38,8 @@ public class AuthController {
     private final ObjectMapper objectMapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    public AuthController(AuthService authService) {
+    public AuthController(UsersSyncService usersSyncService, AuthService authService) {
+        this.usersSyncService = usersSyncService;
         this.authService = authService;
     }
 
@@ -97,6 +101,8 @@ public class AuthController {
                 if (responseBody.containsKey("user")) {
                     Map<String, Object> userMap = (Map<String, Object>) responseBody.get("user");
                     Users user = Users.fromMap(userMap);
+                    usersSyncService.saveAsDocument(user);
+
                     session.setAttribute("user", user);
                     System.out.println("Utilisateur stocké en session : " + user);
                 }
