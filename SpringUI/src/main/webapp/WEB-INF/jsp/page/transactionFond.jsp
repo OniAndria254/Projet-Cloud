@@ -338,22 +338,33 @@
           <%
             if (tfs != null) {
               for (TransactionFonds tf : tfs) {
-                  String status = tf.getStatutByIdStatut().getNom();
-                  String statusColor = "";
-                  if(status.equalsIgnoreCase("en attente")) {
-                      statusColor = "#ffc107"; 
-                  } else if(status.equalsIgnoreCase("accepte")) {
-                      statusColor = "#28a745"; 
-                  } else if(status.equalsIgnoreCase("refuse")) {
-                      statusColor = "#dc3545"; 
+                  int status = tf.getIdStatut();
+                  String status2 = "";
+                  String statusColor="";
+                  if(status==1) {
+                      statusColor = "#ffc107";
+                      status2="En attente";
+                  } else if(status==2) {
+                      statusColor = "#28a745";
+                      status2="Valider";
+                  } else {
+                      statusColor = "#dc3545";
+                      status2="Refuser";
+                  }
+                  int type=tf.getIdTypeTransaction();
+                  String rep="";
+                  if(type==1){
+                    rep="Depot";
+                  } else if (type==2) {
+                    rep="Retrait";
                   }
           %>
           <div class="table-row d-flex">
             <div class="col"><%= tf.getIdTransactionFonds() %></div>
-            <div class="col"><%= tf.getTypeTransactionByIdTypeTransaction().getNom() %></div>
+            <div class="col"><%= rep %></div>
             <div class="col">$<%= tf.getMontant() %></div>
             <div class="col"><%= tf.getDateTransaction() %></div>
-            <div class="col" style="color: <%= statusColor %>;"><%= status %></div>
+            <div class="col" style="color: <%= statusColor %>;"><%= status2 %></div>
           </div>
           <%
               }

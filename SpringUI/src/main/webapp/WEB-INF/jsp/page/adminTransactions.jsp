@@ -246,10 +246,17 @@
           <%
             if(demandes != null){
               for(TransactionFonds tf : demandes) {
+                  int type=tf.getIdTypeTransaction();
+                  String rep="";
+                  if(type==1){
+                    rep="Depot";
+                  } else if (type==2) {
+                    rep="Retrait";
+                  }
           %>
           <tr>
             <td><%= tf.getIdTransactionFonds() %></td>
-            <td><%= tf.getTypeTransactionByIdTypeTransaction().getNom() %></td>
+            <td><%= rep %></td>
             <td>$<%= tf.getMontant() %></td>
             <td><%= tf.getDateTransaction() %></td>
             <td>
