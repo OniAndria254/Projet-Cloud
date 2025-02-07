@@ -1,3 +1,5 @@
+<%@ page import="itu.p16.crypto.entity.TransactionSummaryDTO" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -312,16 +314,15 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Utilisation des balises <%= %> pour afficher les données -->
           <% 
             List<TransactionSummaryDTO> summaries = (List<TransactionSummaryDTO>) request.getAttribute("summaries");
             for (TransactionSummaryDTO summary : summaries) {
           %>
             <tr>
-              <td><%= summary.getUser() %></td>
-              <td><%= summary.getTotalAchat() %></td>
-              <td><%= summary.getTotalVente() %></td>
-              <td><%= summary.getValeurPortefeuille() %></td>
+              <td><%= summary.getIdUtilisateur() %></td>
+              <td><%= summary.getNombreAchats() %></td>
+              <td><%= summary.getNombreVentes() %></td>
+              <td><%= summary.getValeurPorteFeuille() %></td>
             </tr>
           <% } %>
         </tbody>
