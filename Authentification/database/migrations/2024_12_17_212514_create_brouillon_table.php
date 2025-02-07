@@ -9,7 +9,7 @@ class CreateBrouillonTable extends Migration
     {
         Schema::create('brouillon', function (Blueprint $table) {
             $table->id('id_brouillon'); // Clé primaire
-            $table->string('email', 50)->unique(); // Email unique
+            $table->string('email', 50); 
             $table->string('username', 50);
             $table->string('password', 255);
         });

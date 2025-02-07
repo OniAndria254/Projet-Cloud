@@ -1,22 +1,49 @@
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\CryptoApplication.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Cryptomonnaie.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Users.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\PortefeuilleCrypto.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TransactionCrypto.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\AuthService.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\AuthController.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Portefeuille.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Sessions.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\ApiProxyService.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\HomeController.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Tentatives.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TypeTransaction.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\LogginErrorException.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\HistoriqueCours.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Config.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Brouillon.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\config\AppConfig.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Statut.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TransactionFonds.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\NoUserLoggedException.java
-F:\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\ServletInitializer.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\TransactionCryptoRepositoryImpl.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\HistoriqueCoursRepository.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\TransactionCryptoRepositoryCustom.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\AuthService.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\TypeTransactionRepository.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Config.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Statut.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\Redirection.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\UnallowedRoleException.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\CommissionController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\GlobalExceptionHandler.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Tentatives.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\AnalyseController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\LogginErrorException.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\UserRepository.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\PortefeuilleCrypto.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\HistoriqueCours.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\TransactionCryptoRepository2.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\PortefeuilleRepository.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\CryptoApplication.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\PortefeuilleCryptoRepository.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\TypeTransactionController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Portefeuille.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Cryptomonnaie.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TypeTransaction.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\exception\NoUserLoggedException.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\TransactionService.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\HomeController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\TransactionController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Brouillon.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\CryptoService.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\AuthController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TransactionFonds.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\ServletInitializer.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\config\AppConfig.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\UserController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\ApiProxyService.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\AdminTransactionController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\CommissionRepository.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\GraphController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Sessions.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\TransactionFondsRepository.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\TransactionCrypto.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Users.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\TransactionCryptoRepository.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\entity\Commission.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\service\AnalyseService.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\controller\CryptoController.java
+C:\Users\GP 65\Documents\GitHub\Projet-Cloud\SpringUI\src\main\java\itu\p16\crypto\repository\CryptomonnaieRepository.java

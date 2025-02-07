@@ -114,3 +114,104 @@ WHERE
     Id_cryptomonnaie = 1;
 
 
+SELECT 
+    id_utilisateur,
+    SUM(CASE WHEN Id_type_transaction = 3 THEN 1 ELSE 0 END) AS nombre_achats,
+    SUM(CASE WHEN Id_type_transaction = 4 THEN 1 ELSE 0 END) AS nombre_ventes
+FROM 
+    transaction_crypto
+GROUP BY 
+    id_utilisateur;
+
+SELECT 
+    t.id_utilisateur,
+    SUM(CASE WHEN t.Id_type_transaction = 3 THEN 1 ELSE 0 END) AS nombre_achats,
+    SUM(CASE WHEN t.Id_type_transaction = 4 THEN 1 ELSE 0 END) AS nombre_ventes,
+    COALESCE(SUM(CASE 
+                    WHEN f.Id_type_transaction = 1 AND f.Id_statut = 2 THEN f.montant 
+                    WHEN f.Id_type_transaction = 2 AND f.Id_statut = 2 THEN -f.montant 
+                    ELSE 0 
+                 END), 0) AS valeur_porte_feuille
+FROM 
+    transaction_crypto t
+LEFT JOIN 
+    transaction_fonds f ON t.id_utilisateur = f.id_utilisateur
+GROUP BY 
+    t.id_utilisateur;
+
+
+SELECT 
+    t.id_utilisateur,
+    SUM(CASE WHEN t.Id_type_transaction = 3 THEN 1 ELSE 0 END) AS nombre_achats,
+    SUM(CASE WHEN t.Id_type_transaction = 4 THEN 1 ELSE 0 END) AS nombre_ventes,
+    COALESCE(SUM(CASE 
+                    WHEN f.Id_type_transaction = 1 AND f.Id_statut = 2 THEN f.montant 
+                    WHEN f.Id_type_transaction = 2 AND f.Id_statut = 2 THEN -f.montant 
+                    ELSE 0 
+                 END), 0) 
+    + COALESCE(SUM(CASE 
+                    WHEN t.Id_type_transaction = 4 THEN t.montant_total 
+                    WHEN t.Id_type_transaction = 3 THEN -t.montant_total 
+                    ELSE 0 
+                 END), 0) AS valeur_porte_feuille
+FROM 
+    transaction_crypto t
+LEFT JOIN 
+    transaction_fonds f ON t.id_utilisateur = f.id_utilisateur
+GROUP BY 
+    t.id_utilisateur;
+
+WITH fonds_aggreg AS (
+    SELECT 
+        id_utilisateur,
+        COALESCE(SUM(CASE 
+                        WHEN Id_type_transaction = 1 AND Id_statut = 2 THEN montant 
+                        WHEN Id_type_transaction = 2 AND Id_statut = 2 THEN -montant 
+                        ELSE 0 
+                     END), 0) AS valeur_fonds
+    FROM transaction_fonds
+    GROUP BY id_utilisateur
+)
+
+SELECT 
+    t.id_utilisateur,
+    SUM(CASE WHEN t.Id_type_transaction = 3 THEN 1 ELSE 0 END) AS nombre_achats,
+    SUM(CASE WHEN t.Id_type_transaction = 4 THEN 1 ELSE 0 END) AS nombre_ventes,
+    COALESCE(fa.valeur_fonds, 0) 
+    + SUM(CASE 
+            WHEN t.Id_type_transaction = 4 THEN t.montant_total  -- Ajoute le montant des ventes
+            WHEN t.Id_type_transaction = 3 THEN -t.montant_total -- Soustrait le montant des achats
+            ELSE 0 
+         END) AS valeur_porte_feuille
+FROM transaction_crypto t
+LEFT JOIN fonds_aggreg fa ON t.id_utilisateur = fa.id_utilisateur
+GROUP BY t.id_utilisateur, fa.valeur_fonds;
+
+WITH fonds_aggreg AS (
+    SELECT 
+        id_utilisateur,
+        COALESCE(SUM(CASE 
+                        WHEN Id_type_transaction = 1 AND Id_statut = 2 THEN montant 
+                        WHEN Id_type_transaction = 2 AND Id_statut = 2 THEN -montant 
+                        ELSE 0 
+                     END), 0) AS valeur_fonds
+    FROM transaction_fonds
+    WHERE date_transaction <= '2025-03-06 23:59:59'  -- Remplacez par la date limite souhaitée
+    GROUP BY id_utilisateur
+)
+
+SELECT 
+    t.id_utilisateur,
+    SUM(CASE WHEN t.Id_type_transaction = 3 THEN 1 ELSE 0 END) AS nombre_achats,
+    SUM(CASE WHEN t.Id_type_transaction = 4 THEN 1 ELSE 0 END) AS nombre_ventes,
+    COALESCE(fa.valeur_fonds, 0) 
+    + SUM(CASE 
+            WHEN t.Id_type_transaction = 4 THEN t.montant_total  -- Ajoute le montant des ventes
+            WHEN t.Id_type_transaction = 3 THEN -t.montant_total -- Soustrait le montant des achats
+            ELSE 0 
+         END) AS valeur_porte_feuille
+FROM transaction_crypto t
+LEFT JOIN fonds_aggreg fa ON t.id_utilisateur = fa.id_utilisateur
+WHERE t.date_transaction <= '2025-03-06 23:59:59'  -- Remplacez par la date limite souhaitée
+GROUP BY t.id_utilisateur, fa.valeur_fonds;
+

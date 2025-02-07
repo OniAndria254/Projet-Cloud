@@ -270,8 +270,8 @@
   <!-- Barre de navigation -->
   <nav class="navbar">
     <div class="nav-links">
-      <a href="<%= request.getContextPath() %>/transaction/buy-sell">
-          <i class="fas fa-dollar-sign"></i> Transaction
+      <a href="<%= request.getContextPath() %>/transaction/histotransaction">
+        <i class="fas fa-dollar-sign"></i> Liste transaction
         </a>
         <a href="<%= request.getContextPath() %>/graphic/graphe">
           <i class="fas fa-chart-line"></i> Market

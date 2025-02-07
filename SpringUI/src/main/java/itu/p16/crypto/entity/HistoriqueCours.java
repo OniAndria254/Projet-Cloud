@@ -3,14 +3,11 @@ package itu.p16.crypto.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import itu.p16.crypto.firebase.listener.HistoriqueCoursListener;
+import jakarta.persistence.*;
 
 @Entity
+@EntityListeners(HistoriqueCoursListener.class)
 @Table(name = "historique_cours")
 public class HistoriqueCours {
 
@@ -27,6 +24,17 @@ public class HistoriqueCours {
 
     @Column(name = "id_cryptomonnaie", nullable = false)
     private Integer idCryptomonnaie;
+
+    @Column(name = "is_sync_from_firestore", nullable = false)
+    private boolean isSyncFromFirestore = false;
+
+    public boolean isSyncFromFirestore() {
+        return isSyncFromFirestore;
+    }
+
+    public void setSyncFromFirestore(boolean syncFromFirestore) {
+        isSyncFromFirestore = syncFromFirestore;
+    }
 
  
     public Integer getIdHistoriqueCours() {

@@ -1,10 +1,12 @@
 package itu.p16.crypto.entity;
 
+import itu.p16.crypto.firebase.listener.PortefeuilleCryptoListener;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
 @Entity
+@EntityListeners(PortefeuilleCryptoListener.class)
 @Table(name = "portefeuille_crypto", schema = "public", catalog = "cloud")
 public class PortefeuilleCrypto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +19,20 @@ public class PortefeuilleCrypto {
     @Basic
     @Column(name = "quantite", nullable = false, precision = 2)
     private BigDecimal quantite;
-    @ManyToOne
-    @JoinColumn(name = "id_cryptomonnaie", referencedColumnName = "id_cryptomonnaie", nullable = false)
-    private Cryptomonnaie cryptomonnaieByIdCryptomonnaie;
+    @Basic
+    @Column(name = "id_cryptomonnaie", nullable = false)
+    private Integer idCryptomonnaie;
+
+    @Column(name = "is_sync_from_firestore", nullable = false)
+    private boolean isSyncFromFirestore = false;
+
+    public boolean isSyncFromFirestore() {
+        return isSyncFromFirestore;
+    }
+
+    public void setSyncFromFirestore(boolean syncFromFirestore) {
+        isSyncFromFirestore = syncFromFirestore;
+    }
 
     public Integer getIdPortefeuilleCrypto() {
         return idPortefeuilleCrypto;
@@ -45,11 +58,11 @@ public class PortefeuilleCrypto {
         this.quantite = quantite;
     }
 
-    public Cryptomonnaie getCryptomonnaieByIdCryptomonnaie() {
-        return cryptomonnaieByIdCryptomonnaie;
+    public Integer getIdCryptomonnaie() {
+        return idCryptomonnaie;
     }
 
-    public void setCryptomonnaieByIdCryptomonnaie(Cryptomonnaie cryptomonnaieByIdCryptomonnaie) {
-        this.cryptomonnaieByIdCryptomonnaie = cryptomonnaieByIdCryptomonnaie;
+    public void setIdCryptomonnaie(Integer idCryptomonnaie) {
+        this.idCryptomonnaie = idCryptomonnaie;
     }
 }

@@ -68,22 +68,22 @@ public class AdminTransactionController {
             if ("accept".equalsIgnoreCase(action)) {
                 // Pour un dépôt accepté, ajoutez le montant au solde du portefeuille.
                 // Pour un retrait accepté, soustrayez le montant.
-                if (tf.getTypeTransactionByIdTypeTransaction().getNom().equalsIgnoreCase("depot")) {
+                if (tf.getIdTypeTransaction() == 1) {
                     portefeuilleRepo.updateSoldeForSell(tf.getIdUtilisateur(), tf.getMontant());
-                } else if (tf.getTypeTransactionByIdTypeTransaction().getNom().equalsIgnoreCase("retrait")) {
+                } else if (tf.getIdTypeTransaction() == 2) {
                     portefeuilleRepo.updateSoldeForBuy(tf.getIdUtilisateur(), tf.getMontant());
                 }
                 // Mettre à jour le statut à "accepté" (par exemple, 2)
-                Statut statutAccepte = new Statut();
-                statutAccepte.setIdStatut(2); // 2 = accepté
-                statutAccepte.setNom("accepté");
-                tf.setStatutByIdStatut(statutAccepte);
+//                Statut statutAccepte = new Statut();
+//                statutAccepte.setIdStatut(2); // 2 = accepté
+//                statutAccepte.setNom("accepté");
+                tf.setIdStatut(2);
             } else if ("refuse".equalsIgnoreCase(action)) {
                 // Mettre à jour le statut à "refusé" (par exemple, 3)
-                Statut statutRefuse = new Statut();
-                statutRefuse.setIdStatut(3); // 3 = refusé
-                statutRefuse.setNom("refusé");
-                tf.setStatutByIdStatut(statutRefuse);
+//                Statut statutRefuse = new Statut();
+//                statutRefuse.setIdStatut(3); // 3 = refusé
+//                statutRefuse.setNom("refusé");
+                tf.setIdStatut(3);
             }
             transactionFondsRepository.save(tf);
             model.addAttribute("successMessage", "La demande a été " + ("accept".equalsIgnoreCase(action) ? "acceptée" : "refusée") + " avec succès.");

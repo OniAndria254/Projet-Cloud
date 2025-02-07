@@ -1,11 +1,14 @@
 package itu.p16.crypto.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import itu.p16.crypto.firebase.listener.TransactionFondsListener;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
+@EntityListeners(TransactionFondsListener.class)
 @Table(name = "transaction_fonds", schema = "public", catalog = "cloud")
 public class TransactionFonds {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +27,21 @@ public class TransactionFonds {
     @Basic
     @Column(name = "token_validation", nullable = true, length = 50)
     private String tokenValidation;
-    @ManyToOne
-    @JoinColumn(name = "id_statut", referencedColumnName = "id_statut", nullable = false)
-    private Statut statutByIdStatut;
-    @ManyToOne
-    @JoinColumn(name = "id_type_transaction", referencedColumnName = "id_type_transaction", nullable = false)
-    private TypeTransaction typeTransactionByIdTypeTransaction;
+    @Column(name = "id_statut")
+    private Integer idStatut;
+    @Column(name = "id_type_transaction")
+    private Integer idTypeTransaction;
+
+    @Column(name = "is_sync_from_firestore", nullable = false)
+    private boolean isSyncFromFirestore = false;
+
+    public boolean isSyncFromFirestore() {
+        return isSyncFromFirestore;
+    }
+
+    public void setSyncFromFirestore(boolean syncFromFirestore) {
+        isSyncFromFirestore = syncFromFirestore;
+    }
 
     public Integer getIdTransactionFonds() {
         return idTransactionFonds;
@@ -71,19 +83,19 @@ public class TransactionFonds {
         this.tokenValidation = tokenValidation;
     }
 
-    public Statut getStatutByIdStatut() {
-        return statutByIdStatut;
+    public Integer getIdStatut() {
+        return idStatut;
     }
 
-    public void setStatutByIdStatut(Statut statutByIdStatut) {
-        this.statutByIdStatut = statutByIdStatut;
+    public void setIdStatut(Integer idStatut) {
+        this.idStatut = idStatut;
     }
 
-    public TypeTransaction getTypeTransactionByIdTypeTransaction() {
-        return typeTransactionByIdTypeTransaction;
+    public Integer getIdTypeTransaction() {
+        return idTypeTransaction;
     }
 
-    public void setTypeTransactionByIdTypeTransaction(TypeTransaction typeTransactionByIdTypeTransaction) {
-        this.typeTransactionByIdTypeTransaction = typeTransactionByIdTypeTransaction;
+    public void setIdTypeTransaction(Integer idTypeTransaction) {
+        this.idTypeTransaction = idTypeTransaction;
     }
 }

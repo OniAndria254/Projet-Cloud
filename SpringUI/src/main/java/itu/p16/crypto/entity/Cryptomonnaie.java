@@ -3,15 +3,11 @@ package itu.p16.crypto.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import itu.p16.crypto.firebase.listener.CryptomonnaieListener;
+import jakarta.persistence.*;
 
 @Entity
+@EntityListeners(CryptomonnaieListener.class)
 @Table(name = "cryptomonnaie")
 public class Cryptomonnaie {
 
@@ -35,6 +31,16 @@ public class Cryptomonnaie {
     @Transient
     private BigDecimal currentPrice;
 
+    @Column(name = "is_sync_from_firestore", nullable = false)
+    private boolean isSyncFromFirestore = false;
+
+    public boolean isSyncFromFirestore() {
+        return isSyncFromFirestore;
+    }
+
+    public void setSyncFromFirestore(boolean syncFromFirestore) {
+        isSyncFromFirestore = syncFromFirestore;
+    }
     public Integer getIdCryptomonnaie() {
         return idCryptomonnaie;
     }

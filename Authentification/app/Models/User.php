@@ -19,6 +19,7 @@ class User extends Authenticatable
         'username',
         'password',
         'id_tentatives',
+        'id_role'
     ];
 
     public $timestamps = false;
@@ -30,4 +31,4 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Tentatives::class, 'id_tentatives', 'id_tentatives');
     }
-}
+}   

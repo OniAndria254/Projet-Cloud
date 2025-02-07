@@ -237,8 +237,8 @@ input[type="checkbox"]:checked::after {
   <!-- Barre de navigation -->
   <nav class="navbar">
     <div class="nav-links">
-      <a href="<%= request.getContextPath() %>/transaction/buy-sell">
-          <i class="fas fa-dollar-sign"></i> Transaction
+     <a href="<%= request.getContextPath() %>/transaction/histotransaction">
+        <i class="fas fa-dollar-sign"></i> Liste transaction
         </a>
         <a href="<%= request.getContextPath() %>/graphic/graphe">
           <i class="fas fa-chart-line"></i> Market
@@ -265,6 +265,13 @@ input[type="checkbox"]:checked::after {
         <a href="#">
           <i class="fas fa-history"></i> Trade History
         </a>
+    </div>
+    <div class="right-section">
+      <label class="theme-toggle">
+        <input id="themeToggle" onclick="toggleTheme()" type="checkbox" />
+        <span class="slider"></span>
+        <i class="fas fa-moon icon" id="themeIcon"></i>
+      </label>
     </div>
   </nav>
   

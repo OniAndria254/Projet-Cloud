@@ -13,8 +13,6 @@ public class Tentatives {
     @Basic
     @Column(name = "tentatives", nullable = false)
     private Integer tentatives;
-    @OneToMany(mappedBy = "tentativesByIdTentatives")
-    private Collection<Users> usersByIdTentatives;
 
     public Long getIdTentatives() {
         return idTentatives;
@@ -52,11 +50,4 @@ public class Tentatives {
         return result;
     }
 
-    public Collection<Users> getUsersByIdTentatives() {
-        return usersByIdTentatives;
-    }
-
-    public void setUsersByIdTentatives(Collection<Users> usersByIdTentatives) {
-        this.usersByIdTentatives = usersByIdTentatives;
-    }
 }

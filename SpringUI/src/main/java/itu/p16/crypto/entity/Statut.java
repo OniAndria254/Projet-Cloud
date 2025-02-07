@@ -13,9 +13,6 @@ public class Statut {
     @Basic
     @Column(name = "nom", nullable = false, length = 50)
     private String nom;
-    @OneToMany(mappedBy = "statutByIdStatut")
-    private Collection<TransactionFonds> transactionFondsByIdStatut;
-
     public Integer getIdStatut() {
         return idStatut;
     }
@@ -52,11 +49,4 @@ public class Statut {
         return result;
     }
 
-    public Collection<TransactionFonds> getTransactionFondsByIdStatut() {
-        return transactionFondsByIdStatut;
-    }
-
-    public void setTransactionFondsByIdStatut(Collection<TransactionFonds> transactionFondsByIdStatut) {
-        this.transactionFondsByIdStatut = transactionFondsByIdStatut;
-    }
 }

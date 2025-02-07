@@ -62,6 +62,12 @@ public class TransactionController {
     }
 
 
+    @GetMapping("/histotransaction")
+    public String goToHistoriqueTransaction() throws Exception {
+        return "page/histotransaction";
+    }
+
+
     // achat et vente de crypto
     @GetMapping("/buy-sell")
     public String showBuySellPage(Model model) throws NoUserLoggedException {
@@ -195,13 +201,13 @@ public class TransactionController {
                 portefeuilleRepo.save(nouveauPortefeuille);
       
             }
-            TypeTransaction typeTransaction = new TypeTransaction();
-            typeTransaction.setIdTypeTransaction(1); // 1 = dépôt (selon vos données)
-            typeTransaction.setNom("depot");
+//            TypeTransaction typeTransaction = new TypeTransaction();
+//            typeTransaction.setIdTypeTransaction(1); // 1 = dépôt (selon vos données)
+//            typeTransaction.setNom("depot");
 
-            Statut statutEnAttente = new Statut();
-            statutEnAttente.setIdStatut(1); // 1 = en attente
-            statutEnAttente.setNom("en attente");
+//            Statut statutEnAttente = new Statut();
+//            statutEnAttente.setIdStatut(1); // 1 = en attente
+//            statutEnAttente.setNom("en attente");
 
             Date dateTransaction = new Date(System.currentTimeMillis());
 
@@ -210,8 +216,10 @@ public class TransactionController {
             tf.setMontant(amount);
             tf.setDateTransaction(dateTransaction);
             tf.setTokenValidation(null);
-            tf.setTypeTransactionByIdTypeTransaction(typeTransaction);
-            tf.setStatutByIdStatut(statutEnAttente);
+            tf.setIdTypeTransaction(1);
+//            tf.setTypeTransactionByIdTypeTransaction(typeTransaction);
+//            tf.setStatutByIdStatut(statutEnAttente);
+            tf.setIdStatut(1);
 
             transactionFondsRepository.save(tf);
             model.addAttribute("success", "Votre demande de dépôt a été soumise et est en attente de validation.");
@@ -254,13 +262,13 @@ public class TransactionController {
                 return "page/transactionFond";
             }
 
-            TypeTransaction typeTransaction = new TypeTransaction();
-            typeTransaction.setIdTypeTransaction(2); // 2 = retrait
-            typeTransaction.setNom("retrait");
+//            TypeTransaction typeTransaction = new TypeTransaction();
+//            typeTransaction.setIdTypeTransaction(2); // 2 = retrait
+//            typeTransaction.setNom("retrait");
 
-            Statut statutEnAttente = new Statut();
-            statutEnAttente.setIdStatut(1); // 1 = en attente
-            statutEnAttente.setNom("en attente");
+//            Statut statutEnAttente = new Statut();
+//            statutEnAttente.setIdStatut(1); // 1 = en attente
+//            statutEnAttente.setNom("en attente");
 
             Date dateTransaction = new Date(System.currentTimeMillis());
 
@@ -269,8 +277,10 @@ public class TransactionController {
             tf.setMontant(amount);
             tf.setDateTransaction(dateTransaction);
             tf.setTokenValidation(null);
-            tf.setTypeTransactionByIdTypeTransaction(typeTransaction);
-            tf.setStatutByIdStatut(statutEnAttente);
+//            tf.setTypeTransactionByIdTypeTransaction(typeTransaction);
+            tf.setIdTypeTransaction(2);
+//            tf.setStatutByIdStatut(statutEnAttente);
+            tf.setIdStatut(1);
 
             transactionFondsRepository.save(tf);
 
