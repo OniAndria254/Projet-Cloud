@@ -46,12 +46,12 @@ public class FirebaseInitializer {
         log.info("Starting Firebase entity initialization...");
 
 //        historiqueCoursSyncService.syncWithFirebase();
-        usersSyncService.syncWithFirebase();
-        cryptomonnaieSyncService.syncWithFirebase();
-        portefeuilleSyncService.syncWithFirebase();
-        transactionCryptoSyncService.syncWithFirebase();
-
-        transactionFondsSyncService.syncWithFirebase();
+//        usersSyncService.syncWithFirebase();
+//        cryptomonnaieSyncService.syncWithFirebase();
+//        portefeuilleSyncService.syncWithFirebase();
+//        transactionCryptoSyncService.syncWithFirebase();
+//
+//        transactionFondsSyncService.syncWithFirebase();
 //
 
         log.info("Firebase entity tests complete.");
@@ -75,29 +75,6 @@ public class FirebaseInitializer {
         log.info("Updated HistoriqueCours: " + retrievedEntity);
     }
 
-    private void testTransactionFonds() {
-
-        Statut statut = statutRepository.findAll().get(0);
-        TypeTransaction typeTransaction = typeTransactionRepository.findAll().get(0);
-
-        TransactionFonds entity = new TransactionFonds();
-        entity.setIdUtilisateur(1);
-        entity.setMontant(new BigDecimal("500.00"));
-        entity.setDateTransaction(java.sql.Date.valueOf(LocalDate.now()));
-        entity.setTokenValidation("TOKEN123");
-        entity.setStatutByIdStatut(statut);
-        entity.setTypeTransactionByIdTypeTransaction(typeTransaction);
-
-        TransactionFonds savedEntity = transactionFondsRepository.save(entity);
-
-        log.info("Saved TransactionFonds: " + savedEntity);
-
-        savedEntity.setMontant(new BigDecimal("750.00"));
-        transactionFondsRepository.save(savedEntity);
-
-        TransactionFonds retrievedEntity = transactionFondsRepository.findById(savedEntity.getIdTransactionFonds()).orElse(null);
-        log.info("Updated TransactionFonds: " + retrievedEntity);
-    }
 
     public void testGetAll() {
         List<HistoriqueCours> historiqueCoursList = historiqueCoursSyncService.getAllEntities();

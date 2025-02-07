@@ -34,8 +34,8 @@ public class TransactionFondsDocument implements TimestampedDocument {
         this.montant = transaction.getMontant();
         this.dateTransaction = transaction.getDateTransaction().toString();
         this.tokenValidation = transaction.getTokenValidation();
-        this.idStatut = transaction.getStatutByIdStatut().getIdStatut();
-        this.idTypeTransaction = transaction.getTypeTransactionByIdTypeTransaction().getIdTypeTransaction();
+        this.idStatut = transaction.getIdStatut();
+        this.idTypeTransaction = transaction.getIdTypeTransaction();
 
         this.createdAt = dateFormat.format(new Date());
         this.updatedAt = dateFormat.format(new Date());
@@ -49,13 +49,9 @@ public class TransactionFondsDocument implements TimestampedDocument {
         transaction.setDateTransaction(java.sql.Date.valueOf(dateTransaction));
         transaction.setTokenValidation(tokenValidation);
 
-        Statut statut = new Statut();
-        statut.setIdStatut(idStatut);
-        transaction.setStatutByIdStatut(statut);
+        transaction.setIdStatut(idStatut);
 
-        TypeTransaction typeTransaction = new TypeTransaction();
-        typeTransaction.setIdTypeTransaction(idTypeTransaction);
-        transaction.setTypeTransactionByIdTypeTransaction(typeTransaction);
+        transaction.setIdTypeTransaction(idTypeTransaction);
 
         return transaction;
     }

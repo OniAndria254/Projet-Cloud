@@ -14,10 +14,6 @@ public class TypeTransaction {
     @Basic
     @Column(name = "nom", nullable = false, length = 50)
     private String nom;
-    @OneToMany(mappedBy = "typeTransactionByIdTypeTransaction")
-    private Collection<TransactionCrypto> transactionCryptosByIdTypeTransaction;
-    @OneToMany(mappedBy = "typeTransactionByIdTypeTransaction")
-    private Collection<TransactionFonds> transactionFondsByIdTypeTransaction;
 
     public Integer getIdTypeTransaction() {
         return idTypeTransaction;
@@ -56,19 +52,4 @@ public class TypeTransaction {
         return result;
     }
 
-    public Collection<TransactionCrypto> getTransactionCryptosByIdTypeTransaction() {
-        return transactionCryptosByIdTypeTransaction;
-    }
-
-    public void setTransactionCryptosByIdTypeTransaction(Collection<TransactionCrypto> transactionCryptosByIdTypeTransaction) {
-        this.transactionCryptosByIdTypeTransaction = transactionCryptosByIdTypeTransaction;
-    }
-
-    public Collection<TransactionFonds> getTransactionFondsByIdTypeTransaction() {
-        return transactionFondsByIdTypeTransaction;
-    }
-
-    public void setTransactionFondsByIdTypeTransaction(Collection<TransactionFonds> transactionFondsByIdTypeTransaction) {
-        this.transactionFondsByIdTypeTransaction = transactionFondsByIdTypeTransaction;
-    }
 }

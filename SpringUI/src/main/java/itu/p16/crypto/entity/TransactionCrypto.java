@@ -29,12 +29,10 @@ public class TransactionCrypto {
     @Basic
     @Column(name = "date_transaction", nullable = false)
     private Date dateTransaction;
-    @ManyToOne
-    @JoinColumn(name = "id_type_transaction", referencedColumnName = "id_type_transaction", nullable = false)
-    private TypeTransaction typeTransactionByIdTypeTransaction;
-    @ManyToOne
-    @JoinColumn(name = "id_cryptomonnaie", referencedColumnName = "id_cryptomonnaie", nullable = false)
-    private Cryptomonnaie cryptomonnaieByIdCryptomonnaie;
+    @Column(name = "id_type_transaction")
+    private Integer idTypeTransaction;
+    @Column(name = "id_cryptomonnaie")
+    private Integer idCryptomonnaie;
 
     @Column(name = "is_sync_from_firestore", nullable = false)
     private boolean isSyncFromFirestore = false;
@@ -96,19 +94,19 @@ public class TransactionCrypto {
     }
 
 
-    public TypeTransaction getTypeTransactionByIdTypeTransaction() {
-        return typeTransactionByIdTypeTransaction;
+    public Integer getIdTypeTransaction() {
+        return idTypeTransaction;
     }
 
-    public void setTypeTransactionByIdTypeTransaction(TypeTransaction typeTransactionByIdTypeTransaction) {
-        this.typeTransactionByIdTypeTransaction = typeTransactionByIdTypeTransaction;
+    public void setIdTypeTransaction(Integer idTypeTransaction) {
+        this.idTypeTransaction = idTypeTransaction;
     }
 
-    public Cryptomonnaie getCryptomonnaieByIdCryptomonnaie() {
-        return cryptomonnaieByIdCryptomonnaie;
+    public Integer getIdCryptomonnaie() {
+        return idCryptomonnaie;
     }
 
-    public void setCryptomonnaieByIdCryptomonnaie(Cryptomonnaie cryptomonnaieByIdCryptomonnaie) {
-        this.cryptomonnaieByIdCryptomonnaie = cryptomonnaieByIdCryptomonnaie;
+    public void setIdCryptomonnaie(Integer idCryptomonnaie) {
+        this.idCryptomonnaie = idCryptomonnaie;
     }
 }

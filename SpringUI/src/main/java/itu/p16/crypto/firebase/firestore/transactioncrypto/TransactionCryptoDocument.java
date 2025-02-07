@@ -36,12 +36,9 @@ public class TransactionCryptoDocument implements TimestampedDocument {
         this.montantTotal = transaction.getMontantTotal();
         this.dateTransaction = dateFormat.format(transaction.getDateTransaction());
 
-        if (transaction.getTypeTransactionByIdTypeTransaction() != null) {
-            this.idTypeTransaction = transaction.getTypeTransactionByIdTypeTransaction().getIdTypeTransaction();
-        }
-        if (transaction.getCryptomonnaieByIdCryptomonnaie() != null) {
-            this.idCryptomonnaie = transaction.getCryptomonnaieByIdCryptomonnaie().getIdCryptomonnaie();
-        }
+        this.idTypeTransaction = transaction.getIdTypeTransaction();
+
+        this.idCryptomonnaie = transaction.getIdCryptomonnaie();
 
         this.createdAt = dateFormat.format(new Date());
         this.updatedAt = dateFormat.format(new Date());
