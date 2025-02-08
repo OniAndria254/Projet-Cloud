@@ -48,6 +48,8 @@ public class TransactionCryptoDocument implements TimestampedDocument {
         TransactionCrypto transaction = new TransactionCrypto();
         transaction.setIdTransactionCrypto(idTransactionCrypto);
         transaction.setIdUtilisateur(idUtilisateur);
+        transaction.setIdTypeTransaction(idTypeTransaction);
+        transaction.setIdCryptomonnaie(idCryptomonnaie);
         transaction.setQuantite(quantite);
         transaction.setPrixUnitaire(prixUnitaire);
         transaction.setMontantTotal(montantTotal);

@@ -92,11 +92,12 @@ return new class extends Migration {
             $table->foreign('id_cryptomonnaie')->references('id_cryptomonnaie')->on('cryptomonnaie');
         });
 
-        Schema::create('cryptofav', function (Blueprint $table) {
-            $table->id('id_cryptoofav');;
+        Schema::create('crypto_fav', function (Blueprint $table) {
+            $table->id('id');
             $table->unsignedBigInteger('id_cryptomonnaie');
             $table->unsignedBigInteger('id_utilisateur');
             $table->dateTime('date_ajout');
+            $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
             $table->foreign('id_utilisateur')->references('id_users')->on('users');
             $table->foreign('id_cryptomonnaie')->references('id_cryptomonnaie')->on('cryptomonnaie');
         });

@@ -1,43 +1,51 @@
-//package itu.p16.crypto.firebase.firestore.fav;
-//
-//import com.google.cloud.Timestamp;
-//import itu.crypto.entity.Account;
-//import itu.crypto.entity.Crypto;
-//import itu.crypto.entity.fav.CryptoFav;
-//import itu.p16.crypto.entity.Cryptomonnaie;
-//import itu.p16.crypto.entity.Users;
-//import itu.p16.crypto.firebase.firestore.generalisation.TimestampedDocument;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
-//
-//import java.time.ZoneOffset;
-//import java.util.Date;
-//
-//@Data
-//@NoArgsConstructor
-//public class CryptoFavDocument implements TimestampedDocument {
-//
-//    private Integer id;
-//    private Timestamp dateCryptoFav;
-//    private Cryptomonnaie crypto;
-//    private Users account;
-//
-//    private String createdAt;
-//    private String updatedAt;
-//
-//    public CryptoFavDocument(CryptoFav cryptoFav) {
-//        this.id = cryptoFav.getId();
-//        this.crypto = cryptoFav.getCrypto();
-//        this.account = cryptoFav.getAccount();
-//        this.dateCryptoFav = Timestamp.of(Date.from(cryptoFav.getDateCryptoFav().toInstant(ZoneOffset.UTC)));
-//    }
-//
-//    public CryptoFav toEntity() {
-//        return new CryptoFav(
-//                id,
-//                crypto,
-//                account,
-//                dateCryptoFav.toDate().toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime()
-//        );
-//    }
-//}
+package itu.p16.crypto.firebase.firestore.fav;
+
+import com.google.cloud.Timestamp;
+import itu.p16.crypto.entity.CryptoFav;
+import itu.p16.crypto.entity.CryptoFav;
+import itu.p16.crypto.entity.Users;
+import itu.p16.crypto.firebase.firestore.generalisation.TimestampedDocument;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.util.Date;
+
+@Data
+@NoArgsConstructor
+public class CryptoFavDocument implements TimestampedDocument {
+
+    private Integer id;  // ID Firestore (peut être String)
+    private Integer idCryptomonnaie;
+    private Integer idUtilisateur;
+    private Date dateAjout;
+    private boolean is_sync_from_firestore;
+
+    private String createdAt;
+    private String updatedAt;
+
+    public CryptoFavDocument(CryptoFav cryptoFav) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        this.id = cryptoFav.getId();
+        this.idCryptomonnaie = cryptoFav.getIdCryptomonnaie();
+        this.idUtilisateur = cryptoFav.getIdUtilisateur();
+        this.dateAjout = cryptoFav.getDateAjout();
+
+        this.is_sync_from_firestore = cryptoFav.isSyncFromFirestore();
+
+        this.createdAt = dateFormat.format(new Date());
+        this.updatedAt = dateFormat.format(new Date());
+    }
+
+    public CryptoFav toEntity() {
+        CryptoFav cryptoFav = new CryptoFav();
+        cryptoFav.setId(id);
+        cryptoFav.setIdCryptomonnaie(idCryptomonnaie);
+        cryptoFav.setIdUtilisateur(idUtilisateur);
+        cryptoFav.setDateAjout((java.sql.Date) dateAjout);
+        cryptoFav.setSyncFromFirestore(is_sync_from_firestore);
+        return cryptoFav;
+    }
+}
