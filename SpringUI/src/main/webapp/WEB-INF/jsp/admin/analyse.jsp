@@ -281,7 +281,7 @@ input[type="checkbox"]:checked::after {
     <form action="/analysis/results" method="post">
       <div class="row">
         <!-- Colonne Type d'analyse -->
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
           <div class="form-group">
             <label for="typeAnalyse">Type d'analyse:</label>
             <select id="typeAnalyse" name="typeAnalyse" class="form-control">
@@ -292,7 +292,7 @@ input[type="checkbox"]:checked::after {
               <option value="ecartType">Ecart-type</option>
             </select>
           </div>
-        </div>
+        </div> -->
         <!-- Colonne Date/heure min -->
         <div class="col-md-4">
           <div class="form-group">

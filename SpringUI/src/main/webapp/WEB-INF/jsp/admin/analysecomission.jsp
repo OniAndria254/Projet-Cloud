@@ -313,7 +313,7 @@
     <!-- Update the form -->
 <form id="analysisForm" action="javascript:void(0);">
   <div class="row">
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
           <div class="form-group">
               <label for="typeAnalyse">Type d'analyse:</label>
               <select id="typeAnalyse" name="typeAnalyse" class="form-control">
@@ -321,7 +321,7 @@
                   <option value="moyenne">Moyenne</option>
               </select>
           </div>
-      </div>
+      </div> -->
       <div class="col-md-3">
           <div class="form-group">
               <label for="cryptoSelect">Cryptos:</label>
@@ -361,9 +361,10 @@
         <thead>
           <tr>
             <th>Crypto</th>
-            <th>somme</th>
-            <th>moyenne</th>
-            <th>Moyenne</th>
+            <th>somme_commission_achat</th>
+            <th>somme_commission_vente</th>
+            <th>moyenne_commission_achat</th>
+            <th>moyenne_commission_vente</th>
         
           </tr>
         </thead>
@@ -400,6 +401,7 @@
                   "<td>" + (data.somme_commission_achat || "N/A") + "</td>" +
                   "<td>" + (data.somme_commission_vente || "N/A") + "</td>" +
                   "<td>" + (data.moyenne_commission_achat || "N/A") + "</td>" +
+                  "<td>" + (data.moyenne_commission_vente || "N/A") + "</td>" +
                   "</tr>";
               document.querySelector(".analysis-table tbody").innerHTML = resultRow;
           })
