@@ -165,49 +165,6 @@ public class AuthController {
         }
     }
 
-    // @PostMapping("/loginAdmin")
-    // public String loginAdmin(
-    //         @RequestParam("email") String email,
-    //         @RequestParam("password") String password,
-    //         HttpSession session,
-    //         Model model
-    // ) {
-    //     Map<String, String> loginData = new HashMap<>();
-    //     loginData.put("email", email);
-    //     loginData.put("password", password);
-
-    //     HttpHeaders headers = new HttpHeaders();
-    //     headers.setContentType(MediaType.APPLICATION_JSON);
-    //     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-    //     HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(loginData, headers);
-    //     RestTemplate restTemplate = new RestTemplate();
-
-    //     try {
-    //         ResponseEntity<Map> response = restTemplate.postForEntity(laravelApiUrl + "/api/loginAdmin", requestEntity, Map.class);
-
-    //         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-    //             Map<String, Object> responseBody = response.getBody();
-    //             if (responseBody.containsKey("user")) {
-    //                 Map<String, Object> userMap = (Map<String, Object>) responseBody.get("user");
-    //                 Users user = Users.fromMap(userMap);
-    //                 System.out.println(user.getIdRole());
-    //                 session.setAttribute("user", user);
-    //                 System.out.println("Admin connecté : " + user);
-    //             }
-    //             return "redirect:/admin/dashboard";
-    //         } else {
-    //             model.addAttribute("error", "Échec de la connexion administrateur.");
-    //             return "auth/admin-login";
-    //         }
-    //     } catch (Exception e) {
-    //         System.out.println(e.getMessage());
-    //         model.addAttribute("error", "Erreur lors de la connexion : " + e.getMessage());
-    //         return "auth/admin-login";
-    //     }
-    // }
-
-
     @PostMapping("/loginAdmin")
     public String loginAdmin(
             @RequestParam("email") String email,

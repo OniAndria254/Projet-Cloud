@@ -282,11 +282,15 @@
              <i class="fas fa-wallet"></i> Wallet
            </button>
          </a>
-         <%
-             Object userObj = session.getAttribute("user");
-             String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
-         %>
-         <div class="profile-dropdown" id="profileDropdown">
+
+           <%
+               Object userObj = session.getAttribute("user");
+               String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
+           %>
+
+
+           <div class="profile-dropdown" id="profileDropdown">
+               <img alt="User Profile Picture" id="profileImage" src="/assets/img/profil.png" />
                <span id="profileName"><%= userName %></span>
                <div class="dropdown-menu" id="dropdownMenu">
                    <a href="/auth/logout">Disconnect</a>

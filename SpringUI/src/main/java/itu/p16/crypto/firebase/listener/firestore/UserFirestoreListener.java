@@ -66,6 +66,7 @@ public class UserFirestoreListener {
     private void handleModifiedDocument(DocumentSnapshot documentSnapshot) {
         UsersDocument document = documentSnapshot.toObject(UsersDocument.class);
         Users user = convertToEntity(document);
+//        System.out.println(document.getIdRole() + " " + user.getIdRole());
 
         Optional<Users> existingUser = userRepository.findById(Math.toIntExact(user.getIdUsers()));
         if (existingUser.isPresent()) {
@@ -75,6 +76,7 @@ public class UserFirestoreListener {
                 user.setSyncFromFirestore(true);
                 user.setIdTentatives(1);
                 user.setIdRole(2);
+//                user.setIdRole(2);
                 userRepository.save(user);  
             }
         }

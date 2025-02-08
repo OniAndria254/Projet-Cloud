@@ -17,6 +17,7 @@ public class UsersDocument implements TimestampedDocument {
     private String email;
     private String username;
     private String password;
+    private Integer idRole;
     private boolean is_sync_from_firestore;
 
     private String createdAt;
@@ -28,6 +29,7 @@ public class UsersDocument implements TimestampedDocument {
         this.email = user.getEmail();
         this.username = user.getUsername();
         this.password = user.getPassword();
+        this.idRole = user.getIdRole();
         this.is_sync_from_firestore = user.isSyncFromFirestore();
 
         this.createdAt = dateFormat.format(new Date());
@@ -40,6 +42,7 @@ public class UsersDocument implements TimestampedDocument {
         user.setEmail(email);
         user.setUsername(username);
         user.setPassword(password);
+        user.setIdRole(idRole);
         user.setSyncFromFirestore(is_sync_from_firestore);
         return user;
     }
@@ -53,6 +56,10 @@ public class UsersDocument implements TimestampedDocument {
         Object id = map.get("id_users");
         if (id instanceof Number) {
             document.setIdUsers(((Number) id).longValue());
+        }
+        Object idRole = map.get("id_role");
+        if (id instanceof Number) {
+            document.setIdRole((int) ((Number) idRole).longValue());
         }
 
 

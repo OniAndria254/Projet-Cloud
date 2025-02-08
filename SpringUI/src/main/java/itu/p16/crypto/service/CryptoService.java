@@ -63,6 +63,7 @@ public class CryptoService {
             historique.setPrix(nouveauPrix);
             historique.setDateEnregistrement(LocalDateTime.now().toLocalDate());
     
+
             historiqueCoursRepository.save(historique);
         }
     }
