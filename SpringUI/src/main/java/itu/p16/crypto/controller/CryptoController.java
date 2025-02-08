@@ -47,16 +47,16 @@ public class CryptoController {
     }
 
     // Endpoint pour récupérer les derniers historiques et mettre à jour les prix
-    @GetMapping("/graph")
-    public List<HistoriqueCours> getGraph() throws NoUserLoggedException{
-        authService.requireUser();
-        try {
-            return cryptoService.graph();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    @GetMapping("/graph")
+//    public List<HistoriqueCours> getGraph() throws NoUserLoggedException{
+//        authService.requireUser();
+//        try {
+//            return cryptoService.graph();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     @GetMapping("/getcrypto")
     public List<Cryptomonnaie> getCrypto() throws NoUserLoggedException {
