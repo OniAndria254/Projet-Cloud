@@ -270,31 +270,34 @@
   <!-- Barre de navigation -->
   <nav class="navbar">
     <div class="nav-links">
-      <a href="<%= request.getContextPath() %>/transaction/histotransaction">
-          <i class="fas fa-history"></i> Trade History
+      <a href="<%= request.getContextPath() %>/transaction/buy-sell">
+        <i class="fas fa-history"></i> Acceuil
         </a>
-        <a href="<%= request.getContextPath() %>/graphic/graphe">
-          <i class="fas fa-chart-line"></i> Market
+       <a href="<%= request.getContextPath() %>/graphic/graphe">
+        <i class="fas fa-chart-line"></i> Market
         </a>
         <%
             Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
             if(isAdmin != null && isAdmin) {
-          %>
-              <a href="<%= request.getContextPath() %>/admin/transactions">
-                  <i class="fas fa-check-circle"></i> Validation
-              </a>
-              <a href="<%= request.getContextPath() %>/analyse/commissions">
+        %>
+            <a href="<%= request.getContextPath() %>/admin/transactions">
+                <i class="fas fa-check-circle"></i> Validation
+            </a>
+            <a href="<%= request.getContextPath() %>/analyse/commissions">
                 <i class="fas fa-chart-percentages"></i> commissions
-              </a>
-              <a href="<%= request.getContextPath() %>/commission/modifier">
+            </a>
+            <a href="<%= request.getContextPath() %>/commission/modifier">
                 <i class="fas fa-chart-percentages"></i> modifications commissions
-              </a>
-              <a href="<%= request.getContextPath() %>/analyse/transactions">
+            </a>
+            <a href="<%= request.getContextPath() %>/analyse/transactions">
                 <i class="fas fa-chart-line"></i> analyse transaction
-              </a>
-          <%
-              }
-          %>
+            </a>
+        <%
+            }
+        %>
+        <a href="<%= request.getContextPath() %>/transaction/histotransaction">
+        <i class="fas fa-history"></i> Trade History
+        </a>
     </div>
     <div class="right-section">
       <label class="theme-toggle">
@@ -310,7 +313,7 @@
     <!-- Update the form -->
 <form id="analysisForm" action="javascript:void(0);">
   <div class="row">
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
           <div class="form-group">
               <label for="typeAnalyse">Type d'analyse:</label>
               <select id="typeAnalyse" name="typeAnalyse" class="form-control">
@@ -318,7 +321,7 @@
                   <option value="moyenne">Moyenne</option>
               </select>
           </div>
-      </div>
+      </div> -->
       <div class="col-md-3">
           <div class="form-group">
               <label for="cryptoSelect">Cryptos:</label>
@@ -358,9 +361,10 @@
         <thead>
           <tr>
             <th>Crypto</th>
-            <th>somme</th>
-            <th>moyenne</th>
-            <th>Moyenne</th>
+            <th>somme_commission_achat</th>
+            <th>somme_commission_vente</th>
+            <th>moyenne_commission_achat</th>
+            <th>moyenne_commission_vente</th>
         
           </tr>
         </thead>
@@ -397,6 +401,7 @@
                   "<td>" + (data.somme_commission_achat || "N/A") + "</td>" +
                   "<td>" + (data.somme_commission_vente || "N/A") + "</td>" +
                   "<td>" + (data.moyenne_commission_achat || "N/A") + "</td>" +
+                  "<td>" + (data.moyenne_commission_vente || "N/A") + "</td>" +
                   "</tr>";
               document.querySelector(".analysis-table tbody").innerHTML = resultRow;
           })

@@ -237,31 +237,34 @@ input[type="checkbox"]:checked::after {
   <!-- Barre de navigation -->
   <nav class="navbar">
     <div class="nav-links">
-    <a href="<%= request.getContextPath() %>/transaction/histotransaction">
-          <i class="fas fa-history"></i> Trade History
+     <a href="<%= request.getContextPath() %>/transaction/buy-sell">
+        <i class="fas fa-history"></i> Acceuil
         </a>
-        <a href="<%= request.getContextPath() %>/graphic/graphe">
-          <i class="fas fa-chart-line"></i> Market
+       <a href="<%= request.getContextPath() %>/graphic/graphe">
+        <i class="fas fa-chart-line"></i> Market
         </a>
         <%
             Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
             if(isAdmin != null && isAdmin) {
-          %>
-              <a href="<%= request.getContextPath() %>/admin/transactions">
-                  <i class="fas fa-check-circle"></i> Validation
-              </a>
-              <a href="<%= request.getContextPath() %>/analyse/commissions">
+        %>
+            <a href="<%= request.getContextPath() %>/admin/transactions">
+                <i class="fas fa-check-circle"></i> Validation
+            </a>
+            <a href="<%= request.getContextPath() %>/analyse/commissions">
                 <i class="fas fa-chart-percentages"></i> commissions
-              </a>
-              <a href="<%= request.getContextPath() %>/commission/modifier">
+            </a>
+            <a href="<%= request.getContextPath() %>/commission/modifier">
                 <i class="fas fa-chart-percentages"></i> modifications commissions
-              </a>
-              <a href="<%= request.getContextPath() %>/analyse/transactions">
+            </a>
+            <a href="<%= request.getContextPath() %>/analyse/transactions">
                 <i class="fas fa-chart-line"></i> analyse transaction
-              </a>
-          <%
-              }
-          %>
+            </a>
+        <%
+            }
+        %>
+        <a href="<%= request.getContextPath() %>/transaction/histotransaction">
+        <i class="fas fa-history"></i> Trade History
+        </a>
     </div>
     <div class="right-section">
       <label class="theme-toggle">
@@ -278,7 +281,7 @@ input[type="checkbox"]:checked::after {
     <form action="/analysis/results" method="post">
       <div class="row">
         <!-- Colonne Type d'analyse -->
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
           <div class="form-group">
             <label for="typeAnalyse">Type d'analyse:</label>
             <select id="typeAnalyse" name="typeAnalyse" class="form-control">
@@ -289,7 +292,7 @@ input[type="checkbox"]:checked::after {
               <option value="ecartType">Ecart-type</option>
             </select>
           </div>
-        </div>
+        </div> -->
         <!-- Colonne Date/heure min -->
         <div class="col-md-4">
           <div class="form-group">

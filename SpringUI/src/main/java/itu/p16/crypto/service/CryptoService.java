@@ -99,7 +99,5 @@ public class CryptoService {
         List<Cryptomonnaie> cryptomonnaies = cryptomonnaieRepository.findAll();
         return cryptomonnaies != null ? cryptomonnaies : new ArrayList<>();
     }
-
-    
 }
 

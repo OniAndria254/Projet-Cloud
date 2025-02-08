@@ -56,7 +56,7 @@ public class UserFirestoreListener {
 
         if (!user.isSyncFromFirestore()) {
             user.setIdTentatives(1);
-            user.setIdRole(2);
+//            user.setIdRole(2);
             user.setSyncFromFirestore(true);
             userRepository.save(user);
         }
@@ -75,9 +75,8 @@ public class UserFirestoreListener {
             if (!existing.equals(user) && !user.isSyncFromFirestore()) {
                 user.setSyncFromFirestore(true);
                 user.setIdTentatives(1);
-                user.setIdRole(2);
 //                user.setIdRole(2);
-                userRepository.save(user);  
+                userRepository.save(user);
             }
         }
     }
