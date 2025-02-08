@@ -266,8 +266,8 @@
 <body>
   <nav class="navbar">
     <div class="nav-links">
-      <a href="<%= request.getContextPath() %>/transaction/histotransaction">
-        <i class="fas fa-dollar-sign"></i> Liste transaction
+     <a href="<%= request.getContextPath() %>/transaction/histotransaction">
+          <i class="fas fa-history"></i> Trade History
         </a>
         <a href="<%= request.getContextPath() %>/graphic/graphe">
           <i class="fas fa-chart-line"></i> Market
@@ -291,9 +291,6 @@
           <%
               }
           %>
-        <a href="#">
-          <i class="fas fa-history"></i> Trade History
-        </a>
     </div>
     <div class="right-section">
       <label class="theme-toggle">
