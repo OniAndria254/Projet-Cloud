@@ -103,6 +103,27 @@ class CryptoSeeder extends Seeder
                 'id_role' => $user['id_role'],
                 'avatar' => 'avatar.png',
             ]);
-        }   
+        }
+
+        $transactions = [
+            ['id_utilisateur' => 1, 'quantite' => 0.5, 'prix_unitaire' => 20000, 'montant_total' => 10000, 'date_transaction' => '2025-02-01 10:30:00', 'id_type_transaction' => 1, 'id_cryptomonnaie' => 1],
+            ['id_utilisateur' => 2, 'quantite' => 1.2, 'prix_unitaire' => 18000, 'montant_total' => 21600, 'date_transaction' => '2025-02-02 11:00:00', 'id_type_transaction' => 2, 'id_cryptomonnaie' => 2],
+            ['id_utilisateur' => 3, 'quantite' => 0.3, 'prix_unitaire' => 22000, 'montant_total' => 6600, 'date_transaction' => '2025-02-03 14:45:00', 'id_type_transaction' => 1, 'id_cryptomonnaie' => 3],
+            ['id_utilisateur' => 4, 'quantite' => 2.0, 'prix_unitaire' => 19000, 'montant_total' => 38000, 'date_transaction' => '2025-02-04 09:20:00', 'id_type_transaction' => 2, 'id_cryptomonnaie' => 1],
+            ['id_utilisateur' => 5, 'quantite' => 0.8, 'prix_unitaire' => 25000, 'montant_total' => 20000, 'date_transaction' => '2025-02-05 12:15:00', 'id_type_transaction' => 1, 'id_cryptomonnaie' => 4],
+        ];
+        
+        foreach ($transactions as $transaction) {
+            // Insérer une transaction avec les données actuelles
+            DB::table('transaction_crypto')->insert([
+                'id_utilisateur' => $transaction['id_utilisateur'],
+                'quantite' => $transaction['quantite'],
+                'prix_unitaire' => $transaction['prix_unitaire'],
+                'montant_total' => $transaction['montant_total'],
+                'date_transaction' => $transaction['date_transaction'],
+                'id_type_transaction' => $transaction['id_type_transaction'],
+                'id_cryptomonnaie' => $transaction['id_cryptomonnaie']
+            ]);
+        }
     }
 }

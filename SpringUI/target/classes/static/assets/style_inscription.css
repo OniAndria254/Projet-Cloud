@@ -1,0 +1,236 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+  }
+  
+  .registration-container {
+    background: #fff;
+    padding: 20px 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    max-height: 40px;
+  }
+  
+  .language img {
+    height: 20px;
+    margin-right: 5px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+  }
+  
+  p {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  p a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  p a:hover {
+    text-decoration: underline;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .checkbox-group label {
+    font-weight: normal;
+  }
+  
+  .register-button {
+    display: block;
+    width: 100%;
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .register-button:hover {
+    background: #218838;
+  }
+  
+  .legal-text {
+    font-size: 12px;
+    color: #666;
+    margin-top: 20px;
+    text-align: center;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('img/CRYPTO.jpeg'); /* Remplacez par le chemin de votre image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative; /* Nécessaire pour le pseudo-élément */
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2); /* Opacité plus faible (20%) */
+    backdrop-filter: blur(2px); /* Réduction du flou à 2px */
+    z-index: -1; /* Place le pseudo-élément derrière le contenu */
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  max-height: 40px;
+}
+
+.site-name {
+  margin-top: 10px; /* Espacement entre le logo et le nom */
+  color: #4CAF50; /* Texte en vert */
+  font-size: 24px; /* Taille du texte */
+  font-weight: bold; /* Texte en gras */
+  text-align: center; /* Centré sous le logo */
+}
+
+.registration-container {
+    background: #fff;
+    padding: 20px 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
+    z-index: 1; /* Assure que le formulaire est au-dessus */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd; /* Bordure plus fine par défaut */
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animation douce */
+}
+
+.form-group input:focus {
+  border-color: #4CAF50; /* Vert clair */
+  box-shadow: 0 0 5px rgba(203, 243, 204, 0.5); /* Effet lumineux autour */
+  outline: none; /* Supprime le contour bleu par défaut */
+}
+
+
+  .legal-text a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .legal-text a:hover {
+    text-decoration: underline;
+  }
+  .register-button {
+    margin-left: 10px;
+    position: relative;
+    display: inline-block; /* Rend le bouton plus petit et ajuste la largeur */
+    background: linear-gradient(90deg, #4CAF50, #8BC34A); /* Dégradé vert métallique */
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Réduction des dimensions du bouton */
+    font-size: 14px; /* Taille du texte réduite */
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    margin: 20px auto 0; /* Centrage du bouton sous les champs */
+  }
+  
+  .register-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%; /* Commence hors du bouton */
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4); /* Couleur blanche semi-transparente pour l'effet scintillant */
+    transform: skewX(-30deg); /* Inclinaison pour l'effet métallique */
+    transition: all 0.5s ease;
+    z-index: 0;
+  }
+  
+  .register-button:hover::before {
+    left: 100%; /* Traverse complètement le bouton */
+  }
+  
+  .register-button:hover {
+    background: linear-gradient(90deg, #8BC34A, #4CAF50); /* Légère inversion du dégradé */
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); /* Lueur légère */
+  }
+  
+  .register-button span {
+    position: relative; /* Pour garder le texte au-dessus du pseudo-élément */
+    z-index: 1; /* Place le texte au-dessus de l'effet */
+  }
+  

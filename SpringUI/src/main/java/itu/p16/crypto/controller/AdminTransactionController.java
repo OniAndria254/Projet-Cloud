@@ -49,7 +49,7 @@ public class AdminTransactionController {
         authService.requireUser();
         List<TransactionFonds> demandes = transactionFondsRepository.findByStatutId(1);
         model.addAttribute("demandes", demandes);
-        return "page/adminTransactions"; 
+        return "page/adminTransactions"; // JSP pour l'administration
     }
     
     /**

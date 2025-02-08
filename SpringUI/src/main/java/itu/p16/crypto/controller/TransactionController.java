@@ -62,6 +62,12 @@ public class TransactionController {
     }
 
 
+    @GetMapping("/histotransaction")
+    public String goToHistoriqueTransaction() throws Exception {
+        return "page/histotransaction";
+    }
+
+
     // achat et vente de crypto
     @GetMapping("/buy-sell")
     public String showBuySellPage(Model model) throws NoUserLoggedException {

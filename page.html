@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse des Cryptomonnaies</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        select, input[type="datetime-local"], .btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        select:hover, input[type="datetime-local"]:hover {
+            border-color: #4CAF50;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analyse des Cryptomonnaies</h1>
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="type-analyse">Type d'analyse :</label>
+                <select id="type-analyse" name="type-analyse">
+                    <option value="1er-quartile">1er Quartile</option>
+                    <option value="max">Max</option>
+                    <option value="min">Min</option>
+                    <option value="moyenne">Moyenne</option>
+                    <option value="ecart-type">Ecart-type</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Cryptomonnaies :</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="crypto-tous" name="crypto" value="tous">
+                    <label for="crypto-tous">Tous</label><br>
+
+                    <input type="checkbox" id="crypto1" name="crypto" value="crypto1">
+                    <label for="crypto1">Crypto1</label><br>
+
+                    <input type="checkbox" id="crypto2" name="crypto" value="crypto2">
+                    <label for="crypto2">Crypto2</label><br>
+
+                    <input type="checkbox" id="crypto3" name="crypto" value="crypto3">
+                    <label for="crypto3">Crypto3</label><br>
+
+                    <!-- Add more checkboxes up to Crypto10 -->
+                    <input type="checkbox" id="crypto10" name="crypto" value="crypto10">
+                    <label for="crypto10">Crypto10</label><br>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="date-min">Date et heure min :</label>
+                <input type="datetime-local" id="date-min" name="date-min">
+            </div>
+
+            <div class="form-group">
+                <label for="date-max">Date et heure max :</label>
+                <input type="datetime-local" id="date-max" name="date-max">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn">Valider</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

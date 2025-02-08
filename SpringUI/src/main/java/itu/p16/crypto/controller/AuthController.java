@@ -191,11 +191,15 @@ public class AuthController {
                 if (responseBody.containsKey("user")) {
                     Map<String, Object> userMap = (Map<String, Object>) responseBody.get("user");
                     Users user = Users.fromMap(userMap);
-                    System.out.println(user.getIdRole());
+                    System.out.println("Role de l'utilisateur : " + user.getIdRole());
+                    // Stocker l'utilisateur dans la session
                     session.setAttribute("user", user);
+                    // Indiquer dans la session que l'utilisateur est administrateur
+                    session.setAttribute("isAdmin", true);
                     System.out.println("Admin connecté : " + user);
                 }
-                return "redirect:/admin/dashboard";
+                // Redirigez vers la page protégée sans utiliser de paramètre dans l'URL
+                return "redirect:/transaction/buy-sell";
             } else {
                 model.addAttribute("error", "Échec de la connexion administrateur.");
                 return "auth/admin-login";

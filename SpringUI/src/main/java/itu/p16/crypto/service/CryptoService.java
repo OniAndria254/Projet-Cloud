@@ -31,30 +31,38 @@ public class CryptoService {
         this.historiqueCoursRepository = historiqueCoursRepository;
     }
 
+    @Scheduled(fixedRate = 10000)
     public void insert10secondes() {
         List<Cryptomonnaie> cryptomonnaies = cryptomonnaieRepository.findAll();
-
+    
         for (Cryptomonnaie crypto : cryptomonnaies) {
             BigDecimal dernierPrix = getDernierPrixCrypto(crypto.getIdCryptomonnaie());
-
+    
             BigDecimal nouveauPrix;
             if (dernierPrix != null) {
-                double pourcentage = random.nextDouble() * (20 - 2) + 2; // Entre 2% et 20%
+                double pourcentage = random.nextDouble() * (30 - 5) + 5; // Entre 5% et 30%
                 boolean isPositif = random.nextBoolean();
-
+    
                 if (isPositif) {
                     nouveauPrix = dernierPrix.add(dernierPrix.multiply(BigDecimal.valueOf(pourcentage / 100)));
                 } else {
                     nouveauPrix = dernierPrix.subtract(dernierPrix.multiply(BigDecimal.valueOf(pourcentage / 100)));
+                    // Assurer que le prix ne descend pas en dessous de 10
+                    if (nouveauPrix.compareTo(BigDecimal.valueOf(10)) < 0) {
+                        nouveauPrix = BigDecimal.valueOf(10);
+                    }
                 }
             } else {
-                nouveauPrix = BigDecimal.valueOf(100);
+                // Si aucun prix précédent, initialiser à une valeur par défaut
+                nouveauPrix = BigDecimal.valueOf(5000);
             }
-
+    
+            // Enregistrer dans l'historique
             HistoriqueCours historique = new HistoriqueCours();
             historique.setIdCryptomonnaie(crypto.getIdCryptomonnaie());
             historique.setPrix(nouveauPrix);
             historique.setDateEnregistrement(LocalDateTime.now().toLocalDate());
+    
 
             historiqueCoursRepository.save(historique);
         }
@@ -90,18 +98,6 @@ public class CryptoService {
         
         List<Cryptomonnaie> cryptomonnaies = cryptomonnaieRepository.findAll();
         return cryptomonnaies != null ? cryptomonnaies : new ArrayList<>();
-    }
-    
-
-    public List<HistoriqueCours> graph() throws Exception {
-        List<HistoriqueCours> derniersHistoriques = null;
-        try {
-            insert10secondes();
-            derniersHistoriques = getDerniersHistoriques();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return derniersHistoriques;
     }
 }
 
