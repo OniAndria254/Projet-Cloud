@@ -125,7 +125,7 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img src="assets/img/cryptoz-favicon.png" alt="Logo"> CRYPTO
+      <img src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/cryptoz-favicon.png" alt="Logo"> CRYPTO
     </a>
     <div class="d-flex align-items-center" id="navbarNav">
       <ul class="navbar-nav">

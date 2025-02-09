@@ -142,7 +142,7 @@
 </head>
 <body>
 <div class="header">
-  <img alt="Crypto Planet Logo" src="https://placehold.co/40x40"/>
+  <img alt="Crypto Planet Logo" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/cryptoz-favicon.png"/>
   <span>
     Crypto Planet
    </span>

@@ -450,7 +450,7 @@
            <div class="col-md-4">
              <div class="coin-item" id="coin-item-0">
                <div class="coin-info">
-                 <img alt="Crypto Logo" id="coin-img-0" src="" />
+                 <img alt="Crypto Logo" id="coin-img-0" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/cryptoz-favicon.png" />
                  <div>
                    <h3 id="coin-name-0"></h3>
                    <p class="coin-price" id="coin-price-0"></p>
@@ -463,7 +463,7 @@
            <div class="col-md-4">
              <div class="coin-item" id="coin-item-1">
                <div class="coin-info">
-                 <img alt="Crypto Logo" id="coin-img-1" src="" />
+                 <img alt="Crypto Logo" id="coin-img-1" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/cryptoz-favicon.png" />
                  <div>
                    <h3 id="coin-name-1"></h3>
                    <p class="coin-price" id="coin-price-1"></p>
@@ -476,7 +476,7 @@
            <div class="col-md-4">
              <div class="coin-item" id="coin-item-2">
                <div class="coin-info">
-                 <img alt="Crypto Logo" id="coin-img-2" src="" />
+                 <img alt="Crypto Logo" id="coin-img-2" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/cryptoz-favicon.png" />
                  <div>
                    <h3 id="coin-name-2"></h3>
                    <p class="coin-price" id="coin-price-2"></p>
@@ -615,11 +615,11 @@
          document.getElementById("coin-price-" + blockIndex).innerText = "$" + price;
          document.getElementById("coin-change-" + blockIndex).innerText = changeText;
          // Utilisation du chemin vers l'icône depuis le contexte de l'application
-         document.getElementById("coin-img-" + blockIndex).src = "assets/img/" + crypto.icon;
+         document.getElementById("coin-img-" + blockIndex).src = "https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/" + crypto.icon;
 
          // Définition du chemin de l'image
          var imgElement = document.getElementById("coin-img-" + blockIndex);
-         imgElement.src = "/assets/img/" + crypto.icon;
+         imgElement.src = "https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/" + crypto.icon;
 
          setTimeout(function(){
            coinItem.classList.remove("refresh-animation");

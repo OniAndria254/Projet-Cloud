@@ -290,19 +290,19 @@
 
 
            <div class="profile-dropdown" id="profileDropdown">
-               <img alt="User Profile Picture" id="profileImage" src="/assets/img/profil.png" />
-               <span id="profileName"><%= userName %></span>
-               <div class="dropdown-menu" id="dropdownMenu">
-                   <a href="/auth/logout">Disconnect</a>
-               </div>
-         </div>
+            <img id="profileImage" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/<%= ((Users)userObj).getAvatar()%>" />
+            <span id="profileName"><%= userName %></span>
+            <div class="dropdown-menu" id="dropdownMenu">
+              <a href="/auth/logout">Disconnect</a>
+            </div>
+          </div>
        </div>
      </nav>
     <div class="container">
         <div class="market-stats">
             <div class="header">
                 <div class="title">
-                    <img alt="Crypto Logo" id="cryptoLogo" src=""/>
+                    <img alt="Crypto Logo" id="cryptoLogo" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/cryptoz-favicon.png"/>
                     <span id="cryptoName"></span>
                     <span class="badge" id="cryptoSymbol"></span>
                     <i class="fas fa-star star"></i>
@@ -532,7 +532,7 @@
                     document.getElementById('cryptoSymbol').textContent = selectedCrypto.symbole || "N/A";
 
                     // Construit le chemin de l'image
-                    const imagePath = '/assets/img/' + selectedCrypto.icon;
+                    const imagePath = 'https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/' + selectedCrypto.icon;
 
                     console.log(selectedCrypto.symbole);
                     // Met à jour l'image de la cryptomonnaie
@@ -541,7 +541,7 @@
 
                     // Gestion des erreurs si l'image n'existe pas
                     cryptoLogo.onerror = () => {
-                        cryptoLogo.src = '/assets/img/default.png'; // Image par défaut
+                        cryptoLogo.src = 'https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/default.png'; // Image par défaut
                     };
                 } else {
                     console.error('Crypto not found for ID:', cryptoId);

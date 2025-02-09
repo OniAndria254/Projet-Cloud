@@ -276,12 +276,12 @@
         String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
         %>
         <div class="profile-dropdown" id="profileDropdown">
-          <img alt="User Profile Picture" id="profileImage" src="/assets/img/profil.png" />
+          <img id="profileImage" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/<%= ((Users)userObj).getAvatar()%>" />
           <span id="profileName"><%= userName %></span>
           <div class="dropdown-menu" id="dropdownMenu">
-            <a href="/auth/logout">Disconnect</a>
+              <a href="/auth/logout">Disconnect</a>
           </div>
-        </div>
+      </div>
       </div>
     </nav>
 
