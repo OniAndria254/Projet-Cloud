@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Bienvenue sur notre site !</h1>
-    <p>Veuillez cliquer sur le lien ci-dessous pour valider votre inscription :</p>
+    <p>Veuillez copier sur le lien ci-dessous et le coller dans le site pour valider votre inscription :</p>
     <a href="{{ url('/validate?token=' . $token) }}">{{ url('/validate?token=' . $token) }}</a>
 </body>
 </html>
