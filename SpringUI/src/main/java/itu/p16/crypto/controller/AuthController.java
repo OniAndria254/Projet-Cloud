@@ -199,8 +199,14 @@ public class AuthController {
                     System.out.println("Admin connecté : " + user);
                 }
                 // Redirigez vers la page protégée sans utiliser de paramètre dans l'URL
-                return "redirect:/transaction/buy-sell";
-            } else {
+                return "redirect:/transaction/histotransaction";
+            }
+            else if (response.getStatusCode().is4xxClientError()) {
+                // Cas où le compte est temporairement bloqué (429)
+                model.addAttribute("error", "Your account is temporarily locked. A reset email has been sent.");
+                return "auth/login"; // Retourne à la page de login avec un message d'erreur
+            }
+            else {
                 model.addAttribute("error", "Please verify your admin credentials.");
                 return "auth/admin-login";
             }
