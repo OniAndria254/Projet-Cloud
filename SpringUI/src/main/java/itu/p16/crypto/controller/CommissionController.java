@@ -2,8 +2,11 @@ package itu.p16.crypto.controller;
 
 import itu.p16.crypto.entity.Commission;
 import itu.p16.crypto.entity.Cryptomonnaie;
+import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.exception.UnallowedRoleException;
 import itu.p16.crypto.repository.CommissionRepository;
 import itu.p16.crypto.repository.CryptomonnaieRepository;
+import itu.p16.crypto.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +21,22 @@ import java.util.List;
 public class CommissionController {
 
     @Autowired
+    private final AuthService authService;
+
+    @Autowired
     private CommissionRepository commissionRepository;
 
     @Autowired
     private CryptomonnaieRepository cryptomonnaieRepository;
 
+    public CommissionController(AuthService authService) {
+        this.authService = authService;
+    }
+
     @GetMapping("/modifier")
-    public String afficherPageModification(Model model) {
+    public String afficherPageModification(Model model) throws NoUserLoggedException, UnallowedRoleException {
+        authService.requireUser();
+        authService.allowAdminRoles();
         List<Commission> commissions = commissionRepository.findAll();
         List<Cryptomonnaie> crypto=cryptomonnaieRepository.findAll();
         model.addAttribute("crypto",crypto);

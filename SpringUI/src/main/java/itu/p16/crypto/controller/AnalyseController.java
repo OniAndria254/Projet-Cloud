@@ -1,7 +1,10 @@
 package itu.p16.crypto.controller;
 
 import itu.p16.crypto.entity.Cryptomonnaie;
+import itu.p16.crypto.exception.NoUserLoggedException;
+import itu.p16.crypto.exception.UnallowedRoleException;
 import itu.p16.crypto.repository.CryptomonnaieRepository;
+import itu.p16.crypto.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -18,13 +21,22 @@ import java.util.Map;
 public class AnalyseController {
 
     @Autowired
+    private final AuthService authService;
+
+    @Autowired
     private AnalyseService analyseService;
 
     @Autowired
     private CryptomonnaieRepository cryptoRepository;
 
+    public AnalyseController(AuthService authService) {
+        this.authService = authService;
+    }
+
     @GetMapping("/transactions")
-    public String showTransactionsPage(Model model) {
+    public String showTransactionsPage(Model model) throws NoUserLoggedException, UnallowedRoleException {
+        authService.requireUser();
+        authService.allowAdminRoles();
         List<Cryptomonnaie> cryptos = cryptoRepository.findAll();
         model.addAttribute("cryptos", cryptos);
         return "admin/analyse"; 
@@ -44,7 +56,9 @@ public class AnalyseController {
     }
 
     @GetMapping("/commissions")
-    public String showCommissionsPage(Model model) {
+    public String showCommissionsPage(Model model) throws NoUserLoggedException, UnallowedRoleException {
+        authService.requireUser();
+        authService.allowAdminRoles();
         List<Cryptomonnaie> cryptos = cryptoRepository.findAll();
         model.addAttribute("cryptos", cryptos);
         return "admin/analysecomission"; 
