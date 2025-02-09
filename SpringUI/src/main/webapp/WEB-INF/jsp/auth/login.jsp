@@ -1,210 +1,215 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-    Crypto Planet - Login
-  </title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js">
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - AutoMecano</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
   <style>
     body {
-      margin: 0;
       font-family: 'Inter', sans-serif;
       background-color: #0d1117;
       color: #c9d1d9;
-      transition: background-color 0.3s, color 0.3s;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
-    .header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    .header img {
-      width: 40px;
-      height: 40px;
-      margin-right: 10px;
-    }
-    .header span {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-    .login-container {
-      background-color: #161b22;
-      padding: 2rem;
+
+    .container {
+      position: relative;
+      width: 800px;
+      max-width: 100%;
+      min-height: 480px;
+      background: #161b22;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-    .login-container h2 {
-      margin-bottom: 1.5rem;
+
+    .form-container {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 50%;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .sign-in-container {
+      left: 0;
+      z-index: 2;
+    }
+
+    .sign-up-container {
+      right: 0;
+      opacity: 1; /* On garde l'opacité à 1 */
+      transform: translateX(0%); /* Transformation neutre pour la vue initiale */
+      z-index: 1;
+    }
+
+    .container.right-panel-active .sign-in-container {
+      transform: translateX(100%);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .container.right-panel-active .sign-up-container {
+      transform: translateX(0);
+      opacity: 1;
+      z-index: 2;
+    }
+
+
+    .form-container form {
+      background: #21262d;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      height: 100%;
+      justify-content: center;
       text-align: center;
     }
-    .login-container .form-group {
-      margin-bottom: 1rem;
+
+    h1 {
+      margin-bottom: 10px;
     }
-    .login-container .form-control {
-      background-color: #21262d;
+
+    .form-control {
+      background-color: #30363d;
       border: none;
       color: #c9d1d9;
+      margin-bottom: 10px;
     }
-    .login-container .form-control:focus {
-      background-color: #21262d;
-      color: #c9d1d9;
+
+    .form-control:focus {
       border-color: #58a6ff;
       box-shadow: none;
     }
-    .login-container .btn-primary {
+
+    .btn-primary {
       background-color: #58a6ff;
       border: none;
       width: 100%;
     }
-    .login-container .btn-primary:hover {
+
+    .btn-primary:hover {
       background-color: #007bff;
     }
-    .login-container .signup-link {
-      display: block;
+
+    .overlay-container {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: 100%;
+      transition: all 0.5s ease-in-out;
+      background: linear-gradient(to right, #4B49AC, #1089ff);
+      z-index: 3; /* Augmenté pour être au-dessus des formulaires */
+    }
+
+    .overlay {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
       text-align: center;
-      margin-top: 1rem;
-      color: #58a6ff;
-      text-decoration: none;
-    }
-    .login-container .signup-link:hover {
-      color: #007bff;
-    }
-    .error-message {
-      display: none;
-      background-color: #ff4d4d;
       color: white;
-      padding: 0.5rem;
+    }
+
+    .overlay button {
+      background-color: transparent;
+      border: 2px solid white;
+      padding: 10px 20px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
       border-radius: 5px;
-      margin-bottom: 1rem;
-      text-align: center;
+      margin-top: 15px;
+      transition: 0.3s;
     }
-    .success-message {
-      display: none;
-      background-color: #28a745;
-      color: white;
-      padding: 0.5rem;
-      border-radius: 5px;
-      margin-bottom: 1rem;
-      text-align: center;
+
+    .overlay button:hover {
+      background-color: white;
+      color: #1089ff;
     }
-    .light-theme {
-      background-color: #f0f0f0;
-      color: #000000;
+
+    .container.right-panel-active .overlay-container {
+      transform: translateX(-100%);
     }
-    .light-theme .login-container {
-      background-color: #e0e0e0;
-    }
-    .light-theme .form-control {
-      background-color: #d0d0d0;
-      color: #000000;
-    }
-    .light-theme .form-control:focus {
-      background-color: #d0d0d0;
-      color: #000000;
-      border-color: #007bff;
-    }
-    .light-theme .btn-primary {
-      background-color: #007bff;
-    }
-    .light-theme .btn-primary:hover {
-      background-color: #0056b3;
-    }
-    .light-theme .signup-link {
-      color: #007bff;
-    }
-    .light-theme .signup-link:hover {
-      color: #0056b3;
-    }
-    .light-theme .error-message {
-      background-color: #ff4d4d;
-      color: white;
-    }
-    .light-theme .success-message {
-      background-color: #28a745;
-      color: white;
+
+    #toggleLogin {
+      position: relative;
+      z-index: 9999; /* Ajouté */
     }
   </style>
 </head>
 <body>
-<div class="header">
-  <img alt="Crypto Planet Logo" src="https://placehold.co/40x40"/>
-  <span>
-    Crypto Planet
-   </span>
-</div>
-<div class="login-container">
-  <h2>
-    Login user
-  </h2>
 
-  <div class="error-message" id="error-message" style="display: ${empty error ? 'none' : 'block'};">
-    <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+<div class="container" id="container">
+  <!-- Login Administrateur -->
+  <div class="form-container sign-up-container">
+    <form action="/auth/loginAdmin" method="post">
+      <h3>Administrateur</h3>
+      <div class="form-group">
+        <label for="admin-email">Email</label>
+        <input type="email" class="form-control" id="admin-email" name="email" value="admin@gmail.com" required>
+      </div>
+      <div class="form-group">
+        <label for="admin-password">Mot de passe</label>
+        <input type="password" class="form-control" id="admin-password" name="password" value="admin123" required>
+      </div>
+      <button class="btn btn-primary" type="submit">Se connecter</button>
+    </form>
   </div>
-  <form action="/auth/login" method="post">
-    <div class="form-group">
-      <label for="email">
-        Email
-      </label>
-      <input class="form-control" id="email" name="email" placeholder="Enter your email" type="email" required/>
+
+  <!-- Login Utilisateur -->
+  <div class="form-container sign-in-container">
+    <form action="/auth/login" method="post">
+      <h3>Utilisateur</h3>
+      <div class="form-group">
+        <label for="user-email">Email</label>
+        <input type="email" class="form-control" id="user-email" name="email" placeholder="Entrez votre email" required>
+      </div>
+      <div class="form-group">
+        <label for="user-password">Mot de passe</label>
+        <input type="password" class="form-control" id="user-password" name="password" placeholder="Entrez votre mot de passe" required>
+      </div>
+      <button class="btn btn-primary" type="submit">Se connecter</button>
+    </form>
+  </div>
+
+  <!-- Overlay pour changer entre utilisateur et administrateur -->
+  <div class="overlay-container">
+    <div class="overlay">
+      <h1>Crypto Planet</h1>
+      <p>Entrez dans votre espace personnel pour explorer, trader et gérer vos cryptomonnaies.</p>
+      <button id="toggleLogin">Passer en mode Admin</button>
     </div>
-    <div class="form-group">
-      <label for="password">
-        Password
-      </label>
-      <input class="form-control" id="password" name="password" placeholder="Enter your password" type="password" required/>
-    </div>
-    <button class="btn btn-primary" type="submit">
-      Login
-    </button>
-    <a class="signup-link" href="/auth/register">
-      S'inscrire?
-    </a>
-  </form>
+  </div>
 </div>
 
-<hr>
-
-<div class="login-container">
-  <h2>
-    Login admin
-  </h2>
-
-  <form action="/auth/loginAdmin" method="post">
-    <div class="form-group">
-      <label for="email2">
-        Email
-      </label>
-      <input class="form-control" id="email2" name="email" placeholder="Enter your email" type="email" value="admin@gmail.com" required/>
-    </div>
-    <div class="form-group">
-      <label for="password2">
-        Password
-      </label>
-      <input class="form-control" id="password2" name="password" placeholder="Enter your password" type="password" value="admin123" required/>
-    </div>
-    <button class="btn btn-primary" type="submit">
-      Login
-    </button>
-  </form>
-</div>
 <script>
-  function toggleTheme() {
-    document.body.classList.toggle('light-theme');
-  }
+  const toggleButton = document.getElementById('toggleLogin');
+  const container = document.getElementById('container');
+
+  let isUserLogin = true;
+
+  toggleButton.addEventListener('click', () => {
+    container.classList.toggle("right-panel-active");
+    if (isUserLogin) {
+      toggleButton.textContent = "Passer en mode Utilisateur";
+    } else {
+      toggleButton.textContent = "Passer en mode Admin";
+    }
+    isUserLogin = !isUserLogin;
+  });
 </script>
+
 </body>
 </html>
