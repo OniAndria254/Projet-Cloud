@@ -188,7 +188,7 @@
     <nav class="navbar">
       <div class="nav-links">
         <a href="<%= request.getContextPath() %>/transaction/histotransaction">
-          <i class="fas fa-dollar-sign"></i>  Transaction list
+          <i class="fas fa-history"></i>  Transaction list
         </a>
         <a href="<%= request.getContextPath() %>/graphic/graphe">
           <i class="fas fa-chart-line"></i> Market
@@ -204,10 +204,10 @@
           <i class="fas fa-check-circle"></i> Validation
         </a>
         <a href="<%= request.getContextPath() %>/commission/modifier">
-          <i class="fas fa-chart-percentages"></i> Commission modification
+          <i class="as fa-percentage"></i> Commissions modifications
         </a>
         <a href="<%= request.getContextPath() %>/analyse/commissions">
-          <i class="fas fa-chart-percentages"></i> Commission
+          <i class="fas fa-percentage"></i> Commissions
         </a>
         <a href="<%= request.getContextPath() %>/transaction2/analysis">
           <i class="fas fa-table"></i> Table
@@ -224,9 +224,6 @@
         <%
           }
         %>
-        <a href="#">
-          <i class="fas fa-history"></i> Trade History
-        </a>
       </div>
       <div class="right-section">
         <%

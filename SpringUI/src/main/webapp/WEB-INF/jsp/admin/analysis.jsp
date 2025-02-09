@@ -285,79 +285,76 @@
   </style>
 </head>
 <body>
-<nav class="navbar">
-  <div class="nav-links">
-    <a href="<%= request.getContextPath() %>/transaction/histotransaction">
-      <i class="fas fa-dollar-sign"></i>  Transaction list
-    </a>
-    <a href="<%= request.getContextPath() %>/graphic/graphe">
-      <i class="fas fa-chart-line"></i> Market
-    </a>
-    <%
-      Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-      if(isAdmin != null && isAdmin) {
-    %>
-    <a href="<%= request.getContextPath() %>/analyse/transactions">
-      <i class="fas fa-chart-line"></i> Transaction analysis
-    </a>
-    <a href="<%= request.getContextPath() %>/admin/transactions">
-      <i class="fas fa-check-circle"></i> Validation
-    </a>
-    <a href="<%= request.getContextPath() %>/commission/modifier">
-      <i class="fas fa-chart-percentages"></i> Commission modification
-    </a>
-    <a href="<%= request.getContextPath() %>/analyse/commissions">
-      <i class="fas fa-chart-percentages"></i> Commission
-    </a>
-    <a href="<%= request.getContextPath() %>/transaction2/analysis">
-      <i class="fas fa-table"></i> Table
-    </a>
-    <script>
-      // Set light theme by default for admin
-      document.body.classList.add("light-theme");
-      var themeIcon = document.getElementById("themeIcon");
-      themeIcon.classList.remove("fa-moon");
-      themeIcon.classList.add("fa-sun");
-      // Set checkbox to checked state
-      document.getElementById("themeToggle").checked = true;
-    </script>
-    <%
-      }
-    %>
-    <a href="#">
-      <i class="fas fa-history"></i> Trade History
-    </a>
-  </div>
-  <div class="right-section">
-    <%
-      if(isAdmin == null && !isAdmin) {
-    %>
-    <label class="theme-toggle">
-      <input id="themeToggle" onclick="toggleTheme()" type="checkbox" />
-      <span class="slider"></span>
-      <i class="fas fa-moon icon" id="themeIcon"></i>
-    </label>
-    <a href="/transaction/depositWithdraw">
-      <button class="btn btn-outline-light">
-        <i class="fas fa-wallet"></i> Wallet
-      </button>
-    </a>
-    <%
-      }
-    %>
-    <%
-      Object userObj = session.getAttribute("user");
-      String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
-    %>
-    <div class="profile-dropdown" id="profileDropdown">
-      <img id="profileImage" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/<%= ((Users)userObj).getAvatar()%>" />
-      <span id="profileName"><%= userName %></span>
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/auth/logout">Disconnect</a>
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="<%= request.getContextPath() %>/transaction/histotransaction">
+        <i class="fas fa-history"></i>  Transaction list
+      </a>
+      <a href="<%= request.getContextPath() %>/graphic/graphe">
+        <i class="fas fa-chart-line"></i> Market
+      </a>
+      <%
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+        if(isAdmin != null && isAdmin) {
+      %>
+      <a href="<%= request.getContextPath() %>/analyse/transactions">
+        <i class="fas fa-chart-line"></i> Transaction analysis
+      </a>
+      <a href="<%= request.getContextPath() %>/admin/transactions">
+        <i class="fas fa-check-circle"></i> Validation
+      </a>
+      <a href="<%= request.getContextPath() %>/commission/modifier">
+        <i class="as fa-percentage"></i> Commissions modifications
+      </a>
+      <a href="<%= request.getContextPath() %>/analyse/commissions">
+        <i class="fas fa-percentage"></i> Commissions
+      </a>
+      <a href="<%= request.getContextPath() %>/transaction2/analysis">
+        <i class="fas fa-table"></i> Table
+      </a>
+      <script>
+        // Set light theme by default for admin
+        document.body.classList.add("light-theme");
+        var themeIcon = document.getElementById("themeIcon");
+        themeIcon.classList.remove("fa-moon");
+        themeIcon.classList.add("fa-sun");
+        // Set checkbox to checked state
+        document.getElementById("themeToggle").checked = true;
+      </script>
+      <%
+        }
+      %>
+    </div>
+    <div class="right-section">
+      <%
+        if(isAdmin == null && !isAdmin) {
+      %>
+      <label class="theme-toggle">
+        <input id="themeToggle" onclick="toggleTheme()" type="checkbox" />
+        <span class="slider"></span>
+        <i class="fas fa-moon icon" id="themeIcon"></i>
+      </label>
+      <a href="/transaction/depositWithdraw">
+        <button class="btn btn-outline-light">
+          <i class="fas fa-wallet"></i> Wallet
+        </button>
+      </a>
+      <%
+        }
+      %>
+      <%
+        Object userObj = session.getAttribute("user");
+        String userName = (userObj != null) ? ((Users) userObj).getUsername() : "Invité";
+      %>
+      <div class="profile-dropdown" id="profileDropdown">
+        <img id="profileImage" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/<%= ((Users)userObj).getAvatar()%>" />
+        <span id="profileName"><%= userName %></span>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="/auth/logout">Disconnect</a>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
   <div class="container">
     <h1>Analyses</h1>
 
