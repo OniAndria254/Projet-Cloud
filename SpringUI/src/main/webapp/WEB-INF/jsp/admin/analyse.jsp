@@ -297,7 +297,7 @@ input[type="checkbox"]:checked::after {
     </div>
     <div class="right-section">
       <%
-        if(isAdmin == null && !isAdmin) {
+        if (isAdmin != null && !isAdmin)  {
       %>
       <a href="<%= request.getContextPath() %>/transaction/histotransaction">
         <i class="fas fa-history"></i>  Transaction list
