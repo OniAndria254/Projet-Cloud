@@ -257,16 +257,16 @@ input[type="checkbox"]:checked::after {
   <!-- Barre de navigation -->
   <nav class="navbar">
     <div class="nav-links">
+      <%
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+        if(isAdmin != null && isAdmin) {
+      %>
       <a href="<%= request.getContextPath() %>/transaction/histotransaction">
         <i class="fas fa-history"></i>  Transaction list
       </a>
       <a href="<%= request.getContextPath() %>/graphic/graphe">
         <i class="fas fa-chart-line"></i> Market
       </a>
-      <%
-        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-        if(isAdmin != null && isAdmin) {
-      %>
       <a href="<%= request.getContextPath() %>/analyse/transactions">
         <i class="fas fa-chart-line"></i> Transaction analysis
       </a>
@@ -299,6 +299,15 @@ input[type="checkbox"]:checked::after {
       <%
         if(isAdmin == null && !isAdmin) {
       %>
+      <a href="<%= request.getContextPath() %>/transaction/histotransaction">
+        <i class="fas fa-history"></i>  Transaction list
+      </a>
+      <a href="<%= request.getContextPath() %>/graphic/graphe">
+        <i class="fas fa-chart-line"></i> Market
+      </a>
+      <a href="<%= request.getContextPath() %>/transaction/buy-sell">
+        <i class="fas fa-dollar-sign"></i> Transaction
+      </a>
       <label class="theme-toggle">
         <input id="themeToggle" onclick="toggleTheme()" type="checkbox" />
         <span class="slider"></span>
