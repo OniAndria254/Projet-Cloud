@@ -24,6 +24,10 @@ public class Users {
     @Basic
     @Column(name = "password", nullable = false, length = 255)
     private String password;
+
+    @Basic
+    @Column(name = "avatar")
+    private String avatar;
     @Basic
     @Column(name = "id_tentatives", nullable = false)
     private Integer idTentatives;
@@ -33,6 +37,14 @@ public class Users {
 
     public boolean isSyncFromFirestore() {
         return isSyncFromFirestore;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public void setSyncFromFirestore(boolean syncFromFirestore) {
@@ -97,6 +109,8 @@ public class Users {
         user.setEmail((String) userMap.get("email"));
         user.setUsername((String) userMap.get("username"));
         user.setPassword((String) userMap.get("password"));
+        user.setAvatar((String) userMap.get("avatar"));
+
 //        user.setIdTentatives((userMap.get("id_tentatives") != null) ? (Integer) userMap.get("id_tentatives") : null);
         user.setIdRole((userMap.get("id_role") != null) ? (Integer) userMap.get("id_role") : null);
         return user;
