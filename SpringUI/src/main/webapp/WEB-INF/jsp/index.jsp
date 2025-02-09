@@ -32,7 +32,7 @@
 <body class="bg-gray-900 text-white">
 <header class="flex justify-between items-center p-4 bg-gray-800">
     <div class="flex items-center">
-        <img alt="Crypto Planet Logo" class="mr-2" src="https://placehold.co/40x40"/>
+        <img alt="Crypto Planet Logo" class="mr-2" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/cryptoz-favicon.png"/>
         <span class="text-xl font-bold">
      Crypto Planet
     </span>
@@ -67,8 +67,8 @@
             Join world's biggest &amp; trusted Exchange. Trade in Bitcoin, Ethereum, Ripple and many more currencies.
         </p>
         <div class="flex flex-wrap space-x-4 mt-4">
-            <img alt="Logoipsum 1" class="rounded-lg shadow-lg" src="large-coin-placed-top-black-computer-keyboard.jpg" width="100px" height="40px"/>
-            <img alt="Logoipsum 2" class="rounded-lg shadow-lg" src="minimalistic-still-life-arrangement-with-cryptocurrency.jpg" width="100px" height="40px"/>
+            <img alt="Logoipsum 1" class="rounded-lg shadow-lg" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/sary1.png" width="100px" height="40px"/>
+            <img alt="Logoipsum 2" class="rounded-lg shadow-lg" src="https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/sary2.png" width="100px" height="40px"/>
             <!-- <img alt="Logoipsum 3" src="https://placehold.co/100x40" width="100px"/> -->
 
         </div>
