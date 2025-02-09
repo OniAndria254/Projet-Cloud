@@ -154,12 +154,12 @@ public class AuthController {
                 return "redirect:/auth/confirm-pin?user_id=" + userId;
             }
             else {
-                model.addAttribute("error", "Vérifier vos informations.");
+                model.addAttribute("error", "Please verify your information.");
                 System.out.println("Erreur API : " + response.getBody());
                 return "auth/login";
             }
         } catch (Exception e) {
-            model.addAttribute("error", "Vérifier vos informations.");
+            model.addAttribute("error", "Please verify your information.");
             System.out.println("Erreur lors de l'appel à l'API Laravel : " + e.getMessage());
             return "auth/login";
         }
@@ -201,13 +201,13 @@ public class AuthController {
                 // Redirigez vers la page protégée sans utiliser de paramètre dans l'URL
                 return "redirect:/transaction/buy-sell";
             } else {
-                model.addAttribute("error", "Échec de la connexion administrateur.");
+                model.addAttribute("error", "Please verify your admin credentials.");
                 return "auth/admin-login";
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            model.addAttribute("error", "Erreur lors de la connexion : " + e.getMessage());
-            return "auth/admin-login";
+            model.addAttribute("error", "Please verify your admin credentials.");
+            return "auth/login";
         }
     }
 
