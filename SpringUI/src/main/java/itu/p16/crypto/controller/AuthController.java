@@ -283,6 +283,7 @@ public class AuthController {
                     Map<String, Object> userMap = (Map<String, Object>) responseBody.get("user");
                     Users user = Users.fromMap(userMap);
                     session.setAttribute("user", user);
+                    session.setAttribute("isAdmin", false);
                     System.out.println("Utilisateur stocké en session : " + user);
                 }
 
