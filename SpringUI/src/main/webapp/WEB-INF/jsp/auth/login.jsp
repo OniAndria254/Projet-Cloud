@@ -97,6 +97,24 @@
       width: 100%;
     }
 
+    .error-message {
+      display: none;
+      background-color: #ff4d4d;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .success-message {
+      display: none;
+      background-color: #28a745;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
     .btn-primary:hover {
       background-color: #007bff;
     }
@@ -172,6 +190,9 @@
   <div class="form-container sign-in-container">
     <form action="/auth/login" method="post">
       <h3>Utilisateur</h3>
+      <div class="error-message" id="error-message" style="display: ${empty error ? 'none' : 'block'};">
+        <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
+      </div>
       <div class="form-group">
         <label for="user-email">Email</label>
         <input type="email" class="form-control" id="user-email" name="email" placeholder="Entrez votre email" required>
@@ -181,6 +202,11 @@
         <input type="password" class="form-control" id="user-password" name="password" placeholder="Entrez votre mot de passe" required>
       </div>
       <button class="btn btn-primary" type="submit">Se connecter</button>
+      <br>
+      <a href="/auth/register">
+        S'inscrire
+      </a>
+
     </form>
   </div>
 
