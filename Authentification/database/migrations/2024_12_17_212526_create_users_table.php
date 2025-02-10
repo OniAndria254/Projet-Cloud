@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('username', 50);
             $table->string('password', 255);
             $table->boolean('is_sync_from_firestore')->default(false); // Synchronisation avec Firestore
-            $table->string('avatar', 255)->default('avatar.png');;
+            $table->string('avatar', 255)->default('https://bknsdinyqktmlaoqqxkv.supabase.co/storage/v1/object/public/avatars/img/avatar.png');;
 
             // Clé étrangère pour tentatives
             $table->unsignedBigInteger('id_tentatives');

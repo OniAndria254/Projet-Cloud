@@ -16,7 +16,7 @@ import java.util.Date;
 public class TransactionFondsDocument implements TimestampedDocument {
 
     private Integer idTransactionFonds;
-    private Integer idUtilisateur;
+    private String idUtilisateur;
     private BigDecimal montant;
     private String dateTransaction;
     private String tokenValidation;
@@ -30,7 +30,7 @@ public class TransactionFondsDocument implements TimestampedDocument {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         this.idTransactionFonds = transaction.getIdTransactionFonds();
-        this.idUtilisateur = transaction.getIdUtilisateur();
+        this.idUtilisateur = String.valueOf(transaction.getIdUtilisateur());
         this.montant = transaction.getMontant();
         this.dateTransaction = transaction.getDateTransaction().toString();
         this.tokenValidation = transaction.getTokenValidation();
@@ -44,7 +44,7 @@ public class TransactionFondsDocument implements TimestampedDocument {
     public TransactionFonds toEntity() {
         TransactionFonds transaction = new TransactionFonds();
         transaction.setIdTransactionFonds(idTransactionFonds);
-        transaction.setIdUtilisateur(idUtilisateur);
+        transaction.setIdUtilisateur(Integer.valueOf(idUtilisateur));
         transaction.setMontant(montant);
         transaction.setDateTransaction(java.sql.Date.valueOf(dateTransaction));
         transaction.setTokenValidation(tokenValidation);

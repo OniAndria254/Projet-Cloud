@@ -19,7 +19,7 @@ public class PortefeuilleDocument implements TimestampedDocument {
     private Integer idPortefeuille;
     private BigDecimal solde;
     private Timestamp dateCreation;
-    private Integer idUtilisateur;
+    private String idUtilisateur;
     private boolean is_sync_from_firestore;
 
 
@@ -32,7 +32,7 @@ public class PortefeuilleDocument implements TimestampedDocument {
         this.idPortefeuille = portefeuille.getIdPortefeuille();
         this.solde = portefeuille.getSolde();
         this.dateCreation = Timestamp.of(portefeuille.getDateCreation());
-        this.idUtilisateur = portefeuille.getIdUtilisateur();
+        this.idUtilisateur = String.valueOf(portefeuille.getIdUtilisateur());
 
         this.is_sync_from_firestore = portefeuille.isSyncFromFirestore();
         this.createdAt = dateFormat.format(new Date());
@@ -46,7 +46,7 @@ public class PortefeuilleDocument implements TimestampedDocument {
         portefeuille.setDateCreation(new java.sql.Date(dateCreation.toDate().getTime()));
 
 //        portefeuille.setDateCreation((java.sql.Date) new Date(dateCreation.toDate().getTime()));
-        portefeuille.setIdUtilisateur(idUtilisateur);
+        portefeuille.setIdUtilisateur(Integer.valueOf(idUtilisateur));
         portefeuille.setSyncFromFirestore(is_sync_from_firestore);
         return portefeuille;
     }

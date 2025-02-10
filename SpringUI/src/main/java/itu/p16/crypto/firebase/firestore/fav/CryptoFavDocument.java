@@ -18,7 +18,7 @@ public class CryptoFavDocument implements TimestampedDocument {
 
     private Integer id;  // ID Firestore (peut être String)
     private Integer idCryptomonnaie;
-    private Integer idUtilisateur;
+    private String idUtilisateur;
     private Date dateAjout;
     private boolean is_sync_from_firestore;
 
@@ -30,7 +30,7 @@ public class CryptoFavDocument implements TimestampedDocument {
 
         this.id = cryptoFav.getId();
         this.idCryptomonnaie = cryptoFav.getIdCryptomonnaie();
-        this.idUtilisateur = cryptoFav.getIdUtilisateur();
+        this.idUtilisateur = String.valueOf(cryptoFav.getIdUtilisateur());
         this.dateAjout = cryptoFav.getDateAjout();
 
         this.is_sync_from_firestore = cryptoFav.isSyncFromFirestore();
@@ -43,7 +43,7 @@ public class CryptoFavDocument implements TimestampedDocument {
         CryptoFav cryptoFav = new CryptoFav();
         cryptoFav.setId(id);
         cryptoFav.setIdCryptomonnaie(idCryptomonnaie);
-        cryptoFav.setIdUtilisateur(idUtilisateur);
+        cryptoFav.setIdUtilisateur(Integer.valueOf(idUtilisateur));
         cryptoFav.setDateAjout((java.sql.Date) dateAjout);
         cryptoFav.setSyncFromFirestore(is_sync_from_firestore);
         return cryptoFav;

@@ -15,7 +15,7 @@ import java.util.Date;
 public class TransactionCryptoDocument implements TimestampedDocument {
 
     private Integer idTransactionCrypto;
-    private Integer idUtilisateur;
+    private String idUtilisateur;
     private BigDecimal quantite;
     private BigDecimal prixUnitaire;
     private BigDecimal montantTotal;
@@ -30,7 +30,7 @@ public class TransactionCryptoDocument implements TimestampedDocument {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         this.idTransactionCrypto = transaction.getIdTransactionCrypto();
-        this.idUtilisateur = transaction.getIdUtilisateur();
+        this.idUtilisateur = String.valueOf(transaction.getIdUtilisateur());
         this.quantite = transaction.getQuantite();
         this.prixUnitaire = transaction.getPrixUnitaire();
         this.montantTotal = transaction.getMontantTotal();
@@ -47,7 +47,7 @@ public class TransactionCryptoDocument implements TimestampedDocument {
     public TransactionCrypto toEntity() {
         TransactionCrypto transaction = new TransactionCrypto();
         transaction.setIdTransactionCrypto(idTransactionCrypto);
-        transaction.setIdUtilisateur(idUtilisateur);
+        transaction.setIdUtilisateur(Integer.valueOf(idUtilisateur));
         transaction.setIdTypeTransaction(idTypeTransaction);
         transaction.setIdCryptomonnaie(idCryptomonnaie);
         transaction.setQuantite(quantite);

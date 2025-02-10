@@ -14,7 +14,7 @@ public class PortefeuilleCryptoDocument {
 
     @DocumentId
     private String idPortefeuilleCrypto;
-    private Integer idUtilisateur;
+    private String idUtilisateur;
     private BigDecimal quantite;
     private Integer cryptomonnaieId;  // Référence à l'ID de la cryptomonnaie
     private boolean is_sync_from_firestore;
@@ -27,7 +27,7 @@ public class PortefeuilleCryptoDocument {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         this.idPortefeuilleCrypto = String.valueOf(portefeuilleCrypto.getIdPortefeuilleCrypto());
-        this.idUtilisateur = portefeuilleCrypto.getIdUtilisateur();
+        this.idUtilisateur = String.valueOf(portefeuilleCrypto.getIdUtilisateur());
         this.quantite = portefeuilleCrypto.getQuantite();
         this.cryptomonnaieId = portefeuilleCrypto.getIdCryptomonnaie();
         this.is_sync_from_firestore = portefeuilleCrypto.isSyncFromFirestore();
@@ -38,7 +38,7 @@ public class PortefeuilleCryptoDocument {
     public PortefeuilleCrypto toEntity() {
         PortefeuilleCrypto portefeuilleCrypto = new PortefeuilleCrypto();
         portefeuilleCrypto.setIdPortefeuilleCrypto(Integer.valueOf(this.idPortefeuilleCrypto));
-        portefeuilleCrypto.setIdUtilisateur(this.idUtilisateur);
+        portefeuilleCrypto.setIdUtilisateur(Integer.valueOf(this.idUtilisateur));
         portefeuilleCrypto.setQuantite(this.quantite);
         portefeuilleCrypto.setIdCryptomonnaie(this.cryptomonnaieId);
         portefeuilleCrypto.setSyncFromFirestore(this.is_sync_from_firestore);

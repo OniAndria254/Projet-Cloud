@@ -45,14 +45,13 @@ public class FirebaseInitializer {
     public void init() {
         log.info("Starting Firebase entity initialization...");
 
-//        historiqueCoursSyncService.syncWithFirebase();
-//        usersSyncService.syncWithFirebase();
-//        cryptomonnaieSyncService.syncWithFirebase();
-//        portefeuilleSyncService.syncWithFirebase();
-//        transactionCryptoSyncService.syncWithFirebase();
-//
-//        transactionFondsSyncService.syncWithFirebase();
-//
+        historiqueCoursSyncService.syncWithFirebase();
+        usersSyncService.syncWithFirebase();
+        cryptomonnaieSyncService.syncWithFirebase();
+        portefeuilleSyncService.syncWithFirebase();
+        transactionCryptoSyncService.syncWithFirebase();
+
+        transactionFondsSyncService.syncWithFirebase();
 
         log.info("Firebase entity tests complete.");
     }
