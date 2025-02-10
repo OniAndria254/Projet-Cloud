@@ -91,7 +91,7 @@ FROM
     transaction_crypto
 WHERE
     Id_cryptomonnaie = 1
-    AND date_transaction BETWEEN '2024-01-01' AND '2024-01-30';
+    AND date_transaction BETWEEN '2025-02-01' AND '2025-02-30';
 
 SELECT
     MIN(quantite) AS min_quantite,

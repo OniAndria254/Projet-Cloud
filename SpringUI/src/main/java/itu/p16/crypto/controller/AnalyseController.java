@@ -52,7 +52,7 @@ public class AnalyseController {
             return analyseService.getAnalyseTransactions(idCrypto, dateMin, dateMax);
         } else {
             return analyseService.getAnalyseAllTransactions(dateMin, dateMax);
-        }
+        } 
     }
 
     @GetMapping("/commissions")
