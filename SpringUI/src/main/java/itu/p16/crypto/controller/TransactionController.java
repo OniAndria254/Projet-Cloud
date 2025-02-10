@@ -63,7 +63,8 @@ public class TransactionController {
 
 
     @GetMapping("/histotransaction")
-    public String goToHistoriqueTransaction() throws Exception {
+    public String goToHistoriqueTransaction() throws NoUserLoggedException {
+        Users u = authService.requireUser();
         return "page/histotransaction";
     }
 

@@ -101,7 +101,6 @@ class CryptoSeeder extends Seeder
                 'password' => bcrypt($user['password']),
                 'id_tentatives' => $idTentative,
                 'id_role' => $user['id_role'],
-                'avatar' => 'avatar.png',
             ]);
         }
 
