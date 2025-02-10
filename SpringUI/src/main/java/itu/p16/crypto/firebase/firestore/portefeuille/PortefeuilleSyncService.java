@@ -4,12 +4,13 @@ import com.google.cloud.firestore.Firestore;
 import itu.p16.crypto.entity.Portefeuille;
 import itu.p16.crypto.firebase.firestore.generalisation.GenericSyncService;
 import itu.p16.crypto.service.PortefeuilleService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PortefeuilleSyncService extends GenericSyncService<Portefeuille, PortefeuilleDocument> {
 
-    public PortefeuilleSyncService(Firestore firestore, PortefeuilleService portefeuilleService) {
+    public PortefeuilleSyncService(Firestore firestore, @Lazy PortefeuilleService portefeuilleService) {
         super(firestore, portefeuilleService, "portefeuille");
     }
 

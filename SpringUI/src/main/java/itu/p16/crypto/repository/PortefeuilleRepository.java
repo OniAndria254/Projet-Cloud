@@ -25,8 +25,7 @@ public interface PortefeuilleRepository extends JpaRepository<Portefeuille, Inte
     @Transactional
     @Query(value = "UPDATE portefeuille SET solde = solde + :montant WHERE id_utilisateur = :idUtilisateur", nativeQuery = true)
     void updateSoldeForSell(@Param("idUtilisateur") Integer idUtilisateur, @Param("montant") BigDecimal montant);
-    
-    
+
     @Transactional
     @Query(value = "SELECT * FROM portefeuille WHERE id_utilisateur = :idUtilisateur", nativeQuery = true)
     List<Portefeuille> findByIdUtilisateur(@Param("idUtilisateur") Integer idUtilisateur);

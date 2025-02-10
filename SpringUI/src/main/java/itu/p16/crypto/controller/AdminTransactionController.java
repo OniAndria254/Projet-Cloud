@@ -5,6 +5,7 @@ import java.util.List;
 import itu.p16.crypto.exception.NoUserLoggedException;
 import itu.p16.crypto.exception.UnallowedRoleException;
 import itu.p16.crypto.service.AuthService;
+import itu.p16.crypto.service.PortefeuilleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,9 @@ public class AdminTransactionController {
     
     @Autowired
     private PortefeuilleRepository portefeuilleRepo;
+
+    @Autowired
+    private PortefeuilleService portefeuilleService;
 
     @Autowired
     private AuthService authService;
@@ -69,9 +73,9 @@ public class AdminTransactionController {
                 // Pour un dépôt accepté, ajoutez le montant au solde du portefeuille.
                 // Pour un retrait accepté, soustrayez le montant.
                 if (tf.getIdTypeTransaction() == 1) {
-                    portefeuilleRepo.updateSoldeForSell(tf.getIdUtilisateur(), tf.getMontant());
+                    portefeuilleService.updateSoldeForSell(tf.getIdUtilisateur(), tf.getMontant());
                 } else if (tf.getIdTypeTransaction() == 2) {
-                    portefeuilleRepo.updateSoldeForBuy(tf.getIdUtilisateur(), tf.getMontant());
+                    portefeuilleService.updateSoldeForBuy(tf.getIdUtilisateur(), tf.getMontant());
                 }
                 // Mettre à jour le statut à "accepté" (par exemple, 2)
 //                Statut statutAccepte = new Statut();
